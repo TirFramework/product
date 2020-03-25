@@ -1,9 +1,9 @@
 <?php
 
-namespace Tir\Product\Models;
+namespace Tir\Store\Models;
 
 use Tir\Crud\Models\CrudModel;
-use Tir\Product\Models\ProductDescription;
+use Tir\Store\Models\ProductDescription;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends CrudModel
@@ -165,11 +165,10 @@ class Product extends CrudModel
                 'relation'   => 'descriptions',
                 'routeName'  => 'productDescription',
                 'visible'    => 'e',
- //               'model'      => 'Tir\Product\Models\ProductDescription',
                 'fields'     => [
                         [
                             'name'       => 'product_id',
-                            'type'       => 'text',
+                            'type'       => 'itemId',
                             'visible'    => 'ce'
                         ],
                         [
@@ -191,11 +190,13 @@ class Product extends CrudModel
                             'name'       => 'meta_title',
                             'type'       => 'text',
                             'visible'    => 'ce'
-                        ],                        [
+                        ],
+                        [
                             'name'       => 'meta_description',
                             'type'       => 'text',
                             'visible'    => 'ce'
-                        ],                        [
+                        ],
+                        [
                             'name'       => 'meta_keywords',
                             'type'       => 'text',
                             'visible'    => 'ce'

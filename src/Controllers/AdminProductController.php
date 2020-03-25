@@ -1,8 +1,8 @@
 <?php
 
-namespace Tir\Product\Controllers;
+namespace Tir\Store\Controllers;
 
-use Tir\Product\Models\Product;
+use Tir\Store\Models\Product;
 use Tir\Crud\Controllers\CrudController;
 
 class AdminProductController extends CrudController

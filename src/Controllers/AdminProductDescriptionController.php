@@ -1,8 +1,7 @@
 <?php
 
-namespace Tir\Product\Controllers;
+namespace Tir\Store\Controllers;
 
-use Tir\Product\Models\Product;
 use Tir\Crud\Controllers\CrudController;
 use Tir\Product\Models\ProductDescription;
 

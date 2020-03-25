@@ -1,11 +1,11 @@
 <?php
 
-namespace Tir\Product;
+namespace Tir\Store;
 
 
 use Illuminate\Support\ServiceProvider;
 
-class ProductServiceProvider extends ServiceProvider
+class StoreServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
