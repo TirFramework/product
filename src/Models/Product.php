@@ -2,8 +2,9 @@
 
 namespace Tir\Product\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Models\CrudModel;
+use Tir\Product\Models\ProductDescription;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends CrudModel
 {
@@ -33,14 +34,15 @@ class Product extends CrudModel
         ];
         return $actions;
     }
+    
 
     public function getValidation()
     {
         return [
-            'name' => 'required',
-            'status' => 'required',
-            'password' => 'required',
-            'email' => "required|unique:users,email,$this->id",
+            // 'name' => 'required',
+            // 'status' => 'required',
+            // 'password' => 'required',
+            // 'email' => "required|unique:users,email,$this->id",
         ];
     }
 
@@ -54,57 +56,162 @@ class Product extends CrudModel
                 'visible'    => 'io',
             ],
             [
-                'name'      => 'name',
-                'type'      => 'text',
-                'visible'   => 'ice'
+                'name'       => 'model',
+                'type'       => 'text',
+                'visible'    => 'isce',
             ],
             [
-                'name'      => 'email',
-                'type'      => 'text',
-                'visible'   => 'ice'
+                'name'       => 'slug',
+                'type'       => 'text',
+                'visible'    => 'isce',
             ],
             [
-                'name'      => 'mobile',
-                'type'      => 'text',
-                'visible'   => 'ice'
+                'name'       => 'stockunit',
+                'type'       => 'text',
+                'visible'    => 'isce',
             ],
             [
-                'name'      => 'password',
-                'type'      => 'password',
-                'visible'   => 'ce',
+                'name'       => 'location',
+                'type'       => 'text',
+                'visible'    => 'sce',
             ],
             [
-                'name'      => 'roles',
-                'type'      => 'relationM',
-                'relation'  => 'roles',
-                'data'      => ['\Tir\Acl\Role','title'],
-                'datatable' => ['roles[].title', 'roles.title'],
-                'visible'   => 'ice',
+                'name'       => 'image',
+                'type'       => 'image',
+                'visible'    => 'sce',
             ],
             [
-                'name'      => 'type',
-                'type'      => 'select',
-                'data'      => ['user' => trans('user::panel.user'), 'admin' => trans('user::panel.admin')],
-                'visible'   => 'icef'
+                'name'       => 'shipping',
+                'type'       => 'text',
+                'visible'    => 'sce',
             ],
             [
-                'name'      => 'status',
-                'type'      => 'select',
-                'data'      => ['enabled' => trans('user::panel.enabled'), 'disabled' => trans('user::panel.disabled')],
-                'visible'   => 'icef'
+                'name'       => 'price',
+                'type'       => 'price',
+                'visible'    => 'isce',
             ],
             [
-                'name'      => 'email_verified_at',
-                'type'      => 'date',
-                'visible'   => 'ice'
+                'name'       => 'points',
+                'type'       => 'text',
+                'visible'    => 'sce',
             ],
-
-
-
+            [
+                'name'       => 'date_available',
+                'type'       => 'date',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'weight',
+                'type'       => 'text',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'weight_type_id',
+                'type'       => 'text',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'length',
+                'type'       => 'text',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'length_type_id',
+                'type'       => 'text',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'height',
+                'type'       => 'text',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'subtract',
+                'type'       => 'number',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'minimum',
+                'type'       => 'number',
+                'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'sort_order',
+                'type'       => 'number',
+                'visible'    => 'isce',
+            ],
+            [
+                'name'       => 'status',
+                'type'       => 'text',
+                'visible'    => 'isce',
+            ],
+            [
+                'name'       => 'viewed',
+                'type'       => 'text',
+                'visible'    => 'isce',
+            ],
+            
         ];
 
         return json_decode(json_encode($fields));
     }
 
+    public function getAdditionalFields()
+    {
+        $fields = [
+            [
+                'name'       => 'descriptions',
+                'type'       => 'multiLanguage',
+                'relation'   => 'descriptions',
+                'routeName'  => 'productDescription',
+                'visible'    => 'e',
+ //               'model'      => 'Tir\Product\Models\ProductDescription',
+                'fields'     => [
+                        [
+                            'name'       => 'product_id',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],
+                        [
+                            'name'       => 'name',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],
+                        [
+                            'name'       => 'description',
+                            'type'       => 'textarea',
+                            'visible'    => 'ce'
+                        ],
+                        [
+                            'name'       => 'tag',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],
+                        [
+                            'name'       => 'meta_title',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],                        [
+                            'name'       => 'meta_description',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],                        [
+                            'name'       => 'meta_keywords',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ],
+                ]
+                   
+            ]
+        ];
+
+        return json_decode(json_encode($fields));
+    }
+
+    public function descriptions()
+    {
+        return $this->hasMany(ProductDescription::Class,'product_id');
+    }
+    
 
 }

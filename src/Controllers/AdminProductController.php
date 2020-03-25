@@ -9,4 +9,5 @@ class AdminProductController extends CrudController
 {
     protected $model = Product::Class;
 
+
 }
