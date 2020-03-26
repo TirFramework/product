@@ -18,6 +18,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
         Route::resource('/product', 'Tir\Store\Controllers\AdminProductController');
         Route::resource('/productDescription', 'Tir\Store\Controllers\AdminProductDescriptionController');
+
+        Route::resource('/category', 'Tir\Store\Controllers\AdminCategoryController');
     });
 
 });

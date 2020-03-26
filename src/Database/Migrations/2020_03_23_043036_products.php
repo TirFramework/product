@@ -20,6 +20,7 @@ class Products extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('model');
+            $table->integer('category_id')->nullable();
             $table->string('slug');
             $table->string('stockunit')->nullable();
             $table->string('location')->nullable();

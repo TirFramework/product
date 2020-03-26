@@ -19,7 +19,9 @@ class Categories extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('image');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('image')->nullable();
             $table->integer('parent_id')->nullable();
             $table->integer('sort_order')->nullable();
             $table->tinyInteger('status')->default(1);

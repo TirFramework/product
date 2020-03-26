@@ -61,6 +61,15 @@ class Product extends CrudModel
                 'visible'    => 'isce',
             ],
             [
+                'name'      => 'category_id',
+                'display'   => 'category',
+                'relation'  => 'category',
+                'type'      => 'relation',
+                'data'      => [Category::class, 'name'],
+                'routeName'  => 'category',
+                'visible'   => 'icef',
+            ],
+            [
                 'name'       => 'slug',
                 'type'       => 'text',
                 'visible'    => 'isce',
@@ -212,6 +221,11 @@ class Product extends CrudModel
     public function descriptions()
     {
         return $this->hasMany(ProductDescription::Class,'product_id');
+    }
+
+    public function category()
+    {
+            return $this->belongsTo(Category::class);
     }
     
 

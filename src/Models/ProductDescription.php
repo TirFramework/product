@@ -7,9 +7,16 @@ use Tir\Crud\Models\CrudModel;
 
 class ProductDescription extends CrudModel
 {
-    public $table = 'product_descriptions';
-
     //Additional trait insert here
 
+    public $table = 'product_descriptions';
+
+
+    public function getValidation()
+    {
+        return [
+             'name' => 'required',
+        ];
+    }
 
 }
