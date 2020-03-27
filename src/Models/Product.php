@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends CrudModel
 {
+    
+    //Additional trait insert here
+    
+    
     use SoftDeletes;
 
-    //Additional trait insert here
-
-
+    protected $guarded = ['id', 'categories' ,'save_close'];
 
     //this function generate option for action select in header panel
     public function getActions()
@@ -46,7 +48,6 @@ class Product extends CrudModel
         ];
     }
 
-
     public function getFields()
     {
         $fields = [
@@ -61,12 +62,13 @@ class Product extends CrudModel
                 'visible'    => 'isce',
             ],
             [
-                'name'      => 'category_id',
-                'display'   => 'category',
-                'relation'  => 'category',
-                'type'      => 'relation',
+                'name'      => 'categories',
+                'display'   => 'categories',
+                'relation'  => 'categories',
+                'type'      => 'relationM',
                 'data'      => [Category::class, 'name'],
                 'routeName'  => 'category',
+                'datatable'  => ['categories.name','categories[].name'],
                 'visible'   => 'icef',
             ],
             [
@@ -146,18 +148,18 @@ class Product extends CrudModel
             ],
             [
                 'name'       => 'sort_order',
-                'type'       => 'number',
+                'type'       => 'order',
                 'visible'    => 'isce',
             ],
             [
                 'name'       => 'status',
                 'type'       => 'text',
-                'visible'    => 'isce',
+                'visible'    => 'iscef',
             ],
             [
                 'name'       => 'viewed',
                 'type'       => 'text',
-                'visible'    => 'isce',
+                'visible'    => 'sce',
             ],
             
         ];
@@ -223,9 +225,9 @@ class Product extends CrudModel
         return $this->hasMany(ProductDescription::Class,'product_id');
     }
 
-    public function category()
+    public function categories()
     {
-            return $this->belongsTo(Category::class);
+            return $this->belongsToMany(Category::class);
     }
     
 

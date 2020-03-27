@@ -9,4 +9,5 @@ class AdminCategoryController extends CrudController
 {
     protected $model = Category::Class;
 
+    protected $options = ['datatableServerSide'=>'false'];
 }

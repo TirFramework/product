@@ -16,10 +16,14 @@ Route::group(['middleware' => 'web'], function () {
 
     //add admin prefix and middleware for admin area to product package
     Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
+        Route::resource('/category', 'Tir\Store\Controllers\AdminCategoryController');
+
         Route::resource('/product', 'Tir\Store\Controllers\AdminProductController');
         Route::resource('/productDescription', 'Tir\Store\Controllers\AdminProductDescriptionController');
 
-        Route::resource('/category', 'Tir\Store\Controllers\AdminCategoryController');
+        Route::resource('/weightType', 'Tir\Store\Controllers\AdminWeightTypeController');
+        Route::resource('/weightTypeDescription', 'Tir\Store\Controllers\AdminWeightTypeDescriptionController');
+
     });
 
 });

@@ -105,9 +105,14 @@ class Category extends CrudModel
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    public function categoriess()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
     public function products()
     {
-            return $this->hasMany(Product::class);
+            return $this->belongsToMany(Product::class);
     }
     
 
