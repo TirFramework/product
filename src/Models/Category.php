@@ -10,28 +10,9 @@ class Category extends CrudModel
     //Additional trait insert here
     use SoftDeletes;
 
+    public static $routeName = 'category';
 
-    //this function generate option for action select in header panel
-    public function getActions()
-    {
-        $actions = [
-            'index' =>
-            [
-                'published' => trans('crud::panel.publish'),
-                'unpublished' => trans('crud::panel.unpublish'),
-                'draft' => trans('crud::panel.draft'),
-                'delete' => trans('crud::panel.delete'),
-            ],
 
-            'trash' =>
-            [
-                'restore' => trans('panel.restore'),
-                'fullDelete' => trans('panel.full_delete'),
-            ],
-        ];
-        return $actions;
-    }
-    
 
     public function getValidation()
     {
@@ -105,7 +86,7 @@ class Category extends CrudModel
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function categoriess()
+    public function categories()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

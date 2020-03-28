@@ -19,6 +19,7 @@ class WeightTypes extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->softDeletes();
         });
 
         Schema::create('weight_type_descriptions', function (Blueprint $table) {

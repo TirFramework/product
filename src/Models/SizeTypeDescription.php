@@ -2,14 +2,13 @@
 
 namespace Tir\Store\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Models\CrudModel;
 
-class WeightTypeDescription extends CrudModel
+class SizeTypeDescription extends CrudModel
 {
     //Additional trait insert here
 
-    public $table = 'weight_type_descriptions';
+    public $table = 'size_type_descriptions';
 
 
     public function getValidation()

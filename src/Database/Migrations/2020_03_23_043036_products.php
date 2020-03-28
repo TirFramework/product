@@ -37,7 +37,7 @@ class Products extends Migration
             $table->decimal('length')->nullable();
             $table->decimal('width')->nullable();
             $table->decimal('height')->nullable();
-            $table->decimal('length_type_id')->nullable();
+            $table->integer('size_type_id')->nullable();
             $table->boolean('subtract')->nullable();
             $table->integer('minimum')->nullable();
             $table->integer('sort_order')->nullable();

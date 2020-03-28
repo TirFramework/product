@@ -5,16 +5,15 @@ namespace Tir\Store\Models;
 use Tir\Crud\Models\CrudModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WeightType extends CrudModel
+class SizeType extends CrudModel
 {
     
     //Additional trait insert here
     
-
     use SoftDeletes;
 
-    public $table = 'weight_types';
-    public static $routeName = 'weightType';
+    public $table = 'size_types';
+    public static $routeName = 'sizeType';
 
    
 
@@ -50,11 +49,11 @@ class WeightType extends CrudModel
                 'name'       => 'descriptions',
                 'type'       => 'multiLanguage',
                 'relation'   => 'descriptions',
-                'routeName'  => 'weightTypeDescription',
+                'routeName'  => 'sizeTypeDescription',
                 'visible'    => 'e',
                 'fields'     => [
                     [
-                        'name'       => 'weight_type_id',
+                        'name'       => 'size_type_id',
                         'type'       => 'itemId',
                         'visible'    => 'ce'
                     ],
@@ -77,7 +76,7 @@ class WeightType extends CrudModel
 
     public function descriptions()
     {
-        return $this->hasMany(WeightTypeDescription::Class,'weight_type_id');
+        return $this->hasMany(SizeTypeDescription::Class,'size_type_id');
     }
 
   

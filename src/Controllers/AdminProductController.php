@@ -8,6 +8,4 @@ use Tir\Crud\Controllers\CrudController;
 class AdminProductController extends CrudController
 {
     protected $model = Product::Class;
-
-
 }

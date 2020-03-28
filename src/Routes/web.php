@@ -23,7 +23,15 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::resource('/weightType', 'Tir\Store\Controllers\AdminWeightTypeController');
         Route::resource('/weightTypeDescription', 'Tir\Store\Controllers\AdminWeightTypeDescriptionController');
+        
+        Route::resource('/sizeType', 'Tir\Store\Controllers\AdminSizeTypeController');
+        Route::resource('/sizeTypeDescription', 'Tir\Store\Controllers\AdminSizeTypeDescriptionController');
 
+        Route::resource('/attributeGroup', 'Tir\Store\Controllers\AdminAttributeGroupController');
+        Route::resource('/attributeGroupDescription', 'Tir\Store\Controllers\AdminAttributeGroupDescriptionController');
+
+        Route::resource('/attribute', 'Tir\Store\Controllers\AdminAttributeController');
+        Route::resource('/attributeDescription', 'Tir\Store\Controllers\AdminAttributeDescriptionController');
     });
 
 });

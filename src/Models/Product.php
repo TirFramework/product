@@ -3,6 +3,7 @@
 namespace Tir\Store\Models;
 
 use Tir\Crud\Models\CrudModel;
+use Tir\Store\Models\WeightType;
 use Tir\Store\Models\ProductDescription;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,7 +15,7 @@ class Product extends CrudModel
     
     use SoftDeletes;
 
-    protected $guarded = ['id', 'categories' ,'save_close'];
+    protected $guarded = ['id', 'categories' ,'save_close', 'save_edit'];
 
     //this function generate option for action select in header panel
     public function getActions()
@@ -67,8 +68,6 @@ class Product extends CrudModel
                 'relation'  => 'categories',
                 'type'      => 'relationM',
                 'data'      => [Category::class, 'name'],
-                'routeName'  => 'category',
-                'datatable'  => ['categories.name','categories[].name'],
                 'visible'   => 'icef',
             ],
             [
@@ -118,8 +117,10 @@ class Product extends CrudModel
             ],
             [
                 'name'       => 'weight_type_id',
-                'type'       => 'text',
-                'visible'    => 'sce',
+                'type'      => 'relation',
+                'relation'  => 'weightType',
+                'data'      => [WeightType::class, 'name'],
+                'visible'   => 'ce',
             ],
             [
                 'name'       => 'length',
@@ -127,7 +128,7 @@ class Product extends CrudModel
                 'visible'    => 'sce',
             ],
             [
-                'name'       => 'length_type_id',
+                'name'       => 'width',
                 'type'       => 'text',
                 'visible'    => 'sce',
             ],
@@ -135,6 +136,13 @@ class Product extends CrudModel
                 'name'       => 'height',
                 'type'       => 'text',
                 'visible'    => 'sce',
+            ],
+            [
+                'name'       => 'size_type_id',
+                'type'      => 'relation',
+                'relation'  => 'sizeType',
+                'data'      => [SizeType::class, 'name'],
+                'visible'   => 'ce',
             ],
             [
                 'name'       => 'subtract',
@@ -228,6 +236,16 @@ class Product extends CrudModel
     public function categories()
     {
             return $this->belongsToMany(Category::class);
+    }
+
+    public function weightType()
+    {
+            return $this->belongsTo(weightType::class);
+    }
+
+    public function sizeType()
+    {
+            return $this->belongsTo(sizeType::class);
     }
     
 

@@ -5,18 +5,16 @@ namespace Tir\Store\Models;
 use Tir\Crud\Models\CrudModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WeightType extends CrudModel
+class AttributeGroup extends CrudModel
 {
-    
     //Additional trait insert here
-    
 
     use SoftDeletes;
 
-    public $table = 'weight_types';
-    public static $routeName = 'weightType';
+    public $table = 'attribute_groups';
 
-   
+    public static $routeName = 'attributeGroup';
+
 
     public function getValidation()
     {
@@ -24,6 +22,8 @@ class WeightType extends CrudModel
             'name' => 'required',
         ];
     }
+    
+
 
     public function getFields()
     {
@@ -37,7 +37,14 @@ class WeightType extends CrudModel
                 'name'       => 'name',
                 'type'       => 'text',
                 'visible'    => 'isce',
-            ]           
+            ],
+            [
+                'name'       => 'sort_order',
+                'type'       => 'number',
+                'visible'    => 'isce',
+            ],
+
+           
         ];
 
         return json_decode(json_encode($fields));
@@ -50,25 +57,21 @@ class WeightType extends CrudModel
                 'name'       => 'descriptions',
                 'type'       => 'multiLanguage',
                 'relation'   => 'descriptions',
-                'routeName'  => 'weightTypeDescription',
-                'visible'    => 'e',
+                'routeName'  => 'attributeGroupDescription',
+                'visible'    => 'ie',
                 'fields'     => [
-                    [
-                        'name'       => 'weight_type_id',
-                        'type'       => 'itemId',
-                        'visible'    => 'ce'
-                    ],
-                    [
-                        'name'       => 'title',
-                        'type'       => 'text',
-                        'visible'    => 'ce'
-                    ],
-                    [
-                        'name'       => 'unit',
-                        'type'       => 'text',
-                        'visible'    => 'ce'
-                    ]
+                        [
+                            'name'       => 'attribute_group_id',
+                            'type'       => 'itemId',
+                            'visible'    => 'ce'
+                        ],
+                        [
+                            'name'       => 'title',
+                            'type'       => 'text',
+                            'visible'    => 'ce'
+                        ]
                 ]
+                   
             ]
         ];
 
@@ -77,9 +80,6 @@ class WeightType extends CrudModel
 
     public function descriptions()
     {
-        return $this->hasMany(WeightTypeDescription::Class,'weight_type_id');
-    }
-
-  
-
+            return $this->hasMany(AttributeGroupDescription::class,'attribute_group_id');
+    }       
 }
