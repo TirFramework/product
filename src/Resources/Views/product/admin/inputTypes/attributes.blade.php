@@ -44,10 +44,10 @@ $itemAllLangAttributesValues= $item->attributes();
                             @foreach ($attributes as $attribute)
                                 <div class="{{'col-12 col-md-6'}}">
                                     <div class="form-group">
-                                    <input type="text" name="{{ "attributes[$attribute->id][value]" }}" class= "form-control"
+                                    <input type="text" name="{{ "attributes[$attribute->id][value]" }}" id={{ "attributes-$attribute->id-value" }} class= "form-control"
                                     value = "{{ $attributesValues->find($attribute->id)->pivot->value ?? null}}">
-                                    
-                                    <label for="{{"attributes[$attribute->id][value]"}}" class="control-label text-right">
+
+                                    <label for="{{"attributes-$attribute->id-value"}}" class="control-label text-right">
                                         {{$attribute->name}}
                                     </label>
 
@@ -58,7 +58,7 @@ $itemAllLangAttributesValues= $item->attributes();
                         {!! Form::hidden('language_id', $lang->id) !!}
 
                         <div class="col-12">
-                            <div class="form-group">
+                            <div class="form-group text-right">
                                 {!! Form::label('', '', ['class' => ' control-label']) !!}
                                 <div class="">
                                     {!! Form::submit(trans('crud::panel.update'),['class'=>'btn btn-md btn-info save'])!!}
