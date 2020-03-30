@@ -18,6 +18,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
         Route::resource('/category', 'Tir\Store\Controllers\AdminCategoryController');
 
+        Route::put('/product/{slug}/updateAttributes', 'Tir\Store\Controllers\AdminProductController@updateAttributes')->name('product.updateAttribute');
         Route::resource('/product', 'Tir\Store\Controllers\AdminProductController');
         Route::resource('/productDescription', 'Tir\Store\Controllers\AdminProductDescriptionController');
 

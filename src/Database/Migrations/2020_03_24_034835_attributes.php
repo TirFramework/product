@@ -56,15 +56,22 @@ class Attributes extends Migration
 
         Schema::create('attribute_product', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('language_id')->default(1);
             $table->string('value')->nullable();
-            $table->string('title')->nullable();
+        });
+
+        Schema::create('attribute_group_category', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('attribute_group_id');
+            $table->foreign('attribute_group_id')->references('id')->on('attribute_groups')->onDelete('cascade');
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
@@ -84,6 +91,7 @@ class Attributes extends Migration
         Schema::dropIfExists('attributes');
         Schema::dropIfExists('attribute_descriptions');
         Schema::dropIfExists('attribute_product');
+        Schema::dropIfExists('attribute_group_category');
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }

@@ -57,6 +57,7 @@ class AttributeGroup extends CrudModel
                 'name'       => 'descriptions',
                 'type'       => 'multiLanguage',
                 'relation'   => 'descriptions',
+                'key'        => 'attribute_group_id',
                 'routeName'  => 'attributeGroupDescription',
                 'visible'    => 'ie',
                 'fields'     => [
@@ -81,5 +82,14 @@ class AttributeGroup extends CrudModel
     public function descriptions()
     {
             return $this->hasMany(AttributeGroupDescription::class,'attribute_group_id');
-    }       
+    }
+    
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::Class);
+    }
 }

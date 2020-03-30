@@ -31,7 +31,7 @@ class Attribute extends CrudModel
             [
                 'name'       => 'id',
                 'type'       => 'text',
-                'visible'    => 'io',
+                'visible'    => 'i',
             ],
             [
                 'name'       => 'name',
@@ -48,8 +48,8 @@ class Attribute extends CrudModel
             ],
             [
                 'name'       => 'sort_order',
-                'type'       => 'number',
-                'visible'    => 'isce',
+                'type'       => 'order',
+                'visible'    => 'isceo',
             ],
 
            
@@ -65,14 +65,10 @@ class Attribute extends CrudModel
                 'name'       => 'descriptions',
                 'type'       => 'multiLanguage',
                 'relation'   => 'descriptions',
+                'key'        => 'attribute_id',
                 'routeName'  => 'attributeDescription',
                 'visible'    => 'ie',
                 'fields'     => [
-                        [
-                            'name'       => 'attribute_id',
-                            'type'       => 'itemId',
-                            'visible'    => 'ce'
-                        ],
                         [
                             'name'       => 'title',
                             'type'       => 'text',

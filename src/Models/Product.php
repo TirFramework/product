@@ -168,8 +168,7 @@ class Product extends CrudModel
                 'name'       => 'viewed',
                 'type'       => 'text',
                 'visible'    => 'sce',
-            ],
-            
+            ],  
         ];
 
         return json_decode(json_encode($fields));
@@ -178,18 +177,21 @@ class Product extends CrudModel
     public function getAdditionalFields()
     {
         $fields = [
+            
             [
+                'name'      => 'attributes',
+                'type'      => 'attributes',
+                'visible'   => 'e'
+            ],
+            [
+                
                 'name'       => 'descriptions',
                 'type'       => 'multiLanguage',
                 'relation'   => 'descriptions',
+                'key'        => 'product_id',
                 'routeName'  => 'productDescription',
                 'visible'    => 'e',
                 'fields'     => [
-                        [
-                            'name'       => 'product_id',
-                            'type'       => 'itemId',
-                            'visible'    => 'ce'
-                        ],
                         [
                             'name'       => 'name',
                             'type'       => 'text',
@@ -220,7 +222,7 @@ class Product extends CrudModel
                             'type'       => 'text',
                             'visible'    => 'ce'
                         ],
-                ]
+                    ],
                    
             ]
         ];
@@ -228,9 +230,29 @@ class Product extends CrudModel
         return json_decode(json_encode($fields));
     }
 
+    public static function getCategoryAttributes($id)
+    {
+       return \DB::table('products')
+                    ->join('category_product', 'products.id', '=', 'category_product.product_id')
+                    ->join('categories', 'categories.id', '=', 'category_product.category_id')
+                    ->join('attribute_group_category', 'categories.id', '=', 'attribute_group_category.category_id')
+                    ->join('attribute_groups', 'attribute_groups.id', '=', 'attribute_group_category.attribute_group_id')
+                    ->join('attributes', 'attributes.attribute_group_id', '=', 'attribute_group_category.attribute_group_id')
+                    ->where('products.id','=',$id)
+                    ->select('attributes.id' , 'attributes.name')
+                    ->distinct()
+                    ->get();
+    }
+
     public function descriptions()
     {
         return $this->hasMany(ProductDescription::Class,'product_id');
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::Class)->withPivot('value','language_id');
+        //return $this->belongsToMany(Attribute::Class);
     }
 
     public function categories()

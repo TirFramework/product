@@ -12,6 +12,8 @@ class Category extends CrudModel
 
     public static $routeName = 'category';
 
+    protected $guarded = ['id', 'save_close', 'save_edit','attribute_groups'];
+
 
 
     public function getValidation()
@@ -52,7 +54,14 @@ class Category extends CrudModel
                 'relation'  => 'parent',
                 'type'      => 'relation',
                 'data'      => [Category::class, 'name'],
-                'routeName'  => 'category',
+                'visible'   => 'icef',
+            ],
+            [
+                'name'      => 'attribute_groups',
+                'display'   => 'attribute_groups',
+                'relation'  => 'attribute_groups',
+                'type'      => 'relationM',
+                'data'      => [AttributeGroup::class, 'name'],
                 'visible'   => 'icef',
             ],
             [
@@ -95,6 +104,10 @@ class Category extends CrudModel
     {
             return $this->belongsToMany(Product::class);
     }
-    
+
+    public function attribute_groups()
+    {
+            return $this->belongsToMany(AttributeGroup::class);
+    }
 
 }
