@@ -31,6 +31,8 @@ class StoreServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/Resources/Views/product', 'product');
 
+        $this->loadViewsFrom(__DIR__.'/Resources/Views/option', 'option');
+
         $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'store');
 
     }

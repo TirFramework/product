@@ -41,7 +41,7 @@ class Products extends Migration
             $table->boolean('subtract')->nullable();
             $table->integer('minimum')->nullable();
             $table->integer('sort_order')->nullable();
-            $table->integer('status')->default('1')->nullable();
+            $table->string('status')->default('published')->nullable();
             $table->integer('viewed')->default('0')->nullable();
             $table->timestamps();
             $table->softDeletes();

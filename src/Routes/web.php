@@ -33,6 +33,11 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::resource('/attribute', 'Tir\Store\Controllers\AdminAttributeController');
         Route::resource('/attributeDescription', 'Tir\Store\Controllers\AdminAttributeDescriptionController');
+
+        
+        Route::put('/option/{slug}/updateOptionValue', 'Tir\Store\Controllers\AdminOptionController@updateOptionValue')->name('option.updateOptionValue');
+        Route::resource('/option', 'Tir\Store\Controllers\AdminOptionController');
+        Route::resource('/optionDescription', 'Tir\Store\Controllers\AdminOptionDescriptionController');
     });
 
 });

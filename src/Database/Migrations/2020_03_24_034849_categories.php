@@ -24,7 +24,7 @@ class Categories extends Migration
             $table->string('image')->nullable();
             $table->integer('parent_id')->nullable();
             $table->integer('sort_order')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('status')->default('published');
 
             $table->timestamps();
             $table->softDeletes();

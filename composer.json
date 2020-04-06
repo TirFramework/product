@@ -12,7 +12,6 @@
         "tir/crud": "dev-master",
         "tir/user": "dev-master",
         "tir/first-panel": "dev-master"
-        
     },
 
     "autoload": {
