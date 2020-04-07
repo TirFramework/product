@@ -25,15 +25,10 @@ class StoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
-
-        $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
-
-        $this->loadViewsFrom(__DIR__.'/Resources/Views/product', 'product');
-
-        $this->loadViewsFrom(__DIR__.'/Resources/Views/option', 'option');
-
-        $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'store');
+        //category module
+            $this->loadRoutesFrom(__DIR__.'/Category/Routes/admin.php');
+            $this->loadMigrationsFrom(__DIR__ .'/Category/Database/Migrations');
+            $this->loadTranslationsFrom(__DIR__.'/Category/Resources/Lang/', 'category');
 
     }
 }
