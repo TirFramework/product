@@ -21,10 +21,11 @@ class CreateCategoriesTable extends Migration
             $table->integer('position')->unsigned()->nullable();
             $table->boolean('is_searchable');
             $table->boolean('is_active');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set Null');
             
         });
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
