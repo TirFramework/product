@@ -42,5 +42,11 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/Option/Resources/Lang/', 'option');
         $this->loadViewsFrom(__DIR__.'/Option/Resources/Views/', 'option');
 
+        //Product module
+        $this->loadRoutesFrom(__DIR__.'/Product/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ .'/Product/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__.'/Product/Resources/Lang/', 'option');
+        $this->loadViewsFrom(__DIR__.'/Product/Resources/Views/', 'option');
+
     }
 }
