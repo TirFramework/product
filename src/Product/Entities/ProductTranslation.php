@@ -1,6 +1,6 @@
 <?php
 
-namespace Tir\Store\Option\Entities;
+namespace Tir\Store\Product\Entities;
 
 use Tir\Crud\Support\Eloquent\TranslationModel;
 
@@ -11,5 +11,5 @@ class ProductTranslation extends TranslationModel
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description', 'short_description'];
 }

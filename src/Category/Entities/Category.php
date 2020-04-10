@@ -8,7 +8,7 @@ use Tir\Crud\Support\Eloquent\CrudModel;
 class Category extends CrudModel 
 {
     //Additional trait insert here
-    // use SoftDeletes;
+
     use Translatable;
 
     /**

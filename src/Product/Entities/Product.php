@@ -1,10 +1,12 @@
 <?php
 
-namespace Tir\Store\Option\Entities;
+namespace Tir\Store\Product\Entities;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
+use Tir\Crud\Support\Eloquent\Sluggable;
+use Tir\Store\Category\Entities\Category;
 use Tir\Store\Option\Entities\OptionValue;
 
 
@@ -12,10 +14,17 @@ class Product extends CrudModel
 {
     //Additional trait insert here
     
-    use Translatable, SoftDeletes, Sluggable;
+    use Translatable, SoftDeletes;
 
 
-    public static $routeName = 'option';
+    public static $routeName = 'product';
+
+    /**
+     * The attribute that will be slugged.
+     *
+     * @var string
+     */
+    protected $slugAttribute = 'name';
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +73,7 @@ class Product extends CrudModel
         'deleted_at',
     ];
 
-   public $translatedAttributes = ['name'];
+    public $translatedAttributes = ['name', 'description', 'short_description'];
 
 
 
@@ -72,8 +81,11 @@ class Product extends CrudModel
     {
         return [
             'name' => 'required',
-            'type' => 'required',
-            'is_required' => 'required',
+            'categories' => 'required',
+            'slug' => 'required',
+            'price' => 'required',
+            'description'=>'required'
+
         ];
     }
     
@@ -90,41 +102,99 @@ class Product extends CrudModel
             [
                 'name'      => 'name',
                 'type'      => 'text',
-                'col'       => 'col-md-4',
                 'translation'   => true,
+                'col'       => 'col-md-4',
                 'visible'   => 'icef',
             ],
             [
-                'name'      => 'type',
+                'name'      => 'categories',
+                'type'      => 'relationM',
+                'relation'  => 'categories',
+                'data'      => [Category::Class,'name'],
+                'translation'   => true,
+                'col'       => 'col-md-4',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'is_active',
                 'type'      => 'select',
-                'data'      => ['dropdown'=>'Dropdown',
-                                'checkbox'=>'Checkbox',
-                                'radio'=>'Radio Button',
-                                'multiple_select'=>'Multiple Select'],
+                'data'      => ['0'=>'no','1'=>'yes'],
                 'col'       => 'col-md-4',
                 'visible'   => 'cef',
             ],
-           [
-            'name'      => 'is_required',
-            'type'      => 'select',
-            'data'      => ['0'=>'no','1'=>'yes'],
-            'col'       => 'col-md-4',
-            'visible'   => 'cef',
-           ],
-           [
-            'name'      => 'values',
-            'relation'  => 'values',
-            'type'      => 'optionValues',
-            'visible'   => 'ce',
-           ]
+            [
+                'name'      => 'description',
+                'type'      => 'text',
+                'col'       => 'col-md-12',
+                'translation'   => true,
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'price',
+                'type'      => 'number',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'special_price',
+                'type'      => 'number',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'special_price_start',
+                'type'      => 'date',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'special_price_end',
+                'type'      => 'date',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'sku',
+                'display'   => 'SKU',
+                'type'      => 'text',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'manage_stock',
+                'type'      => 'select',
+                'data'      => ['0'=>'Don\'t Track Inventory','1'=>'Track Inventory'],
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'qty',
+                'type'      => 'number',
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'in_stock',
+                'type'      => 'select',
+                'data'      => ['1'=>'In Stock','0'=>'Out of Stock'],
+                'col'       => 'col-md-3',
+                'visible'   => 'ce',
+            ],
+            [
+                'name'      => 'slug',
+                'display'   => 'URL',
+                'type'      => 'text',
+                'col'       => 'col-md-12',
+                'visible'   => 'ice',
+            ],
         ];
 
         return json_decode(json_encode($fields));
     }
 
-        public function values()
+    public function categories()
     {
-        return $this->hasMany(OptionValue::class)->orderBy('position');
+        return $this->belongsToMany(Category::class,'product_category')->orderBy('position');
     }
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tir\Store\Option\Controllers;
+namespace Tir\Store\Product\Controllers;
 
 use Tir\Crud\Controllers\CrudController;
-use Tir\Store\Option\Entities\Product;
+use Tir\Store\Product\Entities\Product;
 
 
 class AdminProductController extends CrudController
