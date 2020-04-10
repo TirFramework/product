@@ -1,20 +1,20 @@
 <?php
 
-namespace Tir\Store\Attribute\Controllers;
+namespace Tir\Store\Option\Controllers;
 
-use Illuminate\Support\Arr;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Tir\Crud\Controllers\CrudController;
 use Tir\Crud\Support\Helpers\CrudHelper;
-use Tir\Store\Attribute\Entities\Attribute;
+use Tir\Store\Option\Entities\Option;
 
 
-class AdminAttributeController extends CrudController
+class AdminOptionController extends CrudController
 {
-    protected $model = Attribute::Class;
+    protected $model = Option::Class;
 
 
-    
 
     public function saveAdditional(Request $request, $item)
     {
@@ -25,9 +25,9 @@ class AdminAttributeController extends CrudController
 
     /**
      * @param array $values
-     * @param Attribute $item
+     * @param Option $item
      */
-    private function saveValues(array $values, Attribute $item)
+    private function saveValues(array $values, Option $item)
     {
         $ids = $this->getDeleteCandidates($values, $item);
         if ($ids->isNotEmpty()) {

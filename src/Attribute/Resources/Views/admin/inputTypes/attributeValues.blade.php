@@ -18,7 +18,7 @@ if( isset($item) ){
 
 <div class="{{$field->col ?? 'col-12 col-md-4'}}">
     <div class="form-group">
-        <input type="text"
+        <input type="hidden"
          id= "values-{{$loop->index}}"
          name="values[{{$loop->index}}][id]"
          value="{{$attributeValue->id}}"

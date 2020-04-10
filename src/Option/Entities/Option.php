@@ -1,23 +1,22 @@
 <?php
 
-namespace Tir\Store\Attribute\Entities;
+namespace Tir\Store\Option\Entities;
 
 use Tir\Crud\Entities\CrudModel;
 use Astrotomic\Translatable\Translatable;
-use Tir\Store\Category\Entities\Category;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Tir\Store\Option\Entities\OptionValue;
 
-class Attribute extends CrudModel 
+
+class Option extends CrudModel
 {
     //Additional trait insert here
     
-    // use SoftDeletes;
     use Translatable;
 
 
-    public static $routeName = 'attribute';
+    public static $routeName = 'option';
 
-    protected $fillable = ['name', 'is_filterable','attribute_set_id'];
+    protected $fillable = ['name', 'type' ,'is_required','position'];
 
 
     /**
@@ -26,7 +25,7 @@ class Attribute extends CrudModel
      * @var array
      */
     protected $casts = [
-        'is_filterable' => 'boolean',
+        'is_required' => 'boolean',
     ];
 
 
@@ -39,8 +38,8 @@ class Attribute extends CrudModel
     {
         return [
             'name' => 'required',
-            'attribute_set_id' => 'required',
-            'is_filterable' => 'required',
+            'type' => 'required',
+            'is_required' => 'required',
         ];
     }
     
@@ -61,35 +60,27 @@ class Attribute extends CrudModel
                 'translation'   => true,
                 'visible'   => 'icef',
             ],
+            [
+                'name'      => 'type',
+                'type'      => 'select',
+                'data'      => ['dropdown'=>'Dropdown',
+                                'checkbox'=>'Checkbox',
+                                'radio'=>'Radio Button',
+                                'multiple_select'=>'Multiple Select'],
+                'col'       => 'col-md-4',
+                'visible'   => 'cef',
+            ],
            [
-               'name'      => 'attribute_set_id',
-               'display'   => 'attribute_set',
-               'relation'  => 'attributeSet',
-               'type'      => 'relation',
-               'data'      => [AttributeSet::class, 'name'],
-               'col'       => 'col-md-4',
-               'visible'   => 'cef',
-           ],
-           [
-            'name'      => 'is_filterable',
+            'name'      => 'is_required',
             'type'      => 'select',
             'data'      => ['0'=>'no','1'=>'yes'],
             'col'       => 'col-md-4',
             'visible'   => 'cef',
            ],
            [
-            'name'      => 'categories',
-            'type'      => 'relationM',
-            'relation'  => 'categories',
-            'data'      => [Category::Class,'name'],
-            'translation'   => true,
-            'col'       => 'col-md-4',
-            'visible'   => 'cef',
-           ],
-           [
             'name'      => 'values',
             'relation'  => 'values',
-            'type'      => 'attributeValues',
+            'type'      => 'optionValues',
             'visible'   => 'ce',
            ]
         ];
@@ -97,15 +88,9 @@ class Attribute extends CrudModel
         return json_decode(json_encode($fields));
     }
 
-    public function values()
+        public function values()
     {
         return $this->hasMany(OptionValue::class)->orderBy('position');
     }
-
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class)->orderBy('position');
-    }
-
 
 }
