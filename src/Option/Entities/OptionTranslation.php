@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Option\Entities;
 
-use Tir\Crud\Entities\TranslationModel;
+use Tir\Crud\Support\Eloquent\TranslationModel;
 
 class OptionTranslation extends TranslationModel
 {

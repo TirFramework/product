@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Attribute\Entities;
 
-use Tir\Crud\Entities\TranslationModel;
+use Tir\Crud\Support\Eloquent\TranslationModel;
 
 class AttributeValueTranslation extends TranslationModel
 {

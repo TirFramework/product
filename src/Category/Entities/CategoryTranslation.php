@@ -3,7 +3,7 @@
 namespace Tir\Store\Category\Entities;
 
 use Tir\Crud\Support\Eloquent\CrudModel;
-use Tir\Crud\Entities\TranslationModel;
+use Tir\Crud\Support\Eloquent\TranslationModel;
 
 //use Modules\Support\Eloquent\TranslationModel;
 
