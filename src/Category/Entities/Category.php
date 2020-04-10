@@ -2,9 +2,8 @@
 
 namespace Tir\Store\Category\Entities;
 
-use Tir\Crud\Entities\CrudModel;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Tir\Crud\Support\Eloquent\CrudModel;
 
 class Category extends CrudModel 
 {

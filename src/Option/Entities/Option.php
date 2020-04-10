@@ -2,9 +2,8 @@
 
 namespace Tir\Store\Option\Entities;
 
-use Tir\Crud\Entities\CrudModel;
+use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
-use Tir\Store\Option\Entities\OptionValue;
 
 
 class Option extends CrudModel

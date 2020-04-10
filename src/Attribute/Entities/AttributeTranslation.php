@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Attribute\Entities;
 
-use Tir\Crud\Entities\CrudModel;
+use Tir\Crud\Support\Eloquent\CrudModel;
 use Tir\Crud\Entities\TranslationModel;
 
 //use Modules\Support\Eloquent\TranslationModel;
