@@ -14,8 +14,6 @@ class AdminAttributeController extends CrudController
     protected $model = Attribute::Class;
 
 
-    
-
     public function saveAdditional(Request $request, $item)
     {
         return $this->saveValues($request->values, $item);

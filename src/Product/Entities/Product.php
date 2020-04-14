@@ -88,106 +88,151 @@ class Product extends CrudModel
 
         ];
     }
-    
+
 
 
     public function getFields()
     {
         $fields = [
             [
-                'name'       => 'id',
-                'type'       => 'text',
-                'visible'    => 'io',
+                'name' => 'basic-information',
+                'type' => 'group',
+                'visible'    => 'ce',
+                'tabs'=>  [
+                    [
+                        'name'  => 'general',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'       => 'id',
+                                'type'       => 'text',
+                                'visible'    => 'io',
+                            ],
+                            [
+                                'name'      => 'name',
+                                'type'      => 'text',
+                                'translation'   => true,
+                                'visible'   => 'icef',
+                            ],
+                            [
+                                'name'      => 'categories',
+                                'type'      => 'relationM',
+                                'relation'  => 'categories',
+                                'data'      => [Category::Class,'name'],
+                                'translation'   => true,
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'is_active',
+                                'type'      => 'select',
+                                'data'      => ['0'=>'no','1'=>'yes'],
+                                'visible'   => 'cef',
+                            ],
+                            [
+                                'name'      => 'description',
+                                'type'      => 'textarea',
+                                'col'       => 'col-md-12',
+                                'translation'   => true,
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'sku',
+                                'display'   => 'SKU',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'slug',
+                                'display'   => 'URL',
+                                'type'      => 'text',
+                                'visible'   => 'ice',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name'  => 'price',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'      => 'price',
+                                'type'      => 'number',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'special_price',
+                                'type'      => 'number',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'special_price_start',
+                                'type'      => 'date',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'special_price_end',
+                                'type'      => 'date',
+                                'visible'   => 'ce',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name'  => 'Inventory',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'      => 'manage_stock',
+                                'type'      => 'select',
+                                'data'      => ['0'=>'Don\'t Track Inventory','1'=>'Track Inventory'],
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'qty',
+                                'type'      => 'number',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'in_stock',
+                                'type'      => 'select',
+                                'data'      => ['1'=>'In Stock','0'=>'Out of Stock'],
+                                'visible'   => 'ce',
+                            ]
+                        ]
+                    ]
+                ]
             ],
             [
-                'name'      => 'name',
-                'type'      => 'text',
-                'translation'   => true,
-                'col'       => 'col-md-4',
-                'visible'   => 'icef',
-            ],
-            [
-                'name'      => 'categories',
-                'type'      => 'relationM',
-                'relation'  => 'categories',
-                'data'      => [Category::Class,'name'],
-                'translation'   => true,
-                'col'       => 'col-md-4',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'is_active',
-                'type'      => 'select',
-                'data'      => ['0'=>'no','1'=>'yes'],
-                'col'       => 'col-md-4',
-                'visible'   => 'cef',
-            ],
-            [
-                'name'      => 'description',
-                'type'      => 'text',
-                'col'       => 'col-md-12',
-                'translation'   => true,
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'price',
-                'type'      => 'number',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'special_price',
-                'type'      => 'number',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'special_price_start',
-                'type'      => 'date',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'special_price_end',
-                'type'      => 'date',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'sku',
-                'display'   => 'SKU',
-                'type'      => 'text',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'manage_stock',
-                'type'      => 'select',
-                'data'      => ['0'=>'Don\'t Track Inventory','1'=>'Track Inventory'],
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'qty',
-                'type'      => 'number',
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'in_stock',
-                'type'      => 'select',
-                'data'      => ['1'=>'In Stock','0'=>'Out of Stock'],
-                'col'       => 'col-md-3',
-                'visible'   => 'ce',
-            ],
-            [
-                'name'      => 'slug',
-                'display'   => 'URL',
-                'type'      => 'text',
-                'col'       => 'col-md-12',
-                'visible'   => 'ice',
-            ],
+                'name' => 'advance-information',
+                'type' => 'group',
+                'visible'    => 'ce',
+                'tabs' => [
+                    [
+                        'name'  => 'attributes',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'      => 'attributes',
+                                'type'      => 'attributes',
+                                'visible'   => 'ce',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name'  => 'options',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [],
+                    ]
+
+                ]
+            ]
+
         ];
+
+
 
         return json_decode(json_encode($fields));
     }
