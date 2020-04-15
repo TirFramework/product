@@ -7,13 +7,10 @@
             ]
          ];
 
-    //$attributeValues =  json_decode(json_encode($attributeValues));
 
     $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get()->pluck('name','id');
 
-    $attributeModel =  \Tir\Store\Attribute\Entities\Attribute::class;
 
-    $attributes::select('*')->get()->pluck('name','id');
 
 
     if( isset($item) ){
@@ -177,19 +174,18 @@
             $(".cloning").on('change','.attributes',function(){
                 var selectedAttribute = $(this).children("option:selected").val();
 
-                console.log(selectedAttribute);
                 $.ajax({
-                    url: "{{ route('') }}?country_id=" + $(this).val(),
+                    url: "/admin/attribute/"+selectedAttribute+"/values/",
                     method: 'GET',
+                    dataType: 'json',
+
                     success: function(data) {
-                        $('#city').html(data.html);
+                        console.log(data);
+                        //$('#city').html(data.html);
                     }
                 });
 
             });
-
-
-
     </script>
 @endpush
 
