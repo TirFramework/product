@@ -89,6 +89,15 @@ class Product extends CrudModel
         ];
     }
 
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'slug'
+            ]
+        ];
+    }
+
 
 
     public function getFields()
@@ -114,6 +123,11 @@ class Product extends CrudModel
                                 'type'      => 'text',
                                 'translation'   => true,
                                 'visible'   => 'icef',
+                            ],
+                            [
+                                'name'      => 'slug',
+                                'type'      => 'text',
+                                'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'categories',
@@ -142,12 +156,6 @@ class Product extends CrudModel
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
-                            [
-                                'name'      => 'slug',
-                                'display'   => 'URL',
-                                'type'      => 'text',
-                                'visible'   => 'ice',
-                            ]
                         ]
                     ],
                     [
@@ -158,7 +166,7 @@ class Product extends CrudModel
                             [
                                 'name'      => 'price',
                                 'type'      => 'number',
-                                'visible'   => 'ce',
+                                'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'special_price',

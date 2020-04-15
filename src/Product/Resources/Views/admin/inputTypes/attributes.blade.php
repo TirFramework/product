@@ -1,132 +1,198 @@
-<style>
-    .table-sortable tbody tr {
-        cursor: move;
+@php
+    //generate empty object
+    $attributeValues = (object) [
+         'values'=> (object)[
+                'id'=>null,
+                'value' => null
+            ]
+         ];
+
+    //$attributeValues =  json_decode(json_encode($attributeValues));
+
+    $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get()->pluck('name','id');
+
+    $attributeModel =  \Tir\Store\Attribute\Entities\Attribute::class;
+
+    $attributes::select('*')->get()->pluck('name','id');
+
+
+    if( isset($item) ){
+        $product = $item;
+        $attributeValues = $attribute->{$field->name};  //here filed->name = values
+
     }
 
-</style>
 
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-12">
-            <table class="table table-bordered table-hover table-sortable" id="tab_values">
-                <thead>
-                <tr >
-                    <th class="text-center">
-                        @Lang("$crud->name::panel.attribue")
-                    </th>
-                    <th class="text-center">
-                        @Lang("$crud->name::panel.values")
-                    </th>
+@endphp
 
-                    <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $values = \Tir\Store\Attribute\Entities\Attribute::select('*')->get()->pluck('name','id');
-                @endphp
-                <tr id='addr0' data-id="0">
-                    <td data-name="att[x-x-x][name]">
-                        {!! Form::select("attribtes[0][name]", $values, null,["class"=>"form-control select2"])!!}
-                    </td>
-                    <td data-name="att[x-x-x][values]">
-                        <input type="text" name='att[0][values]'  placeholder='Values' class="form-control"/>
-                    </td>
-                    <td data-name="del">
-                        <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'><span aria-hidden="true">×</span></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<div class="cloning sortable">
+
+    <div class="row labels">
+        <div class="col-md-4 col-xs-12 ">
+            <label> @lang("$crud->name::panel.name") </label>
         </div>
     </div>
-    <a id="add_row" class="btn btn-primary float-right">Add Row</a>
+
+
+    @foreach ($attributeValues as $attributeValue)
+        <div class="item">
+            <div class="row">
+                <input type="hidden" name-template="values[xxx][id]" name="values[{{$loop->index}}][id]"
+                       value="{{$attributeValue->id}}" class="form-control @error($field->name) is-invalid @enderror">
+
+                <div class="col-md-12 col-xs-12 form-group">
+                    <select id="attributes-attribute_id-{{$loop->index}}" id-template="value-value-xxx" required
+                           name-template="attributes[xxx][attribute_id]" name="attributes[{{$loop->index}}][attribute_id]"
+                           class="form-control attributes @error(" attributes[{{$loop->index}}][attribute_id]")
+                            is-invalid @enderror">
+                        @foreach($attributes as $value=>$name)
+                            <option value="{{$value}}">{{$name}}</option>
+                        @endforeach
+                    </select>
+
+                    <span class="invalid-feedback" role="alert">
+                    @error("values[{{$loop->index}}][value]")
+                    <strong>{{ $message }}</strong>
+                    @enderror
+                </span>
+                </div>
+            </div>
+        </div>
+    @endforeach
 </div>
 
-@push('scripts')
+
+
+@push('firstScripts')
     <script>
-        $(document).ready(function () {
-            $("#add_row").on("click", function () {
-                // Dynamic Rows Code
-                var tableId = "#tab_values";
-                // Get max row id and set new id
-                var newid = 0;
-                $.each($(tableId+" tr"), function () {
-                    if (parseInt($(this).data("id")) > newid) {
-                        newid = parseInt($(this).data("id"));
-                    }
-                });
-                newid++;
+        var $cloning,
+            $item,
+            templateHtml,
+            dataId;
 
-                var tr = $("<tr></tr>", {
-                    id: "addr" + newid,
-                    "data-id": newid
-                });
+        function runCloning(){
+            $cloning = $('.cloning');
+            $item = $cloning.find('.item');
 
-                // loop through each td and create new elements with name of newid
-                $.each($(tableId+" tbody tr:nth(0) td"), function () {
-                    var td;
-                    var cur_td = $(this);
+            $(".cloning").after(`<a class="plus btn"><i class="fas fa-plus"></i></a>`);
 
-                    var children = cur_td.children();
+            dataId = $item.length - 1;
 
-                    // add new td and element if it has a nane
-                    if ($(this).data("name") !== undefined) {
-                        td = $("<td></td>", {
-                            "data-name": $(cur_td).data("name")
-                        });
-                        var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
-                        var newName = $(cur_td).data("name").replace("x-x-x", newid);
-                        c.attr("name", newName);
-                        c.appendTo($(td));
-                        td.appendTo($(tr));
-                    } else {
-                        td = $("<td></td>", {
-                            'text': $(tableId+" tr").length
-                        }).appendTo($(tr));
-                    }
+
+
+            $item.each(function(index ){
+
+                templateHtml = $(this).html();
+
+                $(this).remove();
+                var newItem = $('<div class="item"></div>');
+
+                $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
+
+                $(newItem).find('[name]').each(function(){
+
+                    var nameTemplate = $(this).attr('name-template');
+                    $(this).removeAttr('name-template');
+                    newName = replaceAll(nameTemplate, 'xxx', dataId);
+                    $(this).attr('name', newName );
+
+
                 });
 
-                // add delete button and td
-                /*
-                $("<td></td>").append(
-                    $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
-                        .click(function() {
-                            $(this).closest("tr").remove();
-                        })
-                ).appendTo($(tr));
-                */
 
-                // add the new row
-                $(tr).appendTo($(tableId));
+                $(newItem).find('[id]').each(function(){
 
-                $(tr).find("td button.row-remove").on("click", function () {
-                    $(this).closest("tr").remove();
+                    var idTemplate = $(this).attr('id-template');
+                    $(this).removeAttr('id-template');
+                    idName = replaceAll(idTemplate, 'xxx', dataId);
+                    $(this).attr('id', idName );
+
                 });
+
+                $('.cloning').append(newItem);
+                dataId++;
+            });
+        }
+
+
+        runCloning();
+
+        function addRow(){
+
+            var newItem = $('<div class="item"></div>');
+            $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
+
+            $(newItem).find('[name]').each(function(){
+                var nameTemplate = $(this).attr('name-template');
+                $(this).removeAttr('name-template');
+                newName = replaceAll(nameTemplate, 'xxx', dataId);
+                $(this).attr('name', newName );
+                $(this).val('');
             });
 
 
-            // Sortable Code
-            var fixHelperModified = function (e, tr) {
-                var $originals = tr.children();
-                var $helper = tr.clone();
 
-                $helper.children().each(function (index) {
-                    $(this).width($originals.eq(index).width())
+            $(newItem).find('[id]').each(function(){
+                var idTemplate = $(this).attr('id-template');
+                $(this).removeAttr('id-template');
+                idName = replaceAll(idTemplate, 'xxx', dataId);
+                $(this).attr('id', idName );
+            });
+
+
+
+
+
+            $('.cloning').append(newItem);
+            dataId++;
+        }
+
+
+        $('.cloning').on( "click", 'a.remove-item' ,function (e) {
+            e.preventDefault();
+            $(this).parents('.item').remove();
+        });
+
+        $('body').on( "click", 'a.plus', function () {
+            addRow();
+            $(".select2").select2();
+
+        });
+
+
+        $(function () {
+            $(".sortable").sortable();
+            $(".sortable").disableSelection();
+        });
+
+
+
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(find, 'g'), replace);
+        }
+
+
+
+
+            $(".cloning").on('change','.attributes',function(){
+                var selectedAttribute = $(this).children("option:selected").val();
+
+                console.log(selectedAttribute);
+                $.ajax({
+                    url: "{{ route('') }}?country_id=" + $(this).val(),
+                    method: 'GET',
+                    success: function(data) {
+                        $('#city').html(data.html);
+                    }
                 });
 
-                return $helper;
-            };
-
-            $(".table-sortable tbody").sortable({
-                helper: fixHelperModified
-            }).disableSelection();
-
-            $(".table-sortable thead").disableSelection();
+            });
 
 
-            //$("#add_row").trigger("click");
-        });
+
     </script>
 @endpush
+
+
+
+

@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('parent_id')->unsigned()->nullable();
             $table->string('slug')->unique();
+            $table->string('image')->nullable();
             $table->integer('position')->unsigned()->nullable();
             $table->boolean('is_searchable');
             $table->boolean('is_active');

@@ -3,6 +3,7 @@
 namespace Tir\Store\Category\Entities;
 
 use Astrotomic\Translatable\Translatable;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Tir\Crud\Support\Eloquent\CrudModel;
 
 class Category extends CrudModel 
@@ -10,6 +11,8 @@ class Category extends CrudModel
     //Additional trait insert here
 
     use Translatable;
+    use Sluggable;
+
 
     /**
      * The attributes that should be cast to native types.
@@ -27,12 +30,19 @@ class Category extends CrudModel
 
    public $translatedAttributes = ['name'];
 
-
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'slug'
+            ]
+        ];
+    }
 
     public function getValidation()
     {
         return [
-           // 'name' => 'required',
+            'name' => 'required',
         ];
     }
     
@@ -42,72 +52,73 @@ class Category extends CrudModel
     {
         $fields = [
             [
-                'name'       => 'id',
-                'type'       => 'text',
-                'visible'    => 'io',
-            ],
-            [
-                'name'      => 'name',
-                'type'      => 'text',
-                'translation'   => true,
-                'visible'   => 'icef',
-            ],
-            [
-                'name'       => 'slug',
-                'type'       => 'text',
-                'visible'    => 'isce',
-            ],
-            // [
-            //     'name'       => 'image',
-            //     'type'       => 'image',
-            //     'visible'    => 'sce',
-            // ],
-            [
-                'name'      => 'parent_id',
-                'display'   => 'parent',
-                'relation'  => 'parent',
-                'type'      => 'relation',
-                'data'      => [Category::class, 'name'],
-                'visible'   => 'sce',
-            ],
-            // [
-            //     'name'      => 'attribute_groups',
-            //     'display'   => 'attribute_groups',
-            //     'relation'  => 'attribute_groups',
-            //     'type'      => 'relationM',
-            //     'data'      => [AttributeGroup::class, 'name'],
-            //     'visible'   => 'icef',
-            // ],
-            [
-                'name'       => 'position',
-                'type'       => 'number',
-                'visible'    => 'isce',
-            ],
-            [
-                'name'       => 'is_active',
-                'type'       => 'text',
-                'visible'    => 'iscef',
-            ],
-            [
-                'name'       => 'is_searchable',
-                'type'       => 'text',
-                'visible'    => 'iscef',
-            ],
-           
+                'name'  =>  'basic-information',
+                'type'  =>   'group',
+                'visible' => 'ce',
+                'tabs' => [
+                    [
+                        'name'  => 'general',
+                        'type' => 'tab',
+                        'visible' => 'ce',
+                        'fields' => [
+                            [
+                                'name'       => 'id',
+                                'type'       => 'text',
+                                'visible'    => 'io',
+                            ],
+                            [
+                                'name'      => 'name',
+                                'type'      => 'text',
+                                'translation'   => true,
+                                'visible'   => 'icef',
+                            ],
+                            [
+                                'name'       => 'slug',
+                                'type'       => 'text',
+                                'visible'    => 'isce',
+                            ],
+                            [
+                                'name'       => 'image',
+                                'type'       => 'image',
+                                'visible'    => 'sce',
+                            ],
+                            [
+                                'name'      => 'parent_id',
+                                'display'   => 'parent',
+                                'relation'  => 'parent',
+                                'type'      => 'relation',
+                                'data'      => [Category::class, 'name'],
+                                'visible'   => 'sce',
+                            ],
+                            [
+                                'name'       => 'position',
+                                'type'       => 'position',
+                                'visible'    => 'isce',
+                            ],
+                            [
+                                'name'       => 'is_active',
+                                'type'       => 'select',
+                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
+                                'visible'    => 'ce',
+                            ],
+                            [
+                                'name'       => 'is_searchable',
+                                'type'       => 'select',
+                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
+                                'visible'    => 'ce',
+                            ]
+
+                        ]
+                    ]
+                ]
+
+            ]
         ];
 
         return json_decode(json_encode($fields));
     }
 
 
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
 
     public function parent()
     {
@@ -118,15 +129,5 @@ class Category extends CrudModel
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
-
-    // public function products()
-    // {
-    //         return $this->belongsToMany(Product::class);
-    // }
-
-    // public function attribute_groups()
-    // {
-    //         return $this->belongsToMany(AttributeGroup::class);
-    // }
 
 }

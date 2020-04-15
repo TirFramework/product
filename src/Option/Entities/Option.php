@@ -86,7 +86,7 @@ class Option extends CrudModel
                             [
                                 'name'      => 'is_required',
                                 'type'      => 'select',
-                                'data'      => ['0'=>'no','1'=>'yes'],
+                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
                                 'visible'   => 'cef',
                             ]
                         ]

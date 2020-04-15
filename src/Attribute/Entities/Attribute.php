@@ -81,7 +81,7 @@ class Attribute extends CrudModel
                             [
                                 'name'      => 'is_filterable',
                                 'type'      => 'select',
-                                'data'      => ['0'=>'no','1'=>'yes'],
+                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
                                 'visible'   => 'cef',
                             ],
                             [
