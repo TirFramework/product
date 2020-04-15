@@ -15,10 +15,8 @@ $optionValues = isset($option->{$field->name}) ? $option->{$field->name} : [] ; 
 
 }
 @endphp
-
-<div class="cloning sortable">
-
-    <div class="row labels">
+<div class="sortable-header">
+    <div class="row">
         <div class="col-md-4 col-xs-12 ">
             <label> @lang("$crud->name::panel.label") </label>
         </div>
@@ -29,6 +27,10 @@ $optionValues = isset($option->{$field->name}) ? $option->{$field->name} : [] ; 
             <label> @lang("$crud->name::panel.price_type") </label>
         </div>
     </div>
+</div>
+
+<div class="cloning sortable">
+
 
     @foreach ($optionValues as $optionValue)
     <div class="item">

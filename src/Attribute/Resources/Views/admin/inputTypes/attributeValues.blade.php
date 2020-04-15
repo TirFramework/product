@@ -62,11 +62,9 @@
             $cloning = $('.cloning');
             $item = $cloning.find('.item');
 
-            $(".cloning").after(`<a class="plus btn"><i class="fas fa-plus"></i></a>`);
+            $(".cloning").after(`<a class="plus btn btn-info">+</a>`);
 
-            dataId = $item.length - 1;
-
-
+            dataId = $item.length;
 
             $item.each(function(index ){
 
@@ -85,10 +83,12 @@
                     $(this).attr('name', newName );
 
 
-                });
+                var newHtml = templateHtml.replace("name-template", "name");
+                newHtml = newHtml.replace("xxx", index);
 
+                $(".cloning").append(`<div class="item"> <a class="remove-item btn btn-danger">x</a> ${newHtml} </div>`);
 
-                $(newItem).find('[id]').each(function(){
+                $(this).append(`<a class="remove-item btn btn-danger">x</a>`)
 
                     var idTemplate = $(this).attr('id-template');
                     $(this).removeAttr('id-template');
@@ -133,6 +133,7 @@
 
             $('.cloning').append(newItem);
             dataId++;
+
         }
 
 
@@ -153,11 +154,6 @@
             $(".sortable").disableSelection();
         });
 
-
-
-        function replaceAll(str, find, replace) {
-            return str.replace(new RegExp(find, 'g'), replace);
-        }
     </script>
 @endpush
 
