@@ -50,7 +50,7 @@ class AdminAttributeController extends CrudController
 
     public function values($id)
     {
-        return $this->model::find($id)->values()->get()->pluck('value','id');
+        return $this->model::find($id)->values()->get()->toJson();
     }
 
 

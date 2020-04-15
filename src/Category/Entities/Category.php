@@ -6,12 +6,12 @@ use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Tir\Crud\Support\Eloquent\CrudModel;
 
-class Category extends CrudModel 
+class Category extends CrudModel
 {
     //Additional trait insert here
 
     use Translatable;
-    use Sluggable;
+    // use Sluggable;
 
 
     /**
@@ -45,7 +45,7 @@ class Category extends CrudModel
             'name' => 'required',
         ];
     }
-    
+
 
 
     public function getFields()

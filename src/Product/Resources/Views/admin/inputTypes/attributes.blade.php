@@ -37,8 +37,8 @@
                 <input type="hidden" name-template="values[xxx][id]" name="values[{{$loop->index}}][id]"
                        value="{{$attributeValue->id}}" class="form-control @error($field->name) is-invalid @enderror">
 
-                <div class="col-md-12 col-xs-12 form-group">
-                    <select id="attributes-attribute_id-{{$loop->index}}" id-template="value-value-xxx" required
+                <div class="col-md-6 col-12 form-group">
+                    <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id" required
                            name-template="attributes[xxx][attribute_id]" name="attributes[{{$loop->index}}][attribute_id]"
                            class="form-control attributes @error(" attributes[{{$loop->index}}][attribute_id]")
                             is-invalid @enderror">
@@ -46,13 +46,32 @@
                             <option value="{{$value}}">{{$name}}</option>
                         @endforeach
                     </select>
-
                     <span class="invalid-feedback" role="alert">
-                    @error("values[{{$loop->index}}][value]")
-                    <strong>{{ $message }}</strong>
-                    @enderror
-                </span>
+                        @error("attributes[{{$loop->index}}][attribute_id]")
+                        <strong>{{ $message }}</strong>
+                        @enderror
+                    </span>
                 </div>
+
+
+                <div class="col-md-6 col-12 form-group">
+                    <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
+                           name-template="attributes[xxx][values]" name="attributes[{{$loop->index}}][values]"
+                           class="form-control values @error(" attributes[{{$loop->index}}][values]")
+                            is-invalid @enderror">
+                        @foreach($attributes as $value=>$name)
+                            <option value="{{$value}}">{{$name}}</option>
+                        @endforeach
+                    </select>
+                    <span class="invalid-feedback" role="alert">
+                        @error("attributes[{{$loop->index}}][values]")
+                        <strong>{{ $message }}</strong>
+                        @enderror
+                    </span>
+                </div>
+
+
+
             </div>
         </div>
     @endforeach
@@ -172,6 +191,7 @@
 
 
             $(".cloning").on('change','.attributes',function(){
+                var $this = $(this);
                 var selectedAttribute = $(this).children("option:selected").val();
 
                 $.ajax({
@@ -182,6 +202,23 @@
                     success: function(data) {
                         console.log(data);
                         //$('#city').html(data.html);
+                        console.log("data.value", data[0].value)
+
+
+
+                        var valuesSelect = $this.parents('.item').find('.values');
+                        // create the option and append to Select2
+                            var option = new Option(data[0].value, data[0].id, true, true);
+                            valuesSelect.append(option).trigger('change');
+
+                            // manually trigger the `select2:select` event
+                            valuesSelect.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: data
+                            }
+                            });
+
                     }
                 });
 
