@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
 use Tir\Crud\Support\Eloquent\Sluggable;
+use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Category\Entities\Category;
 use Tir\Store\Option\Entities\OptionValue;
 
@@ -231,7 +232,7 @@ class Product extends CrudModel
                     [
                         'name'  => 'options',
                         'type'  => 'tab',
-                        'visible'    => 'ce',
+                        'visible'    => '',
                         'fields' => [],
                     ]
 
@@ -248,6 +249,11 @@ class Product extends CrudModel
     public function categories()
     {
         return $this->belongsToMany(Category::class,'product_category')->orderBy('position');
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
     }
 
 }

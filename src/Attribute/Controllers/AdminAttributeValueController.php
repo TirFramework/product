@@ -3,10 +3,10 @@
 namespace Tir\Store\Attribute\Controllers;
 
 use Tir\Crud\Controllers\CrudController;
-use Tir\Store\Attribute\Entities\OptionValue;
+use Tir\Store\Attribute\Entities\AttributeValue;
 
-class AdminAttributeSetController extends CrudController
+class AdminAttributeValueController extends CrudController
 {
-    protected $model = OptionValue::Class;
+    protected $model = AttributeValue::Class;
 
 }
