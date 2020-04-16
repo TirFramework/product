@@ -19,6 +19,7 @@ class Attribute extends CrudModel
 
     protected $fillable = ['name', 'is_filterable','attribute_set_id'];
 
+    protected $with = ['translations'];
 
     /**
      * The attributes that should be cast to native types.

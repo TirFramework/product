@@ -1,25 +1,61 @@
 @php
-    //generate empty object
-    $attributeValues = (object) [
-         'values'=> (object)[
-                'id'=>null,
-                'value' => null
-            ]
-         ];
-        $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get()->pluck('name','id');
+    use Illuminate\Support\Arr;
+
+       //generate empty object for handel create page
+        $productAttributes = (object)[null];
+
+        //get all attribute from Attribute model
+        $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get();
+
+        //get Old values
+        $old = old('attributes');
+
+        if( isset($item)){
+            $edit = true;
+            $product = $item;
+
+            //get product attributes
+            $productAttributes =  $product->attributes;
+            $productAttributeIds = Arr::pluck($productAttributes,'attribute_id');
+            $allAttributeValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
+        }
+
+        //for old statement
+        if(isset($old)){
+           $productAttributes = json_decode(json_encode($old));
+           $productAttributeIds = Arr::pluck($productAttributes, 'attribute_id');
+           $productAttributesAllValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
+        }
 
 
 
 
 
+        function getProductAttributes($product)
+        {
+            $old = old('attributes');
 
-    if( isset($item) ){
-        $product = $item;
-        $attributeValues = $attribute->{$field->name};  //here filed->name = values
-        //$attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get()->pluck('name','id');
+            if (is_null($old)) {
+                return $product->load('attributes')->attributes;
+            }
 
+            return getOldAttributes($old);
+        }
 
-    }
+        function getOldAttributes($old)
+        {
+/*            return Attribute::with(['values' => function ($query) use ($old) {
+                $query->whereIn('id', array_flatten(array_pluck($old, 'values')));
+            }])
+            ->whereIn('id', array_pluck($old, 'attribute_id'))
+            ->get();*/
+        }
+
+        function getAttributeSets()
+        {
+            return AttributeSet::with('attributes.values')->get()->sortBy('name');
+        }
+
 
 
 @endphp
@@ -33,11 +69,9 @@
     </div>
 
 
-    @foreach ($attributeValues as $attributeValue)
+    @foreach ($productAttributes as $productAttribute)
         <div class="item">
             <div class="row">
-{{--                <input type="hidden" name-template="attributes[xxx][id]" name="attributes[{{$loop->index}}][id]"--}}
-{{--                       value="{{$attributeValue->id}}" class="form-control @error($field->name) is-invalid @enderror">--}}
 
                 <div class="col-md-6 col-12 form-group">
                     <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id" required
@@ -45,9 +79,15 @@
                            class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
                             is-invalid @enderror">
                             <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
-                        @foreach($attributes as $value=>$name)
-                            <option value="{{$value}}">{{$name}}</option>
-                        @endforeach
+                            @foreach($attributes as $attribute)
+                                <option value="{{$attribute->id}}"
+                                        @if(isset($edit) || isset($old))
+                                            @if($productAttribute->attribute_id == $attribute->id) selected @endif
+                                        @endif
+                                        >
+                                        {{$attribute->name}}
+                                </option>
+                            @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
                         @error("attributes[{{$loop->index}}][attribute_id]")
@@ -56,15 +96,34 @@
                     </span>
                 </div>
 
+                @if(isset($edit) || isset($old))
+                    @php
+                            //get all values of specific attribute of product in foreach
+                            // we use this values for show selected option is select box
+                            // in old situation we have only ids of selected item but in
+                            // edit situation we have id and value of selected item so
+                            // we need to take only id, we use
+                            $selectedValues = $productAttribute->values;
+                    if(isset($edit)){
+                            $selectedValues = $selectedValues->pluck('id')->toArray();
+                    }
+                            $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
+                    @endphp
+                @endif
+
 
                 <div class="col-md-6 col-12 form-group">
                     <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
                            name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
                            class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
                             is-invalid @enderror" multiple>
-{{--                        @foreach($attributes as $value=>$name)--}}
-{{--                            <option value="{{$value}}">{{$name}}</option>--}}
-{{--                        @endforeach--}}
+                        @if(isset($edit) || isset($old))
+                            @foreach($thisAttributeValues as $attributeValue)
+                                <option value="{{$attributeValue->id}}" @if(in_array($attributeValue->id,$selectedValues)) selected @endif>
+                                    {{$attributeValue->value}}
+                                </option>
+                            @endforeach
+                        @endif
                     </select>
                     <span class="invalid-feedback" role="alert">
                         @error("attributes[{{$loop->index}}][values]")

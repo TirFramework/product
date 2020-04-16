@@ -10,10 +10,11 @@ class ProductAttributeValue extends CrudModel
     //Additional trait insert here
     
 
-    public $table = 'product_attributes';
+    public $table = 'product_attribute_values';
 
     protected $fillable = ['product_attribute_id', 'attribute_id'];
 
+    protected $with = ['attributeValue'];
 
     public function exists()
     {

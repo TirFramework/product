@@ -20,12 +20,6 @@ class Product extends CrudModel
 
     public static $routeName = 'product';
 
-    /**
-     * The attribute that will be slugged.
-     *
-     * @var string
-     */
-    protected $slugAttribute = 'name';
 
     /**
      * The attributes that are mass assignable.

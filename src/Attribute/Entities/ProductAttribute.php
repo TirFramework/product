@@ -14,6 +14,17 @@ class ProductAttribute extends CrudModel
 
     protected $fillable = ['attribute_id'];
 
+    public $timestamps = false;
+
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['attribute', 'values'];
+
+
 
     public function attribute()
     {
