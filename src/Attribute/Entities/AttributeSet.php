@@ -97,14 +97,9 @@ class AttributeSet extends CrudModel
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    // public function products()
-    // {
-    //         return $this->belongsToMany(Product::class);
-    // }
-
-    // public function attribute_groups()
-    // {
-    //         return $this->belongsToMany(AttributeGroup::class);
-    // }
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class);
+    }
 
 }
