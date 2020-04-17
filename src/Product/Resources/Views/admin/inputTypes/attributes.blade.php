@@ -1,12 +1,13 @@
 @php
     use Illuminate\Support\Arr;
+    use Tir\Store\Attribute\Entities\AttributeSet;
 
        //generate empty object for handel create page
         $productAttributes = (object)[null];
 
         //get all attribute from Attribute model
-        $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get();
-
+        $attributeSets = AttributeSet::with('attributes')->get()->sortBy('name');
+        $old = old('attributes');
 
 
         if( isset($item) || isset($old)){
@@ -18,18 +19,12 @@
                 $productAttributes =  $product->attributes;
             }
 
-            if($old = old('attributes')){
+            if($old){
                 $productAttributes = json_decode(json_encode($old));
             }
 
             $productAttributeIds = Arr::pluck($productAttributes, 'attribute_id');
             $productAttributesAllValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
-        }
-
-
-        function getAttributeSets()
-        {
-            return AttributeSet::with('attributes.values')->get()->sortBy('name');
         }
 
 
@@ -57,14 +52,18 @@
                             class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
                                     is-invalid @enderror">
                         <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
-                        @foreach($attributes as $attribute)
-                            <option value="{{$attribute->id}}"
-                                    @if(isset($edit) || isset($old))
-                                    @if($productAttribute->attribute_id == $attribute->id) selected @endif
-                                    @endif
-                            >
-                                {{$attribute->name}}
-                            </option>
+                        @foreach($attributeSets as $attributeSet)
+                            <optgroup label="{{$attributeSet->name}}">
+                                @foreach($attributeSet->attributes as $attribute)
+                                    <option value="{{$attribute->id}}"
+                                            @if(isset($edit) || isset($old))
+                                                @if($productAttribute->attribute_id == $attribute->id) selected @endif
+                                            @endif
+                                    >
+                                        {{$attribute->name}}
+                                    </option>
+                                @endforeach
+                            </optgroup>
                         @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
@@ -81,10 +80,12 @@
                         // in old situation we have only ids of selected item but in
                         // edit situation we have id and value of selected item so
                         // we need to take only id, we use
-                        $selectedValues = $productAttribute->values;
-                if(isset($edit)){
-                        $selectedValues = $selectedValues->pluck('id')->toArray();
-                }
+
+                        if(isset($old)){
+                            $selectedValues = $productAttribute->values;
+                        }else{    //isset just edit
+                              $selectedValues = $productAttribute->values->pluck('id')->toArray();
+                        }
                         $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
                     @endphp
                 @endif
