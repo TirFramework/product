@@ -20,35 +20,40 @@
 @endphp
 
 
-<div class="row sortable-header">
-    <div class="col-md-4 col-xs-12 ">
-        <label> @lang("$crud->name::panel.name") </label>
+<div class="col-12">
+    <div class="row sortable-header">
+        <div class="col-md-4 col-xs-12 ">
+            <label> @lang("$crud->name::panel.name") </label>
+        </div>
     </div>
 </div>
 
-<div class="cloning sortable">
+<div class="col-12">
 
 
-    @foreach ($attributeValues as $attributeValue)
-        <div class="item">
-            <div class="row">
-                <input type="hidden" name-template="values[xxx][id]" name="values[{{$loop->index}}][id]"
-                       value="{{$attributeValue->id}}" class="form-control @error($field->name) is-invalid @enderror">
-                <div class="col-md-12 col-xs-12 form-group">
-                    <input type="text" id="values-{{$loop->index}}-value" id-template="values-xxx-value" required
-                           name-template="values[xxx][value]" name="values[{{$loop->index}}][value]"
-                           value="{{ $attributeValue->value }}" class="form-control @error(" values[{{$loop->index}}][value]")
-                            is-invalid @enderror">
+    <div class="cloning sortable">
 
-                    <span class="invalid-feedback" role="alert">
-                    @error("values[{{$loop->index}}][value]")
-                    <strong>{{ $message }}</strong>
-                    @enderror
-                </span>
+        @foreach ($attributeValues as $attributeValue)
+            <div class="item">
+                <div class="row">
+                    <input type="hidden" name-template="values[xxx][id]" name="values[{{$loop->index}}][id]"
+                        value="{{$attributeValue->id}}" class="form-control @error($field->name) is-invalid @enderror">
+                    <div class="col-md-12 col-xs-12 form-group">
+                        <input type="text" id="values-{{$loop->index}}-value" id-template="values-xxx-value" required
+                            name-template="values[xxx][value]" name="values[{{$loop->index}}][value]"
+                            value="{{ $attributeValue->value }}" class="form-control @error(" values[{{$loop->index}}][value]")
+                                is-invalid @enderror">
+
+                        <span class="invalid-feedback" role="alert">
+                        @error("values[{{$loop->index}}][value]")
+                        <strong>{{ $message }}</strong>
+                        @enderror
+                    </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 </div>
 
 

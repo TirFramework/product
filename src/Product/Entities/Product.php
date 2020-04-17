@@ -165,7 +165,7 @@ class Product extends CrudModel
                             ],
                             [
                                 'name'      => 'special_price',
-                                'type'      => 'number',
+                                'type'      => 'price',
                                 'visible'   => 'ce',
                             ],
                             [

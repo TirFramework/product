@@ -15,8 +15,12 @@ return [
     'no'                    => 'خیر',
     'values'                => 'مقادیر',
     'attributeSet'          => 'دسته بندی ویژگی',
+    'attributeSets'         => 'دسته بندی ویژگی‌ها',
     'new_attributeSet'      => 'دسته بندی ویژگی جدید',
     'main_info'             => 'اطلاعات اصلی',
+
+    'attribute-information' => 'اطلاعات ویژگی',
+    'basic-information' => 'اطلاعات پایه',
 
 
 ];
