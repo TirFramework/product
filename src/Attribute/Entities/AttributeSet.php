@@ -47,12 +47,12 @@ class AttributeSet extends CrudModel
     {
         $fields = [
             [
-                'name' => 'basic-information',
+                'name' => 'basic_information',
                 'type' => 'group',
                 'visible'    => 'ce',
                 'tabs'=>  [
                     [
-                        'name'  => 'general',
+                        'name'  => 'main_info',
                         'type'  => 'tab',
                         'visible'    => 'ce',
                         'fields' => [

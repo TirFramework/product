@@ -56,7 +56,7 @@ class Attribute extends CrudModel
                 'visible'    => 'ce',
                 'tabs'=>  [
                     [
-                        'name'  => 'general',
+                        'name'  => 'attribute-information',
                         'type'  => 'tab',
                         'visible'    => 'ce',
                         'fields' => [
@@ -82,8 +82,8 @@ class Attribute extends CrudModel
                             [
                                 'name'      => 'is_filterable',
                                 'type'      => 'select',
-                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
-                                'visible'   => 'cef',
+                                'data'       => ['1'=>trans('attribute::panel.yes'),'0'=>trans('attribute::panel.no')],
+                                'visible'   => 'ce',
                             ],
                             [
                                 'name'      => 'categories',

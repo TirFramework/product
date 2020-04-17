@@ -7,49 +7,25 @@
         //get all attribute from Attribute model
         $attributes = \Tir\Store\Attribute\Entities\Attribute::select('*')->get();
 
-        //get Old values
-        $old = old('attributes');
-
-        if( isset($item)){
-            $edit = true;
-            $product = $item;
-
-            //get product attributes
-            $productAttributes =  $product->attributes;
-            $productAttributeIds = Arr::pluck($productAttributes,'attribute_id');
-            $allAttributeValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
-        }
-
-        //for old statement
-        if(isset($old)){
-           $productAttributes = json_decode(json_encode($old));
-           $productAttributeIds = Arr::pluck($productAttributes, 'attribute_id');
-           $productAttributesAllValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
-        }
 
 
+        if( isset($item) || isset($old)){
 
-
-
-        function getProductAttributes($product)
-        {
-            $old = old('attributes');
-
-            if (is_null($old)) {
-                return $product->load('attributes')->attributes;
+            if(isset($item)){
+                $edit = true;
+                $product = $item;
+                //get product attributes
+                $productAttributes =  $product->attributes;
             }
 
-            return getOldAttributes($old);
+            if($old = old('attributes')){
+                $productAttributes = json_decode(json_encode($old));
+            }
+
+            $productAttributeIds = Arr::pluck($productAttributes, 'attribute_id');
+            $productAttributesAllValues = \Tir\Store\Attribute\Entities\AttributeValue::whereIn('attribute_id',$productAttributeIds)->get();
         }
 
-        function getOldAttributes($old)
-        {
-/*            return Attribute::with(['values' => function ($query) use ($old) {
-                $query->whereIn('id', array_flatten(array_pluck($old, 'values')));
-            }])
-            ->whereIn('id', array_pluck($old, 'attribute_id'))
-            ->get();*/
-        }
 
         function getAttributeSets()
         {
@@ -74,20 +50,22 @@
             <div class="row">
 
                 <div class="col-md-6 col-12 form-group">
-                    <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id" required
-                           name-template="attributes[xxx][attribute_id]" name="attributes[{{$loop->index}}][attribute_id]"
-                           class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
-                            is-invalid @enderror">
-                            <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
-                            @foreach($attributes as $attribute)
-                                <option value="{{$attribute->id}}"
-                                        @if(isset($edit) || isset($old))
-                                            @if($productAttribute->attribute_id == $attribute->id) selected @endif
-                                        @endif
-                                        >
-                                        {{$attribute->name}}
-                                </option>
-                            @endforeach
+                    <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id"
+                            required
+                            name-template="attributes[xxx][attribute_id]"
+                            name="attributes[{{$loop->index}}][attribute_id]"
+                            class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
+                                    is-invalid @enderror">
+                        <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
+                        @foreach($attributes as $attribute)
+                            <option value="{{$attribute->id}}"
+                                    @if(isset($edit) || isset($old))
+                                    @if($productAttribute->attribute_id == $attribute->id) selected @endif
+                                    @endif
+                            >
+                                {{$attribute->name}}
+                            </option>
+                        @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
                         @error("attributes[{{$loop->index}}][attribute_id]")
@@ -98,28 +76,29 @@
 
                 @if(isset($edit) || isset($old))
                     @php
-                            //get all values of specific attribute of product in foreach
-                            // we use this values for show selected option is select box
-                            // in old situation we have only ids of selected item but in
-                            // edit situation we have id and value of selected item so
-                            // we need to take only id, we use
-                            $selectedValues = $productAttribute->values;
-                    if(isset($edit)){
-                            $selectedValues = $selectedValues->pluck('id')->toArray();
-                    }
-                            $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
+                        //get all values of specific attribute of product in foreach
+                        // we use this values for show selected option is select box
+                        // in old situation we have only ids of selected item but in
+                        // edit situation we have id and value of selected item so
+                        // we need to take only id, we use
+                        $selectedValues = $productAttribute->values;
+                if(isset($edit)){
+                        $selectedValues = $selectedValues->pluck('id')->toArray();
+                }
+                        $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
                     @endphp
                 @endif
 
 
                 <div class="col-md-6 col-12 form-group">
                     <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
-                           name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
-                           class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
-                            is-invalid @enderror" multiple>
+                            name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
+                            class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
+                                    is-invalid @enderror" multiple>
                         @if(isset($edit) || isset($old))
                             @foreach($thisAttributeValues as $attributeValue)
-                                <option value="{{$attributeValue->id}}" @if(in_array($attributeValue->id,$selectedValues)) selected @endif>
+                                <option value="{{$attributeValue->id}}"
+                                        @if(in_array($attributeValue->id,$selectedValues)) selected @endif>
                                     {{$attributeValue->value}}
                                 </option>
                             @endforeach
@@ -131,7 +110,6 @@
                         @enderror
                     </span>
                 </div>
-
 
 
             </div>
@@ -148,7 +126,7 @@
             templateHtml,
             dataId;
 
-        function runCloning(){
+        function runCloning() {
             $cloning = $('.cloning');
             $item = $cloning.find('.item');
 
@@ -157,8 +135,7 @@
             dataId = $item.length - 1;
 
 
-
-            $item.each(function(index ){
+            $item.each(function (index) {
 
                 templateHtml = $(this).html();
 
@@ -167,23 +144,23 @@
 
                 $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
 
-                $(newItem).find('[name]').each(function(){
+                $(newItem).find('[name]').each(function () {
 
                     var nameTemplate = $(this).attr('name-template');
                     $(this).removeAttr('name-template');
                     newName = replaceAll(nameTemplate, 'xxx', dataId);
-                    $(this).attr('name', newName );
+                    $(this).attr('name', newName);
 
 
                 });
 
 
-                $(newItem).find('[id]').each(function(){
+                $(newItem).find('[id]').each(function () {
 
                     var idTemplate = $(this).attr('id-template');
                     $(this).removeAttr('id-template');
                     idName = replaceAll(idTemplate, 'xxx', dataId);
-                    $(this).attr('id', idName );
+                    $(this).attr('id', idName);
 
                 });
 
@@ -195,30 +172,26 @@
 
         runCloning();
 
-        function addRow(){
+        function addRow() {
 
             var newItem = $('<div class="item"></div>');
             $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
 
-            $(newItem).find('[name]').each(function(){
+            $(newItem).find('[name]').each(function () {
                 var nameTemplate = $(this).attr('name-template');
                 $(this).removeAttr('name-template');
                 newName = replaceAll(nameTemplate, 'xxx', dataId);
-                $(this).attr('name', newName );
+                $(this).attr('name', newName);
                 $(this).val('');
             });
 
 
-
-            $(newItem).find('[id]').each(function(){
+            $(newItem).find('[id]').each(function () {
                 var idTemplate = $(this).attr('id-template');
                 $(this).removeAttr('id-template');
                 idName = replaceAll(idTemplate, 'xxx', dataId);
-                $(this).attr('id', idName );
+                $(this).attr('id', idName);
             });
-
-
-
 
 
             $('.cloning').append(newItem);
@@ -226,12 +199,12 @@
         }
 
 
-        $('.cloning').on( "click", 'a.remove-item' ,function (e) {
+        $('.cloning').on("click", 'a.remove-item', function (e) {
             e.preventDefault();
             $(this).parents('.item').remove();
         });
 
-        $('body').on( "click", 'a.plus', function () {
+        $('body').on("click", 'a.plus', function () {
             addRow();
             $(".select2").select2();
 
@@ -244,50 +217,46 @@
         });
 
 
-
         function replaceAll(str, find, replace) {
             return str.replace(new RegExp(find, 'g'), replace);
         }
 
 
+        $(".cloning").on('change', '.attributes', function () {
+            var $this = $(this);
+            var selectedAttribute = $(this).children("option:selected").val();
+
+            $.ajax({
+                url: "/admin/attribute/" + selectedAttribute + "/values/",
+                method: 'GET',
+                dataType: 'json',
+
+                success: function (values) {
+                    //console.log(data);
+                    //$('#city').html(data.html);
+                    // console.log("data.value", data[0].value)
 
 
-            $(".cloning").on('change','.attributes',function(){
-                var $this = $(this);
-                var selectedAttribute = $(this).children("option:selected").val();
+                    var valuesSelect = $this.parents('.item').find('.values');
+                    valuesSelect.find('option').remove();
+                    // create the option and append to Select2
+                    $.each(values, function (id, value) {
+                        option = new Option(value.value, value.id, true, false);
+                        valuesSelect.append(option).trigger('change');
+                    });
 
-                $.ajax({
-                    url: "/admin/attribute/"+selectedAttribute+"/values/",
-                    method: 'GET',
-                    dataType: 'json',
+                    //manually trigger the `select2:select` event
+                    valuesSelect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: values
+                        }
+                    });
 
-                    success: function(values) {
-                        //console.log(data);
-                        //$('#city').html(data.html);
-                       // console.log("data.value", data[0].value)
-
-
-
-                        var valuesSelect = $this.parents('.item').find('.values');
-                        valuesSelect.find('option').remove();
-                        // create the option and append to Select2
-                            $.each(values, function (id, value) {
-                                option = new Option(value.value, value.id, true, false);
-                                valuesSelect.append(option).trigger('change');
-                            });
-
-                            //manually trigger the `select2:select` event
-                            valuesSelect.trigger({
-                            type: 'select2:select',
-                            params: {
-                                data: values
-                            }
-                            });
-
-                    }
-                });
-
+                }
             });
+
+        });
     </script>
 @endpush
 

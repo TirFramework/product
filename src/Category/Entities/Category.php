@@ -98,13 +98,13 @@ class Category extends CrudModel
                             [
                                 'name'       => 'is_active',
                                 'type'       => 'select',
-                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
+                                'data'       => ['1'=>trans('category::panel.yes'),'0'=>trans('category::panel.no')],
                                 'visible'    => 'ce',
                             ],
                             [
                                 'name'       => 'is_searchable',
                                 'type'       => 'select',
-                                'data'       => ['1'=>trans('product::panel.yes'),'0'=>trans('product::panel.no')],
+                                'data'       => ['1'=>trans('category::panel.yes'),'0'=>trans('category::panel.no')],
                                 'visible'    => 'ce',
                             ]
 

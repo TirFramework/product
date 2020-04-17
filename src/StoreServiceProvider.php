@@ -34,6 +34,7 @@ class StoreServiceProvider extends ServiceProvider
             $this->loadRoutesFrom(__DIR__.'/Attribute/Routes/admin.php');
             $this->loadMigrationsFrom(__DIR__ .'/Attribute/Database/Migrations');
             $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attribute');
+            $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attributeSet');
             $this->loadViewsFrom(__DIR__.'/Attribute/Resources/Views/', 'attribute');
 
         //Option module

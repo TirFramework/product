@@ -99,7 +99,7 @@ class Product extends CrudModel
     {
         $fields = [
             [
-                'name' => 'basic-information',
+                'name' => 'basic_information',
                 'type' => 'group',
                 'visible'    => 'ce',
                 'tabs'=>  [
@@ -160,7 +160,7 @@ class Product extends CrudModel
                         'fields' => [
                             [
                                 'name'      => 'price',
-                                'type'      => 'number',
+                                'type'      => 'price',
                                 'visible'   => 'ice',
                             ],
                             [
@@ -181,7 +181,7 @@ class Product extends CrudModel
                         ]
                     ],
                     [
-                        'name'  => 'Inventory',
+                        'name'  => 'inventory',
                         'type'  => 'tab',
                         'visible'    => 'ce',
                         'fields' => [
@@ -207,7 +207,7 @@ class Product extends CrudModel
                 ]
             ],
             [
-                'name' => 'advance-information',
+                'name' => 'advance_information',
                 'type' => 'group',
                 'visible'    => 'ce',
                 'tabs' => [
@@ -250,4 +250,10 @@ class Product extends CrudModel
         return $this->hasMany(ProductAttribute::class);
     }
 
-}
+    public function getPriceAttribute($value)
+    {
+        return floor($value);
+    }
+
+
+    }
