@@ -31,92 +31,99 @@
 
 @endphp
 
-<div class="cloning sortable">
-
-    <div class="row labels">
+<div class="col-12">
+    <div class="row sortable-header">
         <div class="col-md-4 col-xs-12 ">
             <label> @lang("$crud->name::panel.name") </label>
         </div>
     </div>
+</div>
 
 
-    @foreach ($productAttributes as $productAttribute)
-        <div class="item">
-            <div class="row">
+<div class="col-12">
 
-                <div class="col-md-6 col-12 form-group">
-                    <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id"
-                            required
-                            name-template="attributes[xxx][attribute_id]"
-                            name="attributes[{{$loop->index}}][attribute_id]"
-                            class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
-                                    is-invalid @enderror">
-                        <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
-                        @foreach($attributeSets as $attributeSet)
-                            <optgroup label="{{$attributeSet->name}}">
-                                @foreach($attributeSet->attributes as $attribute)
-                                    <option value="{{$attribute->id}}"
-                                            @if(isset($edit) || isset($old))
-                                                @if($productAttribute->attribute_id == $attribute->id) selected @endif
-                                            @endif
-                                    >
-                                        {{$attribute->name}}
+    <div class="cloning sortable">
+
+        @foreach ($productAttributes as $productAttribute)
+            <div class="item">
+                <div class="row">
+
+                    <div class="col-md-6 col-12 form-group">
+                        <select id="attributes-{{$loop->index}}-attribute_id" id-template="attributes-xxx-attribute_id"
+                                required
+                                name-template="attributes[xxx][attribute_id]"
+                                name="attributes[{{$loop->index}}][attribute_id]"
+                                class="form-control attributes select2 @error(" attributes[{{$loop->index}}][attribute_id]")
+                                        is-invalid @enderror">
+                            <option value="" disabled selected>@lang("$crud->name::panel.select")</option>
+                            @foreach($attributeSets as $attributeSet)
+                                <optgroup label="{{$attributeSet->name}}">
+                                    @foreach($attributeSet->attributes as $attribute)
+                                        <option value="{{$attribute->id}}"
+                                                @if(isset($edit) || isset($old))
+                                                    @if($productAttribute->attribute_id == $attribute->id) selected @endif
+                                                @endif
+                                        >
+                                            {{$attribute->name}}
+                                        </option>
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback" role="alert">
+                            @error("attributes[{{$loop->index}}][attribute_id]")
+                            <strong>{{ $message }}</strong>
+                            @enderror
+                        </span>
+                    </div>
+
+                    @if(isset($edit) || isset($old))
+                        @php
+                            //get all values of specific attribute of product in foreach
+                            // we use this values for show selected option is select box
+                            // in old situation we have only ids of selected item but in
+                            // edit situation we have id and value of selected item so
+                            // we need to take only id, we use
+
+                            if(isset($old)){
+                                $selectedValues = $productAttribute->values;
+                            }else{    //isset just edit
+                                $selectedValues = $productAttribute->values->pluck('id')->toArray();
+                            }
+                            $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
+                        @endphp
+                    @endif
+
+
+                    <div class="col-md-6 col-12 form-group">
+                        <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
+                                name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
+                                class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
+                                        is-invalid @enderror" multiple>
+                            @if(isset($edit) || isset($old))
+                                @foreach($thisAttributeValues as $attributeValue)
+                                    <option value="{{$attributeValue->id}}"
+                                            @if(in_array($attributeValue->id,$selectedValues)) selected @endif>
+                                        {{$attributeValue->value}}
                                     </option>
                                 @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                    <span class="invalid-feedback" role="alert">
-                        @error("attributes[{{$loop->index}}][attribute_id]")
-                        <strong>{{ $message }}</strong>
-                        @enderror
-                    </span>
+                            @endif
+                        </select>
+                        <span class="invalid-feedback" role="alert">
+                            @error("attributes[{{$loop->index}}][values]")
+                            <strong>{{ $message }}</strong>
+                            @enderror
+                        </span>
+                    </div>
+
+
                 </div>
-
-                @if(isset($edit) || isset($old))
-                    @php
-                        //get all values of specific attribute of product in foreach
-                        // we use this values for show selected option is select box
-                        // in old situation we have only ids of selected item but in
-                        // edit situation we have id and value of selected item so
-                        // we need to take only id, we use
-
-                        if(isset($old)){
-                            $selectedValues = $productAttribute->values;
-                        }else{    //isset just edit
-                              $selectedValues = $productAttribute->values->pluck('id')->toArray();
-                        }
-                        $thisAttributeValues = $productAttributesAllValues->where('attribute_id',$productAttribute->attribute_id );
-                    @endphp
-                @endif
-
-
-                <div class="col-md-6 col-12 form-group">
-                    <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
-                            name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
-                            class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
-                                    is-invalid @enderror" multiple>
-                        @if(isset($edit) || isset($old))
-                            @foreach($thisAttributeValues as $attributeValue)
-                                <option value="{{$attributeValue->id}}"
-                                        @if(in_array($attributeValue->id,$selectedValues)) selected @endif>
-                                    {{$attributeValue->value}}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
-                    <span class="invalid-feedback" role="alert">
-                        @error("attributes[{{$loop->index}}][values]")
-                        <strong>{{ $message }}</strong>
-                        @enderror
-                    </span>
-                </div>
-
-
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
+
 </div>
+
 
 
 
