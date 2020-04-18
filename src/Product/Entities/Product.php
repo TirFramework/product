@@ -15,7 +15,7 @@ class Product extends CrudModel
 {
     //Additional trait insert here
     
-    use Translatable, SoftDeletes;
+    use Translatable, Sluggable, SoftDeletes;
 
 
     public static $routeName = 'product';
@@ -27,6 +27,7 @@ class Product extends CrudModel
      * @var array
      */
     protected $fillable = [
+        'name', 'description', 'short_description',
         'tax_class_id',
         'slug',
         'sku',
