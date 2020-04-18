@@ -37,6 +37,7 @@ class Product extends CrudModel
         'special_price_end',
         'manage_stock',
         'qty',
+        'image',
         'in_stock',
         'is_active',
         'new_from',
@@ -124,6 +125,11 @@ class Product extends CrudModel
                                 'name'      => 'slug',
                                 'type'      => 'text',
                                 'visible'   => 'ice',
+                            ],
+                            [
+                                'name'      => 'image',
+                                'type'      => 'image',
+                                'visible'   => 'ce',
                             ],
                             [
                                 'name'      => 'categories',
