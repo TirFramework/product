@@ -17,26 +17,18 @@ return [
     'basic_information'   => 'اطلاعات پایه',
     'general'             => 'عمومی',
     'advance_information' => 'اطلاعات تکمیلی',
-    'attributes' => 'ویژگی‌ها',
-    'options' => 'فیلد‌های انتخابی',
-    'inventory' => 'موجودی',
-    'new_product' => 'محصول جدید',
-
-    
-    'select' => 'انتخاب',
-
-    'action' => 'عملیات',
-
-
-
-    'manage_stock' => 'مدیریت انبار',
-    'qty' => 'QTY',
-
-
-    'in_stock' => 'در انبار',
-
-    'yes'             => 'بله',
-    'na'             => 'خیر',
+    'attributes'          => 'ویژگی‌ها',
+    'options'             => 'فیلد‌های انتخابی',
+    'inventory'           => 'موجودی',
+    'new_product'         => 'محصول جدید',
+    'select'              => 'انتخاب',
+    'action'              => 'عملیات',
+    'manage_stock'        => 'مدیریت انبار',
+    'qty'                 => 'QTY',
+    'in_stock'            => 'در انبار',
+    'yes'                 => 'بله',
+    'no'                  => 'خیر',
+    'image'               => 'تصویر'
 
 
 ];
