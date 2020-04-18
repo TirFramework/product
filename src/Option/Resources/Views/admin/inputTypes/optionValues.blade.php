@@ -55,10 +55,12 @@ $optionValues = isset($option->{$field->name}) ? $option->{$field->name} : [] ; 
                         @enderror
                     </span>
                 </div>
+
+
                 <div class="col-md-4 col-xs-12 form-group">
                     <input type="text" id="price-label-{{$loop->index}}" id-template="price-label-xxx" required
                         name-template="values[xxx][price]" name="values[{{$loop->index}}][price]"
-                        value="{{ $optionValue->price }}" class="form-control @error(" values[{{$loop->index}}][price]")
+                        value="{{ $optionValue->price }}" class="form-control price @error(" values[{{$loop->index}}][price]")
                         is-invalid @enderror">
 
                     <span class="invalid-feedback" role="alert">
@@ -169,10 +171,11 @@ $optionValues = isset($option->{$field->name}) ? $option->{$field->name} : [] ; 
             });
 
 
-
-
-
+            
+            
             $('.cloning').append(newItem);
+            
+                        
             dataId++;
         }
 
@@ -184,7 +187,14 @@ $optionValues = isset($option->{$field->name}) ? $option->{$field->name} : [] ; 
 
         $('body').on( "click", 'a.plus', function () {
             addRow();
-            $(".select2").select2();
+            $(".select2").select2({
+                dir: $('body').attr('dir'),
+            });
+
+            $("#price-label-"+(dataId - 1)).each( function () {
+                priceInput(this);
+            });
+
 
         });
 

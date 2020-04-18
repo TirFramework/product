@@ -19,6 +19,8 @@ return [
     'new_attributeSet'      => 'دسته بندی ویژگی جدید',
     'main_info'             => 'اطلاعات اصلی',
 
+    'action' => 'عملیات',
+
     'attribute-information' => 'اطلاعات ویژگی',
     'basic-information' => 'اطلاعات پایه',
 
