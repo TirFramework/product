@@ -230,9 +230,10 @@
         }
 
 
+        //AJAX for get value
         $(".cloning").on('change', '.attributes', function () {
             var $this = $(this);
-            var selectedAttribute = $(this).children("option:selected").val();
+            var selectedAttribute = $(this).find(":selected").val();
 
             $.ajax({
                 url: "/admin/attribute/" + selectedAttribute + "/values/",
