@@ -10,6 +10,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/attribute/{id}/values', 'Tir\Store\Attribute\Controllers\AdminAttributeController@values');
 
         Route::resource('/attribute', 'Tir\Store\Attribute\Controllers\AdminAttributeController');
+
+        Route::post('/attributeValue', 'Tir\Store\Attribute\Controllers\AdminAttributeValueController@store');
     });
 
 });

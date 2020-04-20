@@ -10,13 +10,14 @@
         $old = old('attributes');
 
 
-        if( isset($item) || isset($old)){
-
-            if(isset($item)){
+        if( isset($item->attributes) || isset($old)){
+            if(isset($item->attributes)){
+                if(count($item->attributes) > 0){
                 $edit = true;
                 $product = $item;
                 //get product attributes
                 $productAttributes =  $product->attributes;
+                }
             }
 
             if($old){
@@ -96,9 +97,9 @@
 
 
                     <div class="col-md-6 col-12 form-group">
-                        <select id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
+                        <select disabled id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
                                 name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
-                                class="form-control values select2 @error(" attributes[{{$loop->index}}][values]")
+                                class="form-control values taggable select2 @error(" attributes[{{$loop->index}}][values]")
                                         is-invalid @enderror" multiple>
                             @if(isset($edit) || isset($old))
                                 @foreach($thisAttributeValues as $attributeValue)
@@ -128,147 +129,137 @@
 
 
 @push('firstScripts')
+<script>
+
+    let field = new additionalField('.cloning');
+
+    field.callback = function () {
+
+
+       $("#attributes-" + field.dataId + "-attribute_id").select2();
+
+        taggable();
+
+    };
+
+
+    //AJAX for get value
+    $(".cloning").on('change', '.attributes', function () {
+        var $this = $(this);
+        var selectedAttribute = $(this).find(":selected").val();
+
+        $.ajax({
+            url: "/admin/attribute/" + selectedAttribute + "/values/",
+            method: 'GET',
+            dataType: 'json',
+
+            success: function (values) {
+
+                var valuesSelect = $this.parents('.item').find('.values');
+
+                valuesSelect.attr('disabled',false)
+                valuesSelect.find('option').remove();
+
+                // create the option and append to Select2
+                $.each(values, function (id, value) {
+                    option = new Option(value.value, value.id, true, false);
+                    valuesSelect.append(option).trigger('change');
+                });
+
+                //manually trigger the `select2:select` event
+                valuesSelect.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: values
+                    }
+                });
+
+            }
+        });
+
+    });
+</script>
+@endpush
+
+@push('scripts')
     <script>
-        var $cloning,
-            $item,
-            templateHtml,
-            dataId;
 
-        function runCloning() {
-            $cloning = $('.cloning');
-            $item = $cloning.find('.item');
+        function taggable(){
 
-            $(".cloning").after(`<a class="plus btn"><i class="fas fa-plus"></i></a>`);
+            console.log('taggable');
+            $(".select2.taggable").select2({
+                tags: true,
+                createTag: function (params) {
+                    var term = $.trim(params.term);
 
-            dataId = $item.length - 1;
+                    if (term === '') {
+                        return null;
+                    }
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true // add additional parameters
+                    }
+                },
 
-
-            $item.each(function (index) {
-
-                templateHtml = $(this).html();
-
-                $(this).remove();
-                var newItem = $('<div class="item"></div>');
-
-                $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
-
-                $(newItem).find('[name]').each(function () {
-
-                    var nameTemplate = $(this).attr('name-template');
-                    $(this).removeAttr('name-template');
-                    newName = replaceAll(nameTemplate, 'xxx', dataId);
-                    $(this).attr('name', newName);
-
-
-                });
-
-
-                $(newItem).find('[id]').each(function () {
-
-                    var idTemplate = $(this).attr('id-template');
-                    $(this).removeAttr('id-template');
-                    idName = replaceAll(idTemplate, 'xxx', dataId);
-                    $(this).attr('id', idName);
-
-                });
-
-                $('.cloning').append(newItem);
-                dataId++;
             });
-        }
+            $('.select2.taggable').on('select2:select', function (e) {
+                var data = e.params.data;
+                var attributeId = $(this).parents('.item').find('.attributes').find(":selected").val();
+                var confirm = false;
 
 
-        runCloning();
+                if(data.newTag === true)
+                {
+                    Swal.fire({
+                        title: '@lang("$crud->name::panel.create_new_value")',
+                        text: '@lang("$crud->name::panel.do_want_to_create_new_value_for_this_attribute?")',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: '@lang("$crud->name::panel.cancel")',
+                        confirmButtonText: '@lang("$crud->name::panel.yes_do_it")'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: "/admin/attributeValue",
+                                type: 'post',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
 
-        function addRow() {
+                                data: {
+                                    requestType: 'ajax',
+                                    'value': data.text,
+                                    'attribute_id': attributeId,
+                                    'position': 0
+                                },
 
-            var newItem = $('<div class="item"></div>');
-            $(newItem).append(`<a class="remove-item btn"><i class="fas fa-times"></i></a> ${templateHtml} `);
+                                success: function (value) {
+                                    Swal.fire({
+                                        title: '@lang("$crud->name::panel.operation_was_successful")',
+                                        text: '@lang("$crud->name::panel.new_value_add_successfully")',
+                                        confirmButtonText: '@lang("$crud->name::panel.ok")',
+                                        confirmButtonColor: '#1ca700',
 
-            $(newItem).find('[name]').each(function () {
-                var nameTemplate = $(this).attr('name-template');
-                $(this).removeAttr('name-template');
-                newName = replaceAll(nameTemplate, 'xxx', dataId);
-                $(this).attr('name', newName);
-                $(this).val('');
-            });
+                                    });
+                                }
+                            });
 
-
-            $(newItem).find('[id]').each(function () {
-                var idTemplate = $(this).attr('id-template');
-                $(this).removeAttr('id-template');
-                idName = replaceAll(idTemplate, 'xxx', dataId);
-                $(this).attr('id', idName);
-            });
-
-
-            $('.cloning').append(newItem);
-            dataId++;
-        }
-
-
-        $('.cloning').on("click", 'a.remove-item', function (e) {
-            e.preventDefault();
-            $(this).parents('.item').remove();
-        });
-
-        $('body').on("click", 'a.plus', function () {
-            addRow();
-            $(".select2").select2();
-
-        });
-
-
-        $(function () {
-            $(".sortable").sortable();
-            $(".sortable").disableSelection();
-        });
-
-
-        function replaceAll(str, find, replace) {
-            return str.replace(new RegExp(find, 'g'), replace);
-        }
-
-
-        //AJAX for get value
-        $(".cloning").on('change', '.attributes', function () {
-            var $this = $(this);
-            var selectedAttribute = $(this).find(":selected").val();
-
-            $.ajax({
-                url: "/admin/attribute/" + selectedAttribute + "/values/",
-                method: 'GET',
-                dataType: 'json',
-
-                success: function (values) {
-                    //console.log(data);
-                    //$('#city').html(data.html);
-                    // console.log("data.value", data[0].value)
-
-
-                    var valuesSelect = $this.parents('.item').find('.values');
-                    valuesSelect.find('option').remove();
-                    // create the option and append to Select2
-                    $.each(values, function (id, value) {
-                        option = new Option(value.value, value.id, true, false);
-                        valuesSelect.append(option).trigger('change');
-                    });
-
-                    //manually trigger the `select2:select` event
-                    valuesSelect.trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: values
                         }
                     });
+
+
+
 
                 }
             });
 
-        });
+        }
+
+        taggable();
+
     </script>
+
 @endpush
-
-
-
-

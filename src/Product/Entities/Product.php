@@ -2,10 +2,10 @@
 
 namespace Tir\Store\Product\Entities;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
-use Tir\Crud\Support\Eloquent\Sluggable;
 use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Category\Entities\Category;
 use Tir\Store\Option\Entities\OptionValue;
@@ -15,7 +15,7 @@ class Product extends CrudModel
 {
     //Additional trait insert here
     
-    use Translatable, Sluggable, SoftDeletes;
+    use Translatable, Sluggable;
 
 
     public static $routeName = 'product';
@@ -79,7 +79,7 @@ class Product extends CrudModel
         return [
             'name' => 'required',
             'categories' => 'required',
-            'slug' => 'required',
+            'slug'  => "required|unique:products,slug,$this->id",
             'price' => 'required',
             'description'=>'required'
 
@@ -142,7 +142,7 @@ class Product extends CrudModel
                             [
                                 'name'      => 'is_active',
                                 'type'      => 'select',
-                                'data'      => ['0'=>'no','1'=>'yes'],
+                                'data'      => ['1'=>trans("product::panel.yes"),'0'=>trans("product::panel.no")],
                                 'visible'   => 'cef',
                             ],
                             [

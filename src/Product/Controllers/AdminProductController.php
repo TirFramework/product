@@ -21,7 +21,6 @@ class AdminProductController extends CrudController
     }
 
 
-
     /**
      * Delete all product attributes associated with the given product.
      *

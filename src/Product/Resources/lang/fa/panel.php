@@ -28,7 +28,17 @@ return [
     'in_stock'            => 'در انبار',
     'yes'                 => 'بله',
     'no'                  => 'خیر',
-    'image'               => 'تصویر'
+    'image'               => 'تصویر',
+
+    'attribute-information'                           => 'اطلاعات ویژگی',
+    'basic-information'                               => 'اطلاعات پایه',
+    'create_new_value'                                => 'افزودن مقدار جدید',
+    'do_want_to_create_new_value_for_this_attribute?' => 'آیا‌ می‌خواهید مقدار جدیدی برای این ویژگی اضافه کنید ؟',
+    'yes_do_it'                                       => 'بله انجام بده',
+    'cancel'                                          => 'لغو',
+    'ok'    => 'بسیار خوب !',
+    'operation_was_successful' => 'عملیات موفق !',
+    'new_value_add_successfully'    => 'مقدار جدید با موفقیت افزوده شد.'
 
 
 ];

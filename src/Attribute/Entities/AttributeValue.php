@@ -16,7 +16,7 @@ class AttributeValue extends CrudModel
 
     protected $with = ['translations'];
 
-    protected $fillable = ['value','position'];
+    protected $fillable = ['value','position','attribute_id'];
 
     public $translatedAttributes = ['value'];
 
