@@ -64,7 +64,6 @@ class AttributeSet extends CrudModel
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
-                                'translation'   => true,
                                 'visible'   => 'icef',
                             ]
                         ]

@@ -71,8 +71,7 @@ class Option extends CrudModel
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
-                                'translation'   => true,
-                                'visible'   => 'icef',
+                                'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'type',
@@ -98,7 +97,6 @@ class Option extends CrudModel
                         'fields'   => [
                             [
                                 'name'      => 'values',
-                                'relation'  => 'values',
                                 'type'      => 'optionValues',
                                 'visible'   => 'ce',
                             ]

@@ -97,7 +97,7 @@
 
 
                     <div class="col-md-6 col-12 form-group">
-                        <select disabled id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
+                        <select @if(!isset($edit)) disabled @endif id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
                                 name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
                                 class="form-control values taggable select2 @error(" attributes[{{$loop->index}}][values]")
                                         is-invalid @enderror" multiple>

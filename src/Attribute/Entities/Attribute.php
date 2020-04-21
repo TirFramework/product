@@ -68,16 +68,14 @@ class Attribute extends CrudModel
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
-                                'translation'   => true,
                                 'visible'   => 'icef',
                             ],
                             [
                                 'name'      => 'attribute_set_id',
                                 'display'   => 'attribute_set',
-                                'relation'  => 'attributeSet',
                                 'type'      => 'relation',
-                                'data'      => [AttributeSet::class, 'name'],
-                                'visible'   => 'cef',
+                                'relation'  => ['attribute_set', 'name'],
+                                'visible'   => 'icef',
                             ],
                             [
                                 'name'      => 'is_filterable',
@@ -88,9 +86,7 @@ class Attribute extends CrudModel
                             [
                                 'name'      => 'categories',
                                 'type'      => 'relationM',
-                                'relation'  => 'categories',
-                                'data'      => [Category::Class,'name'],
-                                'translation'   => true,
+                                'relation'  => ['categories', 'name'],
                                 'visible'   => 'cef',
                             ]
 
@@ -103,7 +99,6 @@ class Attribute extends CrudModel
                         'fields'  => [
                             [
                                 'name'      => 'values',
-                                'relation'  => 'values',
                                 'type'      => 'attributeValues',
                                 'visible'   => 'ce',
                             ]
@@ -126,6 +121,11 @@ class Attribute extends CrudModel
     public function categories()
     {
         return $this->belongsToMany(Category::class)->orderBy('position');
+    }
+
+    public function attribute_set()
+    {
+        return $this->belongsTo(AttributeSet::class);
     }
 
 

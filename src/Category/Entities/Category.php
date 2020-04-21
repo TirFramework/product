@@ -5,6 +5,7 @@ namespace Tir\Store\Category\Entities;
 use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Tir\Crud\Support\Eloquent\CrudModel;
+use Tir\Store\Product\Entities\Product;
 
 class Category extends CrudModel
 {
@@ -29,6 +30,9 @@ class Category extends CrudModel
    protected $fillable = ['name','parent_id', 'slug', 'position', 'is_searchable', 'is_active'];
 
    public $translatedAttributes = ['name'];
+
+   public $with = ['translations'];
+
 
     public function sluggable()
     {
@@ -69,7 +73,6 @@ class Category extends CrudModel
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
-                                'translation'   => true,
                                 'visible'   => 'icef',
                             ],
                             [
@@ -85,9 +88,8 @@ class Category extends CrudModel
                             [
                                 'name'      => 'parent_id',
                                 'display'   => 'parent',
-                                'relation'  => 'parent',
                                 'type'      => 'relation',
-                                'data'      => [Category::class, 'name'],
+                                'relation'  => ['parent','name'],
                                 'visible'   => 'sce',
                             ],
                             [
@@ -128,6 +130,11 @@ class Category extends CrudModel
     public function categories()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,'product_category');
     }
 
 }
