@@ -45,6 +45,7 @@ class StoreServiceProvider extends ServiceProvider
 
         //Product module
         $this->loadRoutesFrom(__DIR__.'/Product/Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__.'/Product/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ .'/Product/Database/Migrations');
         $this->loadTranslationsFrom(__DIR__.'/Product/Resources/Lang/', 'product');
         $this->loadViewsFrom(__DIR__.'/Product/Resources/Views/', 'product');

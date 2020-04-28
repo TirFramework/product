@@ -4,14 +4,17 @@ namespace Tir\Store\Category\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\Cache;
 use Tir\Crud\Support\Eloquent\CrudModel;
+use Tir\Crud\Support\Facades\Crud;
 use Tir\Store\Product\Entities\Product;
+use TypiCMS\NestableTrait;
 
 class Category extends CrudModel
 {
     //Additional trait insert here
 
-    use Translatable;
+    use Translatable, NestableTrait;
     // use Sluggable;
 
 
@@ -122,6 +125,9 @@ class Category extends CrudModel
 
 
 
+
+    //relations ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
@@ -137,4 +143,45 @@ class Category extends CrudModel
         return $this->belongsToMany(Product::class,'product_category');
     }
 
+    //functions ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get searchable categoires.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function searchable()
+    {
+        return Cache::tags(['categories'])->rememberForever('categories.searchable:' . Crud::locale(), function () {
+            return static::where('is_searchable', true)->get();
+        });
+    }
+
+    /**
+     * Returns the public url for the category.
+     *
+     * @return string
+     */
+    public function url()
+    {
+        return route('products.index', ['category' => $this->slug]);
+    }
+
+    public static function tree()
+    {
+        return Cache::tags(['categories'])->rememberForever('categories.tree:' . Crud::locale(), function () {
+            return static::orderByRaw('-position DESC')->get()->nest();
+        });
+    }
+
+    public static function treeList()
+    {
+        return Cache::tags(['categories'])->rememberForever('categories.tree_list:' . Crud::locale(), function () {
+            return static::orderByRaw('-position DESC')
+                ->get()
+                ->nest()
+                ->setIndent('¦–– ')
+                ->listsFlattened('name');
+        });
+    }
 }
