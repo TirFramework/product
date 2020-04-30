@@ -1,7 +1,6 @@
 @php
     use Illuminate\Support\Arr;
     use Tir\Store\Attribute\Entities\AttributeSet;
-
        //generate empty object for handel create page
         $productAttributes = (object)[null];
 
@@ -202,15 +201,23 @@
                     }
                 },
 
+                insertTag: function (data, tag) {
+                    // Insert the tag at the end of the results
+                    data.push(tag);
+                }
+
             });
             $('.select2.taggable').on('select2:select', function (e) {
                 var data = e.params.data;
                 var attributeId = $(this).parents('.item').find('.attributes').find(":selected").val();
                 var confirm = false;
+                var newValue = null;
+                var $thisSelect = $(this);
 
 
                 if(data.newTag === true)
                 {
+                    newValue = data.id;
                     Swal.fire({
                         title: '@lang("$crud->name::panel.create_new_value")',
                         text: '@lang("$crud->name::panel.do_want_to_create_new_value_for_this_attribute?")',
@@ -236,7 +243,10 @@
                                     'position': 0
                                 },
 
-                                success: function (value) {
+                                success: function (data) {
+                                    console.log(newValue);
+                                    $thisSelect.find('[value="'+ newValue +'"]').val(data.item.id);
+
                                     Swal.fire({
                                         title: '@lang("$crud->name::panel.operation_was_successful")',
                                         text: '@lang("$crud->name::panel.new_value_add_successfully")',

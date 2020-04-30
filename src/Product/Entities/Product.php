@@ -8,14 +8,15 @@ use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
 use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Category\Entities\Category;
-use Tir\Store\Option\Entities\OptionValue;
+use Tir\Store\Option\Entities\Option;
+use Tir\Store\Product\Support\Price;
 
 
 class Product extends CrudModel
 {
     //Additional trait insert here
 
-    use Translatable, Sluggable;
+    use Translatable, Sluggable, softDeletes;
 
 
     public static $routeName = 'product';
@@ -114,10 +115,10 @@ class Product extends CrudModel
                                 'visible' => 'io',
                             ],
                             [
-                                'name'        => 'name',
-                                'type'        => 'text',
-                                'validation'  => 'required',
-                                'visible'     => 'ice',
+                                'name'       => 'name',
+                                'type'       => 'text',
+                                'validation' => 'required',
+                                'visible'    => 'ice',
                             ],
                             [
                                 'name'    => 'slug',
@@ -129,11 +130,12 @@ class Product extends CrudModel
                                 'type'    => 'image',
                                 'visible' => 'ce',
                             ],
+
                             [
-                                'name'        => 'categories',
-                                'type'        => 'relationM',
-                                'relation'    => ['categories','name'],
-                                'visible'     => 'ice',
+                                'name'     => 'categories',
+                                'type'     => 'relationM',
+                                'relation' => ['categories', 'name'],
+                                'visible'  => 'ice',
                             ],
                             [
                                 'name'    => 'is_active',
@@ -142,11 +144,11 @@ class Product extends CrudModel
                                 'visible' => 'cef',
                             ],
                             [
-                                'name'        => 'description',
-                                'type'        => 'textEditor',
-                                'validation'  => 'required',
-                                'col'         => 'col-md-12',
-                                'visible'     => 'ce',
+                                'name'       => 'description',
+                                'type'       => 'textEditor',
+                                'validation' => 'required',
+                                'col'        => 'col-md-12',
+                                'visible'    => 'ce',
                             ],
                             [
                                 'name'    => 'sku',
@@ -154,6 +156,18 @@ class Product extends CrudModel
                                 'type'    => 'text',
                                 'visible' => 'ce',
                             ],
+                        ]
+                    ],
+                    [
+                        'name'    => 'images',
+                        'type'    => 'tab',
+                        'visible' => 'ice',
+                        'fields'  => [
+                            [
+                                'name' => 'images',
+                                'type' => 'images',
+                                'visible' => 'ce'
+                            ]
                         ]
                     ],
                     [
@@ -242,6 +256,229 @@ class Product extends CrudModel
         return json_decode(json_encode($fields));
     }
 
+    //Additional methods //////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Scopes
+    public function scopeForCard($query)
+    {
+        $query->withName()
+//            ->withBaseImage()
+            ->withPrice()
+            ->withCount('options')
+            ->addSelect([
+                'image',
+                'products.id',
+                'slug',
+                'in_stock',
+                'new_from',
+                'new_to',
+            ]);
+    }
+
+    public function scopeWithName($query)
+    {
+        $query->with('translations:id,product_id,locale,name');
+    }
+
+    public function scopeWithBaseImage($query)
+    {
+        $query->with(['files' => function ($q) {
+            $q->wherePivot('zone', 'base_image');
+        }]);
+    }
+
+    public function scopeWithPrice($query)
+    {
+        $query->addSelect([
+            'price',
+            'special_price',
+            'selling_price',
+            'special_price_start',
+            'special_price_end',
+        ]);
+    }
+
+    //Additional helper methods ///////////////////////////////////////////////////////////////////////////////////////
+
+    public static function findBySlug($slug)
+    {
+        return static::with([
+            'attributes.attribute.attribute_set','additionalImages',
+        ])->where('slug', $slug)->firstOrFail();
+    }
+
+    //Attributes
+    public function hasAnyAttribute()
+    {
+        return $this->getAttribute('attributes')->isNotEmpty();
+    }
+
+    public function hasAttribute($attribute)
+    {
+        return $this->getAttribute('attributes')->contains('name', $attribute->name);
+    }
+
+    public function attributeValues($attribute)
+    {
+        return $this->getAttribute('attributes')
+            ->where('name', $attribute->name)
+            ->first()
+            ->values
+            ->implode('value', ', ');
+    }
+
+    public function options()
+    {
+        return $this->belongsToMany(Option::class, 'product_options')
+            ->orderBy('position')
+            ->withTrashed();
+    }
+
+    public function isOutOfStock()
+    {
+        return !$this->isInStock();
+    }
+
+    public function isInStock()
+    {
+        return $this->in_stock;
+    }
+
+
+    //isNew & related private method
+    public function isNew()
+    {
+        if ($this->hasNewFromDate() && $this->hasNewToDate()) {
+            return $this->newFromDateIsValid() && $this->newToDateIsValid();
+        }
+
+        if ($this->hasNewFromDate()) {
+            return $this->newFromDateIsValid();
+        }
+
+        if ($this->hasNewToDate()) {
+            return $this->newToDateIsValid();
+        }
+
+        return false;
+    }
+
+    private function hasNewFromDate()
+    {
+        return !is_null($this->new_from);
+    }
+
+    private function hasNewToDate()
+    {
+        return !is_null($this->new_to);
+    }
+
+    private function newFromDateIsValid()
+    {
+        return today() >= $this->new_from;
+    }
+
+    private function newToDateIsValid()
+    {
+        return today() <= $this->new_to;
+    }
+
+    //SpecialPrice & related private method
+
+    public function hasSpecialPrice()
+    {
+        if (is_null($this->special_price)) {
+            return false;
+        }
+
+        if ($this->hasSpecialPriceStartDate() && $this->hasSpecialPriceEndDate()) {
+            return $this->specialPriceStartDateIsValid() && $this->specialPriceEndDateIsValid();
+        }
+
+        if ($this->hasSpecialPriceStartDate()) {
+            return $this->specialPriceStartDateIsValid();
+        }
+
+        if ($this->hasSpecialPriceEndDate()) {
+            return $this->specialPriceEndDateIsValid();
+        }
+
+        return true;
+    }
+
+    private function hasSpecialPriceStartDate()
+    {
+        return !is_null($this->special_price_start);
+    }
+
+    private function hasSpecialPriceEndDate()
+    {
+        return !is_null($this->special_price_end);
+    }
+
+    private function specialPriceStartDateIsValid()
+    {
+        return today() >= $this->special_price_start;
+    }
+
+    private function specialPriceEndDateIsValid()
+    {
+        return today() <= $this->special_price_end;
+    }
+    //Mutators & Accessors ////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the selling price of the product.
+     *
+     * @return int
+     */
+    public function getSellingPrice()
+    {
+        if ($this->hasSpecialPrice()) {
+            return $this->special_price->amount();
+        }
+
+        return $this->price->amount();
+    }
+
+    public function getPriceAttribute($price)
+    {
+        return $price;
+    }
+
+    public function getSpecialPriceAttribute($specialPrice)
+    {
+        if (!is_null($specialPrice)) {
+            //return Money::inDefaultCurrency($specialPrice);
+            return $specialPrice;
+        }
+    }
+
+    public function getSellingPriceAttribute($sellingPrice)
+    {
+        //return Money::inDefaultCurrency($sellingPrice);
+        return $sellingPrice;
+    }
+
+    public function getTotalAttribute($total)
+    {
+//        return Money::inDefaultCurrency($total);
+        return $total;
+    }
+
+
+    public function getAttributeSetsAttribute()
+    {
+        return $this->getAttribute('attributes')->groupBy('attribute_set');
+    }
+
+    //Relations ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function additionalImages()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_category')->orderBy('position');
@@ -250,11 +487,6 @@ class Product extends CrudModel
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
-    }
-
-    public function getPriceAttribute($value)
-    {
-        return floor($value);
     }
 
 

@@ -5,7 +5,7 @@ namespace Tir\Store\Attribute\Controllers;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Tir\Crud\Controllers\CrudController;
-use Tir\Crud\Support\Helpers\CrudHelper;
+use Tir\Crud\Support\Facades\Crud;
 use Tir\Store\Attribute\Entities\Attribute;
 
 
@@ -32,7 +32,7 @@ class AdminAttributeController extends CrudController
             $item->values()->whereIn('id', $ids)->delete();
         }
 
-        foreach (CrudHelper::array_reset_index($values) as $index => $value) {
+        foreach (Crud::array_reset_index($values) as $index => $value) {
             $item->values()->updateOrCreate(
                 ['id' => $value['id']],
                 $value + ['position' => $index]

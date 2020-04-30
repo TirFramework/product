@@ -43,7 +43,7 @@ class ProductAttribute extends CrudModel
 
     public function getAttributeSetAttribute()
     {
-        return $this->attribute->attributeSet->name;
+        return $this->attribute->attribute_set->name;
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Tir\Store\Option\Entities;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
 use Tir\Store\Attribute\Entities\AttributeSet;
@@ -12,7 +13,7 @@ class Option extends CrudModel
 {
     //Additional trait insert here
     
-    use Translatable;
+    use Translatable, softDeletes;
 
 
     public static $routeName = 'option';
