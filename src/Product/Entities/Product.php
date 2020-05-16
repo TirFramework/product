@@ -10,6 +10,7 @@ use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Category\Entities\Category;
 use Tir\Store\Option\Entities\Option;
 use Tir\Store\Product\Support\Price;
+use Tir\Store\Review\Entities\Review;
 
 
 class Product extends CrudModel
@@ -425,6 +426,31 @@ class Product extends CrudModel
     {
         return today() <= $this->special_price_end;
     }
+
+    //Reviews
+    public function avgRating()
+    {
+        return ceil($this->reviews->avg->rating * 2) / 2;
+    }
+
+    public function totalReviewsForRating($rating)
+    {
+        return $this->reviews->where('rating', $rating)->count();
+    }
+
+    public function percentageReviewsForStar($rating)
+    {
+        $totalReviews = $this->reviews->count();
+
+        if ($totalReviews === 0) {
+            return 0;
+        }
+
+        $reviewsCount = $this->totalReviewsForRating($rating);
+
+        return round($reviewsCount / $totalReviews * 100);
+    }
+
     //Mutators & Accessors ////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -487,6 +513,11 @@ class Product extends CrudModel
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
 

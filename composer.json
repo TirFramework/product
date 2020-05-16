@@ -24,6 +24,9 @@
             "providers": [
                 "Tir\\Store\\StoreServiceProvider"
             ],
+            "aliases": {
+                "Rviw": "Tir\\Store\\Review\\Facades\\Rviw"
+            }
         }
     }
 }
