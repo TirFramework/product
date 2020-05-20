@@ -3,7 +3,7 @@
 namespace Tir\Store\Attribute\Entities;
 
 use Tir\Crud\Support\Eloquent\CrudModel;
-use Astrotomic\Translatable\Translatable;
+use Tir\Crud\Support\Eloquent\Translatable;
 
 class AttributeValue extends CrudModel 
 {

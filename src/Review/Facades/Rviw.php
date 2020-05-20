@@ -12,6 +12,9 @@ class Rviw
      */
     public static function form_has_error($errors)
     {
-        return $errors->has('rating') || $errors->has('reviewer_name') || $errors->has('comment');
+        return $errors->has('rating') ||
+               $errors->has('reviewer_name') ||
+               $errors->has('comment') ||
+               $errors->has('captcha');
     }
 }

@@ -157,6 +157,11 @@ class Category extends CrudModel
         });
     }
 
+    public function isRoot()
+    {
+        return $this->exists && is_null($this->parent_id);
+    }
+
     /**
      * Returns the public url for the category.
      *

@@ -2,8 +2,8 @@
 
 namespace Tir\Store\Attribute\Entities;
 
-use Astrotomic\Translatable\Translatable;
 use Tir\Crud\Support\Eloquent\CrudModel;
+use Tir\Crud\Support\Eloquent\Translatable;
 use Tir\Store\Category\Entities\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

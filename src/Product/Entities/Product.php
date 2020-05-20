@@ -11,13 +11,14 @@ use Tir\Store\Category\Entities\Category;
 use Tir\Store\Option\Entities\Option;
 use Tir\Store\Product\Support\Price;
 use Tir\Store\Review\Entities\Review;
+use Tir\Store\Search\Searchable;
 
 
 class Product extends CrudModel
 {
     //Additional trait insert here
 
-    use Translatable, Sluggable, softDeletes;
+    use Translatable, Sluggable, softDeletes, Searchable;
 
 
     public static $routeName = 'product';
@@ -73,6 +74,29 @@ class Product extends CrudModel
     ];
 
     public $translatedAttributes = ['name', 'description', 'short_description'];
+
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($product) {
+            $product->selling_price = $product->getSellingPrice();
+        });
+
+//        static::saved(function ($product) {
+//            if (! empty(request()->all())) {
+//                $product->saveRelations(request()->all());
+//            }
+//        });
+
+//        static::addActiveGlobalScope();
+    }
 
 
     public function getValidation()
@@ -451,6 +475,13 @@ class Product extends CrudModel
         return round($reviewsCount / $totalReviews * 100);
     }
 
+
+    public function filter($filter)
+    {
+        return $filter->apply($this);
+    }
+
+
     //Mutators & Accessors ////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -461,10 +492,10 @@ class Product extends CrudModel
     public function getSellingPrice()
     {
         if ($this->hasSpecialPrice()) {
-            return $this->special_price->amount();
+            return $this->special_price;
         }
 
-        return $this->price->amount();
+        return $this->price;
     }
 
     public function getPriceAttribute($price)
@@ -496,6 +527,41 @@ class Product extends CrudModel
     public function getAttributeSetsAttribute()
     {
         return $this->getAttribute('attributes')->groupBy('attribute_set');
+    }
+
+    //Search //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Get the indexable data array for the product.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        // MySQL Full-Text search handles indexing automatically.
+        if (config('scout.driver') === 'mysql') {
+            return [];
+        }
+
+        $translations = $this->translations()
+            ->withoutGlobalScope('locale')
+            ->get(['name', 'description', 'short_description']);
+
+        return ['id' => $this->id, 'translations' => $translations];
+    }
+
+    public function searchTable()
+    {
+        return 'product_translations';
+    }
+
+    public function searchKey()
+    {
+        return 'product_id';
+    }
+
+    public function searchColumns()
+    {
+        return ['name'];
     }
 
     //Relations ///////////////////////////////////////////////////////////////////////////////////////////////////////

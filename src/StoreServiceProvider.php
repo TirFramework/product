@@ -5,6 +5,8 @@ namespace Tir\Store;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
+use Tir\Store\Search\MySqlSearchEngine;
 
 class StoreServiceProvider extends ServiceProvider
 {
@@ -26,17 +28,19 @@ class StoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Category module
-            $this->loadRoutesFrom(__DIR__.'/Category/Routes/admin.php');
-            $this->loadMigrationsFrom(__DIR__ .'/Category/Database/Migrations');
-            $this->loadTranslationsFrom(__DIR__.'/Category/Resources/Lang/', 'category');
 
-        //Attribute module
-            $this->loadRoutesFrom(__DIR__.'/Attribute/Routes/admin.php');
-            $this->loadMigrationsFrom(__DIR__ .'/Attribute/Database/Migrations');
-            $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attribute');
-            $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attributeSet');
-            $this->loadViewsFrom(__DIR__.'/Attribute/Resources/Views/', 'attribute');
+
+    //Category module
+        $this->loadRoutesFrom(__DIR__.'/Category/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ .'/Category/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__.'/Category/Resources/Lang/', 'category');
+
+    //Attribute module
+        $this->loadRoutesFrom(__DIR__.'/Attribute/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ .'/Attribute/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attribute');
+        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attributeSet');
+        $this->loadViewsFrom(__DIR__.'/Attribute/Resources/Views/', 'attribute');
 
         //Option module
         $this->loadRoutesFrom(__DIR__.'/Option/Routes/admin.php');
@@ -57,6 +61,17 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ .'/Review/Database/Migrations');
         $this->loadTranslationsFrom(__DIR__.'/Review/Resources/Lang/', 'review');
         $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
+
+        //Register Search Engine
+        $this->registerMysqlSearchEngine();
+    }
+
+
+    private function registerMysqlSearchEngine()
+    {
+        $this->app[EngineManager::class]->extend('mysql', function () {
+            return new MySqlSearchEngine;
+        });
 
     }
 
