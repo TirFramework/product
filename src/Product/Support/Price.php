@@ -8,17 +8,17 @@ use Illuminate\Support\HtmlString;
 
 class Price
 {
-
-    public static $currency = '$';
+    //TODO: chenge currency system
+    public static $currency = 'تومان';
 
     public static function render($product, $class = 'previous-price')
     {
         if (! $product->hasSpecialPrice()) {
-            return self::$currency.floor($product->price);
+            return floor($product->price).self::$currency;
         }
 
         $price = floor($product->price);
-        $specialPrice = self::$currency.floor($product->special_price);
+        $specialPrice = floor($product->special_price).self::$currency;
 
         return new HtmlString("<span>{$specialPrice}</span> <span class='{$class}'>{$price}</span>");
     }
