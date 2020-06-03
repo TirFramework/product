@@ -10,7 +10,8 @@
     ],
     "require": {
         "tir/crud": "dev-master",
-        "tir/first-panel": "dev-master"
+        "tir/first-panel": "dev-master",
+        "darryldecode/cart": "^4.0"
     },
 
     "autoload": {
@@ -22,7 +23,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tir\\Store\\StoreServiceProvider"
+                "Tir\\Store\\StoreServiceProvider",
+                "Tir\\Store\\Cart\\CartServiceProvider"
             ],
             "aliases": {
                 "Rviw": "Tir\\Store\\Review\\Facades\\Rviw"

@@ -369,6 +369,20 @@ class Product extends CrudModel
         return $this->in_stock;
     }
 
+    public function outOfStock()
+    {
+        $this->update(['in_stock' => false]);
+    }
+
+    public function hasStockFor($qty)
+    {
+        if (! $this->manage_stock) {
+            return true;
+        }
+
+        return $this->qty >= $qty;
+    }
+
 
     //isNew & related private method
     public function isNew()
