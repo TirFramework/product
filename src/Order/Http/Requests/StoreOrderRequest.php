@@ -2,10 +2,11 @@
 
 namespace Tir\Store\Order\Http\Requests;
 
+use Illuminate\Http\Request;
 use Tir\Store\Support\Country;
 use Illuminate\Validation\Rule;
 use Tir\Store\Payment\Facades\Gateway;
-use Tir\Store\Core\Http\Requests\Request;
+//use Tir\Store\Core\Http\Requests\Request;
 use Tir\Store\Shipping\Facades\ShippingMethod;
 
 class StoreOrderRequest extends Request

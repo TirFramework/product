@@ -1,7 +1,8 @@
 <?php
 
-namespace Tir\Store\Payment\Providers;
+namespace Tir\Store\Payment;
 
+use Tir\Setting\Facades\Stg;
 use Tir\Store\Payment\Gateways\COD;
 use Tir\Store\Payment\Facades\Gateway;
 use Tir\Store\Payment\Gateways\Stripe;
@@ -34,11 +35,12 @@ class GatewayServiceProvider extends ServiceProvider
 
     private function enabled($paymentMethod)
     {
-        if (app('inBackend')) {
-            return true;
-        }
+//        Todo: check inBackend
+        //        if (app('inBackend')) {
+//            return true;
+//        }
 
-        return setting("{$paymentMethod}_enabled");
+        return Stg::get("{$paymentMethod}_enabled");
     }
 
     private function registerPayPalExpress()
@@ -57,9 +59,10 @@ class GatewayServiceProvider extends ServiceProvider
 
     private function registerInstamojo()
     {
-        if ((setting('instamojo_enabled') && currency() === 'INR') || app('inBackend')) {
-            Gateway::register('instamojo', new Instamojo);
-        }
+        //disable
+//        if ((Stg::get('instamojo_enabled') && currency() === 'INR') || app('inBackend')) {
+//            Gateway::register('instamojo', new Instamojo);
+//        }
     }
 
     private function registerCashOnDelivery()

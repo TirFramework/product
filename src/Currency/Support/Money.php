@@ -8,9 +8,10 @@ namespace Tir\Store\Currency\Support;
 //use Modules\Currency\Currency;
 //use Modules\Currency\Entities\CurrencyRate;
 
+use JsonSerializable;
 use Tir\Setting\Facades\Stg;
 
-class Money
+class Money implements JsonSerializable
 {
     private $amount;
     private $currency;
@@ -48,10 +49,8 @@ class Money
 
     public function add($addend)
     {
-        return $this->newInstance($this->amount);
-
-//        $addend = $this->convertToSameCurrency($addend);
-//        return $this->newInstance($this->amount + $addend->amount);
+        $addend = $this->convertToSameCurrency($addend);
+        return $this->newInstance($this->amount + $addend->amount);
     }
 
     public function subtract($subtrahend)
@@ -143,28 +142,28 @@ class Money
 
 
 
-//    public function convert($currency, $currencyRate = null)
-//    {
-//        $currencyRate = $currencyRate ?: CurrencyRate::for($currency);
-//
-//        if (is_null($currencyRate)) {
-//            throw new InvalidArgumentException("Cannot convert the money to currency [$currency].");
-//        }
-//
-//        return new self($this->amount * $currencyRate, $currency);
-//    }
-//
-//    public function round($precision = null, $mode = null)
-//    {
-//        if (is_null($precision)) {
-//            $precision = Currency::subunit($this->currency);
-//        }
-//
-//        $amount = round($this->amount, $precision, $mode);
-//
-//        return $this->newInstance($amount);
-//    }
-//
+    public function convert($currency, $currencyRate = null)
+    {
+        $currencyRate = $currencyRate ?: CurrencyRate::for($currency);
+
+        if (is_null($currencyRate)) {
+            throw new InvalidArgumentException("Cannot convert the money to currency [$currency].");
+        }
+
+        return new self($this->amount * $currencyRate, $currency);
+    }
+
+    public function round($precision = null, $mode = null)
+    {
+        if (is_null($precision)) {
+            $precision = Currency::subunit($this->currency);
+        }
+
+        $amount = round($this->amount, $precision, $mode);
+
+        return $this->newInstance($amount);
+    }
+
 
 
     public function format($currency = null, $locale = null)
@@ -188,18 +187,18 @@ class Money
 //
 //        return $amount;
     }
-//
-//    public function jsonSerialize()
-//    {
-//        return [
-//            'amount' => $this->amount,
-//            'formatted' => $this->format(),
-//            'currency' => $this->currency,
-//        ];
-//    }
-//
-//    public function __toString()
-//    {
-//        return (string) $this->amount;
-//    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'amount' => $this->amount,
+            'formatted' => $this->format(),
+            'currency' => $this->currency,
+        ];
+    }
+
+    public function __toString()
+    {
+        return (string) $this->amount;
+    }
 }

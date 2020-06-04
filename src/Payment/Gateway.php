@@ -2,7 +2,8 @@
 
 namespace Tir\Store\Payment;
 
-use Tir\Store\Support\Manager;
+
+use Tir\Crud\Support\Services\Manager;
 
 class Gateway extends Manager
 {

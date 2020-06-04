@@ -2,6 +2,7 @@
 
 namespace Tir\Store\Payment\Gateways;
 
+use Tir\Setting\Facades\Stg;
 use Tir\Store\Payment\NullResponse;
 
 class COD
@@ -11,8 +12,8 @@ class COD
 
     public function __construct()
     {
-        $this->label = setting('cod_label');
-        $this->description = setting('cod_description');
+        $this->label = Stg::get('cod_label');
+        $this->description = Stg::get('cod_description');
     }
 
     public function purchase()

@@ -3,9 +3,9 @@
 namespace Tir\Store\Checkout\Http\Controllers;
 
 use Exception;
-use Tir\Store\Support\Country;
+use Tir\Page\Entities\Page;
+use Tir\Setting\Facades\Stg;
 use Tir\Store\Cart\Facades\Cart;
-use Tir\Store\Page\Entities\Page;
 use Illuminate\Routing\Controller;
 use Tir\Store\Payment\Facades\Gateway;
 use Tir\Store\Checkout\Events\OrderPlaced;
@@ -22,7 +22,7 @@ class CheckoutController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['cart_not_empty', 'check_stock', 'check_coupon_usage_limit']);
+       // $this->middleware(['cart_not_empty', 'check_stock', 'check_coupon_usage_limit']);
     }
 
     /**
@@ -33,11 +33,12 @@ class CheckoutController extends Controller
     public function create()
     {
         $cart = Cart::instance();
-        $countries = Country::supported();
+//        $countries = Country::supported();
+        $countries = ['iran'=>'ایران'];
         $gateways = Gateway::all();
-        $termsPageURL = Page::urlForPage(setting('storefront_terms_page'));
+        $termsPageURL = Page::urlForPage(Stg::get('storefront_terms_page'));
 
-        return view('public.checkout.create', compact('cart', 'countries', 'gateways', 'termsPageURL'));
+        return view(config('crud.front-template').'::public.checkout.create', compact('cart', 'countries', 'gateways', 'termsPageURL'));
     }
 
     /**

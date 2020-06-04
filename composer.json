@@ -26,7 +26,10 @@
                 "Tir\\Store\\StoreServiceProvider",
                 "Tir\\Store\\Cart\\CartServiceProvider",
                 "Tir\\Store\\Shipping\\ShippingServiceProvider",
-                "Tir\\Store\\Coupon\\CouponServiceProvider"
+                "Tir\\Store\\Coupon\\CouponServiceProvider",
+                "Tir\\Store\\Tax\\TaxServiceProvider",
+                "Tir\\Store\\Checkout\\CheckoutServiceProvider",
+                "Tir\\Store\\Payment\\GatewayServiceProvider"
             ],
             "aliases": {
                 "Rviw": "Tir\\Store\\Review\\Facades\\Rviw"

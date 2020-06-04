@@ -393,12 +393,9 @@ class Cart extends DarryldecodeCart
 
     public function subTotal()
     {
-    //return $this->getSubTotal();
-     return Money::inDefaultCurrency($this->getSubTotal());
-     //return Money::inDefaultCurrency($this->getSubTotal())->add($this->optionsPrice());
+        return Money::inDefaultCurrency($this->getSubTotal())
+            ->add($this->optionsPrice());
     }
-
-
 
     private function optionsPrice()
     {
