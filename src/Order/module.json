@@ -1,0 +1,11 @@
+{
+    "name": "Order",
+    "alias": "order",
+    "description": "The FleetCart Order Module.",
+    "active": 1,
+    "order": 100,
+    "providers": [
+        "Tir\Store\\Order\\Providers\\OrderServiceProvider",
+        "Tir\Store\\Order\\Providers\\RouteServiceProvider"
+    ]
+}

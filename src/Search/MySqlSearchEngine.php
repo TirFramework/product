@@ -93,7 +93,7 @@ class MySqlSearchEngine extends Engine
     /**
      * Perform the given search on the engine.
      *
-     * @param \Modules\Support\Search\Builder $builder
+     * @param \Tir\Store\Support\Search\Builder $builder
      * @param int $perPage
      * @param int $page
      * @return mixed

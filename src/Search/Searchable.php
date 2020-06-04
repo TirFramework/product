@@ -15,7 +15,7 @@ trait Searchable
      *
      * @param string $query
      * @param Closure $callback
-     * @return \Modules\Support\Search\Builder
+     * @return \Tir\Store\Support\Search\Builder
      */
     public function search($query, $callback = null)
     {

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Tir\Store\Cart\Facades\Cart;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Controller;
-use Modules\Coupon\Checkers\MaximumSpend;
-use Modules\Coupon\Checkers\MinimumSpend;
+use Tir\Store\Coupon\Checkers\MaximumSpend;
+use Tir\Store\Coupon\Checkers\MinimumSpend;
 use Tir\Store\Cart\Http\Requests\StoreCartItemRequest;
-use Modules\Coupon\Exceptions\MaximumSpendException;
-use Modules\Coupon\Exceptions\MinimumSpendException;
+use Tir\Store\Coupon\Exceptions\MaximumSpendException;
+use Tir\Store\Coupon\Exceptions\MinimumSpendException;
 
 class CartItemController extends Controller
 {

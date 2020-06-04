@@ -5,7 +5,7 @@ namespace Tir\Store\Cart\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Tir\Store\Cart\Facades\Cart;
-use Modules\Coupon\Exceptions\CouponUsageLimitReachedException;
+use Tir\Store\Coupon\Exceptions\CouponUsageLimitReachedException;
 
 class CheckCouponUsageLimit
 {

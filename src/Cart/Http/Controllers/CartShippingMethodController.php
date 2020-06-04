@@ -4,7 +4,7 @@ namespace Tir\Store\Cart\Http\Controllers;
 
 use Tir\Store\Cart\Facades\Cart;
 use Illuminate\Routing\Controller;
-use Modules\Shipping\Facades\ShippingMethod;
+use Tir\Store\Shipping\Facades\ShippingMethod;
 
 class CartShippingMethodController extends Controller
 {

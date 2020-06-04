@@ -62,6 +62,14 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/Review/Resources/Lang/', 'review');
         $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
 
+
+        //checkout
+//        $this->loadRoutesFrom(__DIR__.'/Review/Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__.'/Checkout/Routes/public.php');
+//        $this->loadMigrationsFrom(__DIR__ .'/Review/Database/Migrations');
+//        $this->loadTranslationsFrom(__DIR__.'/Review/Resources/Lang/', 'review');
+//        $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
+
         //Register Search Engine
         $this->registerMysqlSearchEngine();
     }

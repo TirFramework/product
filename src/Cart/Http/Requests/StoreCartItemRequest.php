@@ -5,7 +5,7 @@ namespace Tir\Store\Cart\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Tir\Store\Product\Entities\Product;
-//use Modules\Core\Http\Requests\Request;
+//use Tir\Store\Core\Http\Requests\Request;
 
 class StoreCartItemRequest extends Request
 {
@@ -28,7 +28,7 @@ class StoreCartItemRequest extends Request
     /**
      * Get the max qty rule for the given product.
      *
-     * @param \Modules\Product\Entities\Product $product
+     * @param \Tir\Store\Product\Entities\Product $product
      * @return string|null
      */
     private function maxQty($product)
@@ -54,7 +54,7 @@ class StoreCartItemRequest extends Request
     /**
      * Get rules for the given option.
      *
-     * @param \Modules\Option\Entities\Option $option
+     * @param \Tir\Store\Option\Entities\Option $option
      * @return array
      */
     private function getOptionRules($option)

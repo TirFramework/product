@@ -1,8 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-use Modules\Option\Entities\Option;
-use Modules\Option\Entities\OptionValue;
+use Tir\Store\Option\Entities\Option;
+use Tir\Store\Option\Entities\OptionValue;
 
 $factory->define(OptionValue::class, function (Faker $faker) {
     return [

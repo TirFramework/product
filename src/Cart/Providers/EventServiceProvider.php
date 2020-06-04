@@ -12,7 +12,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \Modules\Checkout\Events\OrderPlaced::class => [
+        \Tir\Store\Checkout\Events\OrderPlaced::class => [
             \Tir\Store\Cart\Listeners\ClearCart::class,
         ],
     ];

@@ -8,10 +8,12 @@ use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
 use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Category\Entities\Category;
+use Tir\Store\Currency\Support\Money;
 use Tir\Store\Option\Entities\Option;
 use Tir\Store\Product\Support\Price;
 use Tir\Store\Review\Entities\Review;
 use Tir\Store\Search\Searchable;
+use Tir\Store\Tax\Entities\TaxClass;
 
 
 class Product extends CrudModel
@@ -509,32 +511,29 @@ class Product extends CrudModel
             return $this->special_price;
         }
 
-        return $this->price;
+        return $this->price->amount();
     }
 
     public function getPriceAttribute($price)
     {
-        return $price;
+        return Money::inDefaultCurrency($price);
     }
 
     public function getSpecialPriceAttribute($specialPrice)
     {
         if (!is_null($specialPrice)) {
-            //return Money::inDefaultCurrency($specialPrice);
-            return $specialPrice;
+            return Money::inDefaultCurrency($specialPrice);
         }
     }
 
     public function getSellingPriceAttribute($sellingPrice)
     {
-        //return Money::inDefaultCurrency($sellingPrice);
-        return $sellingPrice;
+        return Money::inDefaultCurrency($sellingPrice);
     }
 
     public function getTotalAttribute($total)
     {
-//        return Money::inDefaultCurrency($total);
-        return $total;
+        return Money::inDefaultCurrency($total);
     }
 
 
@@ -600,5 +599,9 @@ class Product extends CrudModel
         return $this->hasMany(Review::class);
     }
 
+    public function taxClass()
+    {
+        return $this->belongsTo(TaxClass::class)->withDefault();
+    }
 
 }

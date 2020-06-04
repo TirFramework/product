@@ -42,7 +42,7 @@ class ProductController extends Controller
         $query = $model->filter($productFilter);
 
         if (request()->has('category')) {
-            //TODO: Check resetOrders Macro in  Modules\Support\Providers\EloquentMacroServiceProvider
+            //TODO: Check resetOrders Macro in  Tir\Store\Support\Providers\EloquentMacroServiceProvider
             //$productIds = (clone $query)->select('products.id')->resetOrders()->pluck('id');
 
             $productIds = (clone $query)->select('products.id')->resetOrders()->pluck('id');
@@ -86,7 +86,7 @@ class ProductController extends Controller
     /**
      * Get reviews for the given product.
      *
-     * @param \Modules\Product\Entities\Product $product
+     * @param \Tir\Store\Product\Entities\Product $product
      * @return \Illuminate\Support\Collection
      */
     private function getReviews($product)

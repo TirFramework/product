@@ -2,16 +2,18 @@
 
 namespace Tir\Store\Cart\Services;
 
-use Modules\Support\Money;
-use Modules\Tax\Entities\TaxRate;
-use Illuminate\Support\Collection;
-use Modules\Coupon\Entities\Coupon;
-use Modules\Shipping\Facades\ShippingMethod;
+use Tir\Store\Cart\CartCondition;
+use Tir\Store\Cart\CartShippingMethod;
+use Tir\Store\Cart\NullCartCoupon;
+use Tir\Store\Cart\NullCartShippingMethod;
+use Tir\Store\Coupon\Entities\Coupon;
+use Tir\Store\Currency\Support\Money;
 use Darryldecode\Cart\Cart as DarryldecodeCart;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Tir\Store\Cart\CartItem;
-use Tir\Store\Cart\NullCartCoupon;
 use Tir\Store\Product\Entities\Product;
+use Tir\Store\Shipping\Facades\ShippingMethod;
+
 
 class Cart extends DarryldecodeCart
 {
@@ -75,15 +77,13 @@ class Cart extends DarryldecodeCart
      */
     public function store($productId, $qty, $options = [])
     {
-//        $product = Product::with('files', 'categories', 'taxClass')->findOrFail($productId);
-        $product = Product::with('categories')->findOrFail($productId);
+        $product = Product::with('categories', 'taxClass')->findOrFail($productId);
         $options = array_filter($options);
 
         return $this->add([
             'id' => "product_id.{$product->id}:options." . serialize($options),
             'name' => $product->name,
-//            'price' => $product->selling_price->amount(),
-            'price' => $product->selling_price,
+            'price' => $product->selling_price->amount(),
             'quantity' => $qty,
             'attributes' => [
                 'product' => $product,
@@ -318,7 +318,7 @@ class Cart extends DarryldecodeCart
     public function taxes()
     {
         if (! $this->hasTax()) {
-            return new Collection;
+            return new EloquentCollection;
         }
 
         if (! is_null($this->taxes)) {
@@ -393,11 +393,12 @@ class Cart extends DarryldecodeCart
 
     public function subTotal()
     {
-        return $this->getSubTotal();
-//
-//        return Money::inDefaultCurrency($this->getSubTotal())
-//            ->add($this->optionsPrice());
+    //return $this->getSubTotal();
+     return Money::inDefaultCurrency($this->getSubTotal());
+     //return Money::inDefaultCurrency($this->getSubTotal())->add($this->optionsPrice());
     }
+
+
 
     private function optionsPrice()
     {
@@ -413,11 +414,10 @@ class Cart extends DarryldecodeCart
 
     public function total()
     {
-        return $this->subTotal();
 
-//        return $this->subTotal()
-//            ->add($this->shippingMethod()->cost())
-//            ->subtract($this->coupon()->value())
-//            ->add($this->tax());
+        return $this->subTotal()
+            ->add($this->shippingMethod()->cost())
+            ->subtract($this->coupon()->value())
+            ->add($this->tax());
     }
 }

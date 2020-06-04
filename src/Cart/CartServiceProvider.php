@@ -4,7 +4,7 @@ namespace Tir\Store\Cart;
 
 use Tir\Store\Cart\Services\Cart;
 use Illuminate\Support\ServiceProvider;
-//use Modules\Support\Traits\LoadsConfig;
+//use Tir\Store\Support\Traits\LoadsConfig;
 use Tir\Store\Cart\Http\Middleware\CheckCartStock;
 use Tir\Store\Cart\Http\Middleware\CheckCouponUsageLimit;
 use Tir\Store\Cart\Http\Middleware\CheckProductIsInStock;

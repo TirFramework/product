@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Category\Entities\Category;
+use Tir\Store\Category\Entities\Category;
 
 $factory->define(Category::class, function (Faker\Generator $faker) {
     return [

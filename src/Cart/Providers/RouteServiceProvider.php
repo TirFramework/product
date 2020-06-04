@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Cart\Providers;
 
-use Modules\Core\Providers\RouteServiceProvider as ServiceProvider;
+use Tir\Store\Core\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {

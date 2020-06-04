@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Product\Entities\Product;
+use Tir\Store\Product\Entities\Product;
 
 $factory->define(Product::class, function (Faker\Generator $faker) {
     return [

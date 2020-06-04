@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Cart\Http\Controllers;
 
-use Modules\Support\Country;
+use Tir\Store\Support\Country;
 use Tir\Store\Cart\Facades\Cart;
 use Illuminate\Routing\Controller;
 
