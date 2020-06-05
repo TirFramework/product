@@ -38,7 +38,7 @@ class CartServiceProvider extends ServiceProvider
         }
 
         $this->loadRoutesFrom(__DIR__.'/Routes/public.php');
-        $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'cart');
+        $this->loadTranslationsFrom(__DIR__.'/Resources/lang/', 'cart');
 
         $this->app->register(EventServiceProvider::class);
 
