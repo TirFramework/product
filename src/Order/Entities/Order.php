@@ -2,20 +2,19 @@
 
 namespace Tir\Store\Order\Entities;
 
-use Tir\Store\Support\Money;
+use Tir\Crud\Support\Eloquent\CrudModel;
+use Tir\Store\Currency\Support\Money;
 use Tir\Store\Support\State;
 use Tir\Store\Support\Country;
 use Tir\Store\Tax\Entities\TaxRate;
 use Illuminate\Support\Facades\DB;
 use Tir\Store\Coupon\Entities\Coupon;
-use Tir\Store\Order\Admin\OrderTable;
-use Tir\Store\Support\Eloquent\Model;
 use Tir\Store\Payment\Facades\Gateway;
 use Tir\Store\Shipping\Facades\ShippingMethod;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Store\Transaction\Entities\Transaction;
 
-class Order extends Model
+class Order extends CrudModel
 {
     use SoftDeletes;
 

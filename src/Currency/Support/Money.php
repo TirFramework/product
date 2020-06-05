@@ -8,6 +8,7 @@ namespace Tir\Store\Currency\Support;
 //use Modules\Currency\Currency;
 //use Modules\Currency\Entities\CurrencyRate;
 
+use Illuminate\Support\Facades\Cookie;
 use JsonSerializable;
 use Tir\Setting\Facades\Stg;
 
@@ -200,5 +201,21 @@ class Money implements JsonSerializable
     public function __toString()
     {
         return (string) $this->amount;
+    }
+
+
+    public static function getCurrency()
+    {
+//        if (app('inBackend')) {
+//            return Stg::get('default_currency');
+//        }
+
+        $currency = Cookie::get('currency');
+
+        if (! in_array($currency, Stg::get('supported_currencies'))) {
+            $currency = Stg::get('default_currency');
+        }
+
+        return $currency;
     }
 }

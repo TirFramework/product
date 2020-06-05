@@ -3,7 +3,6 @@
 namespace Tir\Store\Tax\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Tir\Store\Cart\Facades\Cart;
 use Illuminate\Routing\Controller;
 

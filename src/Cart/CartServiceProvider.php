@@ -2,6 +2,7 @@
 
 namespace Tir\Store\Cart;
 
+use Tir\Store\Cart\Providers\EventServiceProvider;
 use Tir\Store\Cart\Services\Cart;
 use Illuminate\Support\ServiceProvider;
 //use Tir\Store\Support\Traits\LoadsConfig;
@@ -12,7 +13,6 @@ use Tir\Store\Cart\Http\Middleware\RedirectIfCartIsEmpty;
 
 class CartServiceProvider extends ServiceProvider
 {
-//    use LoadsConfig;
 
     /**
      * Array of checkout module specific middleware.
@@ -40,6 +40,8 @@ class CartServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/public.php');
         $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'cart');
 
+        $this->app->register(EventServiceProvider::class);
+
 
     }
 
@@ -51,7 +53,6 @@ class CartServiceProvider extends ServiceProvider
     public function register()
     {
 
-//        $this->loadConfigs('config.php');
 
         $this->app->singleton(Cart::class, function ($app) {
             return new Cart(
@@ -65,4 +66,6 @@ class CartServiceProvider extends ServiceProvider
 
         $this->app->alias(Cart::class, 'cart');
     }
+
+
 }

@@ -9,9 +9,10 @@ use Tir\Store\Cart\Facades\Cart;
 use Illuminate\Routing\Controller;
 use Tir\Store\Payment\Facades\Gateway;
 use Tir\Store\Checkout\Events\OrderPlaced;
-use Tir\Store\User\Services\CustomerService;
 use Tir\Store\Checkout\Services\OrderService;
+use Tir\Store\Checkout\Services\CustomerService;
 use Tir\Store\Order\Http\Requests\StoreOrderRequest;
+use Tir\Store\Support\Country;
 
 class CheckoutController extends Controller
 {
@@ -33,8 +34,7 @@ class CheckoutController extends Controller
     public function create()
     {
         $cart = Cart::instance();
-//        $countries = Country::supported();
-        $countries = ['iran'=>'ایران'];
+      $countries = Country::supported();
         $gateways = Gateway::all();
         $termsPageURL = Page::urlForPage(Stg::get('storefront_terms_page'));
 
@@ -45,7 +45,7 @@ class CheckoutController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Tir\Store\Order\Http\Requests\StoreOrderRequest $request
-     * @param \Tir\Store\User\Services\CustomerService $customerService
+     * @param \Tir\Store\Checkout\Services\CustomerService $customerService
      * @param \Tir\Store\Checkout\Services\OrderService $orderService
      * @return \Illuminate\Http\Response
      */

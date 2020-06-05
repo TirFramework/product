@@ -2,11 +2,11 @@
 
 namespace Tir\Store\Order\Entities;
 
-use Tir\Store\Support\Money;
-use Tir\Store\Support\Eloquent\Model;
+use Tir\Crud\Support\Eloquent\CrudModel;
+use Tir\Store\Currency\Support\Money;
 use Tir\Store\Product\Entities\Product;
 
-class OrderProduct extends Model
+class OrderProduct extends CrudModel
 {
     /**
      * Indicates if the model should be timestamped.
