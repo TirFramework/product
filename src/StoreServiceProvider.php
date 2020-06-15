@@ -73,14 +73,14 @@ class StoreServiceProvider extends ServiceProvider
         $this->registerMysqlSearchEngine();
 
         $menu = resolve('AdminMenu');
-        $menu->item('store')->title('product::panel.store')->weight(10)->add();
-        $menu->item('store.products')->title('product::panel.products')->weight(10)->add();
-        $menu->item('store.products.products')->title('product::panel.products')->add();
-        $menu->item('store.products.categories')->title('category::panel.categories')->add();
-        $menu->item('store.products.attributes')->title('attribute::panel.attributes')->add();
-        $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->add();
+        $menu->item('store')->title('product::panel.store')->link('#')->add();
+        $menu->item('store.products')->title('product::panel.products')->link('#')->add();
+        $menu->item('store.products.products')->title('product::panel.catalog')->route('product.index')->add();
+        $menu->item('store.products.categories')->title('category::panel.categories')->route('category.index')->add();
+        $menu->item('store.products.attributes')->title('attribute::panel.attributes')->route('attribute.index')->add();
+        $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->route('attributeSet.index')->add();
 //        $menu->item('store.products.options')->title('option::panel.options')->add();
-        $menu->item('store.reviews')->title('review::panel.reviews')->add();
+        $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
 
     }
 
