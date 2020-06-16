@@ -1,17 +1,11 @@
 <?php
 
-namespace Tir\Store\Tax\Providers;
+namespace Tir\Store\Tax;
 
-use Tir\Store\Tax\Admin\TaxTabs;
-use Tir\Store\Support\Traits\AddsAsset;
 use Illuminate\Support\ServiceProvider;
-use Tir\Store\Support\Traits\LoadsConfig;
-use Tir\Store\Admin\Ui\Facades\TabManager;
 
 class TaxServiceProvider extends ServiceProvider
 {
-    use AddsAsset, LoadsConfig;
-
     /**
      * Bootstrap the application services.
      *
@@ -19,6 +13,11 @@ class TaxServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__.'/Routes/public.php');
+        $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'tax');
+        $this->loadViewsFrom(__DIR__.'/Resources/Views/', 'tax');
 
     }
 
@@ -29,10 +28,6 @@ class TaxServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
-        $this->loadRoutesFrom(__DIR__.'/Routes/public.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Resources/Lang/', 'tax');
-        $this->loadViewsFrom(__DIR__.'/Resources/Views/', 'tax');
+
     }
 }

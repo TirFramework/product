@@ -40,7 +40,7 @@ class CheckoutCompleteController extends Controller
 
         session()->put('placed_order', $order);
 
-        return redirect()->route('checkout.complete.show');
+        return redirect()->route(config('crud.frontend-template').'::checkout.complete.show');
     }
 
     /**

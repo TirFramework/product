@@ -3,15 +3,16 @@
 namespace Tir\Store\Checkout\Http\Controllers;
 
 use Exception;
-use Tir\Store\Support\Country;
+use Tir\Page\Entities\Page;
+use Tir\Setting\Facades\Stg;
 use Tir\Store\Cart\Facades\Cart;
-use Tir\Store\Page\Entities\Page;
 use Illuminate\Routing\Controller;
 use Tir\Store\Payment\Facades\Gateway;
 use Tir\Store\Checkout\Events\OrderPlaced;
-use Tir\Store\User\Services\CustomerService;
 use Tir\Store\Checkout\Services\OrderService;
+use Tir\Store\Checkout\Services\CustomerService;
 use Tir\Store\Order\Http\Requests\StoreOrderRequest;
+use Tir\Store\Support\Country;
 
 class CheckoutController extends Controller
 {
@@ -22,7 +23,7 @@ class CheckoutController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['cart_not_empty', 'check_stock', 'check_coupon_usage_limit']);
+       // $this->middleware(['cart_not_empty', 'check_stock', 'check_coupon_usage_limit']);
     }
 
     /**
@@ -33,18 +34,18 @@ class CheckoutController extends Controller
     public function create()
     {
         $cart = Cart::instance();
-        $countries = Country::supported();
+      $countries = Country::supported();
         $gateways = Gateway::all();
-        $termsPageURL = Page::urlForPage(setting('storefront_terms_page'));
+        $termsPageURL = Page::urlForPage(Stg::get('storefront_terms_page'));
 
-        return view('public.checkout.create', compact('cart', 'countries', 'gateways', 'termsPageURL'));
+        return view(config('crud.front-template').'::public.checkout.create', compact('cart', 'countries', 'gateways', 'termsPageURL'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param \Tir\Store\Order\Http\Requests\StoreOrderRequest $request
-     * @param \Tir\Store\User\Services\CustomerService $customerService
+     * @param \Tir\Store\Checkout\Services\CustomerService $customerService
      * @param \Tir\Store\Checkout\Services\OrderService $orderService
      * @return \Illuminate\Http\Response
      */

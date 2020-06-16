@@ -16,8 +16,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = Cart::instance();
-//        $countries = Country::supported();
-        $countries = [];
+        $countries = Country::supported();
         return view(config('crud.front-template').'::public.cart.index', compact('cart', 'countries'));
     }
 }

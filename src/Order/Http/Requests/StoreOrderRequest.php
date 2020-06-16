@@ -5,8 +5,8 @@ namespace Tir\Store\Order\Http\Requests;
 use Tir\Store\Support\Country;
 use Illuminate\Validation\Rule;
 use Tir\Store\Payment\Facades\Gateway;
-use Tir\Store\Core\Http\Requests\Request;
 use Tir\Store\Shipping\Facades\ShippingMethod;
+use Tir\Store\Support\Request;
 
 class StoreOrderRequest extends Request
 {

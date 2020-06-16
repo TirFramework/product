@@ -68,7 +68,7 @@ class Coupon extends CrudModel
      *
      * @var array
      */
-    protected $translatedAttributes = ['name'];
+    public $translatedAttributes = ['name'];
 
     /**
      * The "booting" method of the model.
@@ -83,7 +83,7 @@ class Coupon extends CrudModel
             $coupon->saveRelations(request()->all());
         });
 
-        static::addActiveGlobalScope();
+//        static::addActiveGlobalScope();
     }
 
     public function freeShipping()

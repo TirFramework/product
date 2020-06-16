@@ -29,49 +29,59 @@ class StoreServiceProvider extends ServiceProvider
     public function boot()
     {
 
-
-    //Category module
+        //Category module
         $this->loadRoutesFrom(__DIR__.'/Category/Routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ .'/Category/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Category/Resources/Lang/', 'category');
+        $this->loadTranslationsFrom(__DIR__.'/Category/Resources/lang/', 'category');
 
-    //Attribute module
+        //Attribute module
         $this->loadRoutesFrom(__DIR__.'/Attribute/Routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ .'/Attribute/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attribute');
-        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/Lang/', 'attributeSet');
+        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/lang/', 'attribute');
         $this->loadViewsFrom(__DIR__.'/Attribute/Resources/Views/', 'attribute');
 
         //Option module
         $this->loadRoutesFrom(__DIR__.'/Option/Routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ .'/Option/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Option/Resources/Lang/', 'option');
+        $this->loadTranslationsFrom(__DIR__.'/Option/Resources/lang/', 'option');
         $this->loadViewsFrom(__DIR__.'/Option/Resources/Views/', 'option');
 
         //Product module
         $this->loadRoutesFrom(__DIR__.'/Product/Routes/admin.php');
         $this->loadRoutesFrom(__DIR__.'/Product/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ .'/Product/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Product/Resources/Lang/', 'product');
+        $this->loadTranslationsFrom(__DIR__.'/Product/Resources/lang/', 'product');
         $this->loadViewsFrom(__DIR__.'/Product/Resources/Views/', 'product');
 
         //Review module
         $this->loadRoutesFrom(__DIR__.'/Review/Routes/admin.php');
         $this->loadRoutesFrom(__DIR__.'/Review/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ .'/Review/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Review/Resources/Lang/', 'review');
+        $this->loadTranslationsFrom(__DIR__.'/Review/Resources/lang/', 'review');
         $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
 
 
-        //checkout
-//        $this->loadRoutesFrom(__DIR__.'/Review/Routes/admin.php');
-        $this->loadRoutesFrom(__DIR__.'/Checkout/Routes/public.php');
-//        $this->loadMigrationsFrom(__DIR__ .'/Review/Database/Migrations');
-//        $this->loadTranslationsFrom(__DIR__.'/Review/Resources/Lang/', 'review');
-//        $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
+
+        //Order module
+        $this->loadMigrationsFrom(__DIR__ . '/Order/Database/Migrations');
+
+        //Support module
+        $this->loadRoutesFrom(__DIR__.'/Support/Routes/public.php');
+
 
         //Register Search Engine
         $this->registerMysqlSearchEngine();
+
+        $menu = resolve('AdminMenu');
+        $menu->item('store')->title('product::panel.store')->link('#')->add();
+        $menu->item('store.products')->title('product::panel.products')->link('#')->add();
+        $menu->item('store.products.products')->title('product::panel.catalog')->route('product.index')->add();
+        $menu->item('store.products.categories')->title('category::panel.categories')->route('category.index')->add();
+        $menu->item('store.products.attributes')->title('attribute::panel.attributes')->route('attribute.index')->add();
+        $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->route('attributeSet.index')->add();
+//        $menu->item('store.products.options')->title('option::panel.options')->add();
+        $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
+
     }
 
 

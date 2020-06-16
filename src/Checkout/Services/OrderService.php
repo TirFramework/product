@@ -2,7 +2,10 @@
 
 namespace Tir\Store\Checkout\Services;
 
+use Illuminate\Http\Request;
+use Tir\Crud\Support\Facades\Crud;
 use Tir\Store\Cart\Facades\Cart;
+use Tir\Store\Currency\Support\Money;
 use Tir\Store\Order\Entities\Order;
 use Tir\Store\Currency\Entities\CurrencyRate;
 use Tir\Store\Shipping\Facades\ShippingMethod;
@@ -67,9 +70,11 @@ class OrderService
             'discount' => Cart::discount()->amount(),
             'total' => Cart::total()->amount(),
             'payment_method' => $request->payment_method,
-            'currency' => currency(),
-            'currency_rate' => CurrencyRate::for(currency()),
-            'locale' => locale(),
+            'currency' => Money::getCurrency(),
+            //TODO: Add currency rate
+//            'currency_rate' => CurrencyRate::for(currency()),
+            'currency_rate' => 1,
+            'locale' => Crud::locale(),
             'status' => Order::PENDING_PAYMENT,
         ]);
     }

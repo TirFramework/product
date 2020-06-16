@@ -2,6 +2,7 @@
 
 return [
     'id'                  => 'شناسه',
+    'store'                => 'فروشگاه',
     'name'                => 'نام',
     'slug'                => 'نامک',
     'price'               => 'قیمت',
@@ -13,6 +14,7 @@ return [
     'special_price_start' => 'شروع قیمت ویژه از',
     'special_price_end'   => 'پایان قیمت ویژه از',
     'product'             => 'محصول',
+    'catalog'             => 'کاتالوگ',
     'products'            => 'محصولات',
     'basic_information'   => 'اطلاعات پایه',
     'general'             => 'عمومی',

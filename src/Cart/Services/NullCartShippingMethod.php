@@ -2,7 +2,7 @@
 
 namespace Tir\Store\Cart;
 
-use Tir\Store\Support\Money;
+use Tir\Store\Currency\Support\Money;
 
 class NullCartShippingMethod
 {
