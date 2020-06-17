@@ -6,6 +6,8 @@ namespace Tir\Store;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
+use Tir\Menu\Entities\MenuItem;
+use Tir\Store\Category\Entities\Category;
 use Tir\Store\Search\MySqlSearchEngine;
 
 class StoreServiceProvider extends ServiceProvider
@@ -72,6 +74,18 @@ class StoreServiceProvider extends ServiceProvider
         //Register Search Engine
         $this->registerMysqlSearchEngine();
 
+
+        //Add admin menu
+        $this->adminMenu();
+
+        //Add dynamic Relation
+        $this->addDynamicRelations();
+
+
+    }
+
+    private function adminMenu()
+    {
         $menu = resolve('AdminMenu');
         $menu->item('store')->title('product::panel.store')->link('#')->add();
         $menu->item('store.products')->title('product::panel.products')->link('#')->add();
@@ -91,6 +105,13 @@ class StoreServiceProvider extends ServiceProvider
             return new MySqlSearchEngine;
         });
 
+    }
+
+    private function addDynamicRelations()
+    {
+        MenuItem::addDynamicRelation('category', function (MenuItem $menuItem) {
+            return $menuItem->belongsTo(Category::class);
+        });
     }
 
 
