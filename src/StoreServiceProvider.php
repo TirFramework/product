@@ -20,7 +20,7 @@ class StoreServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->register(EventServiceProvider::class);
+//        $this->app->register(EventServiceProvider::class);
     }
 
     /**
@@ -30,6 +30,11 @@ class StoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        //Setting module
+        $this->loadRoutesFrom(__DIR__ . '/StoreSetting/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/StoreSetting/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/StoreSetting/Resources/lang/', 'storeSetting');
 
         //Category module
         $this->loadRoutesFrom(__DIR__ . '/Category/Routes/admin.php');
