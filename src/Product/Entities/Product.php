@@ -108,7 +108,9 @@ class Product extends CrudModel
             'categories'  => 'required',
             'slug'        => "required|unique:products,slug,$this->id",
             'price'       => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'manage_stock' => 'required',
+            'in_stock' => 'required'
 
         ];
     }
@@ -185,18 +187,18 @@ class Product extends CrudModel
                             ],
                         ]
                     ],
-                    [
-                        'name'    => 'images',
-                        'type'    => 'tab',
-                        'visible' => 'ice',
-                        'fields'  => [
-                            [
-                                'name' => 'images',
-                                'type' => 'images',
-                                'visible' => 'ce'
-                            ]
-                        ]
-                    ],
+//                    [
+//                        'name'    => 'images',
+//                        'type'    => 'tab',
+//                        'visible' => 'ice',
+//                        'fields'  => [
+//                            [
+//                                'name' => 'images',
+//                                'type' => 'images',
+//                                'visible' => 'ce'
+//                            ]
+//                        ]
+//                    ],
                     [
                         'name'    => 'price',
                         'type'    => 'tab',
@@ -280,7 +282,7 @@ class Product extends CrudModel
         ];
 
 
-        return json_decode(json_encode($fields));
+        return $fields;
     }
 
     //Additional methods //////////////////////////////////////////////////////////////////////////////////////////////

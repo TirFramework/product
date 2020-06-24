@@ -96,8 +96,7 @@ class Review extends CrudModel
         ];
 
 
-        return json_decode(json_encode($fields));
-    }
+        return $fields;}
 
 
     //Relations ///////////////////////////////////////////////////////////////////////////////////////////////////////

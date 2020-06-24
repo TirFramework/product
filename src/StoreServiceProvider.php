@@ -20,7 +20,7 @@ class StoreServiceProvider extends ServiceProvider
 
     public function register()
     {
-
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**
@@ -32,43 +32,42 @@ class StoreServiceProvider extends ServiceProvider
     {
 
         //Category module
-        $this->loadRoutesFrom(__DIR__.'/Category/Routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Category/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Category/Resources/lang/', 'category');
+        $this->loadRoutesFrom(__DIR__ . '/Category/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Category/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Category/Resources/lang/', 'category');
 
         //Attribute module
-        $this->loadRoutesFrom(__DIR__.'/Attribute/Routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Attribute/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Attribute/Resources/lang/', 'attribute');
-        $this->loadViewsFrom(__DIR__.'/Attribute/Resources/Views/', 'attribute');
+        $this->loadRoutesFrom(__DIR__ . '/Attribute/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Attribute/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Attribute/Resources/lang/', 'attribute');
+        $this->loadViewsFrom(__DIR__ . '/Attribute/Resources/Views/', 'attribute');
 
         //Option module
-        $this->loadRoutesFrom(__DIR__.'/Option/Routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Option/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Option/Resources/lang/', 'option');
-        $this->loadViewsFrom(__DIR__.'/Option/Resources/Views/', 'option');
+        $this->loadRoutesFrom(__DIR__ . '/Option/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Option/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Option/Resources/lang/', 'option');
+        $this->loadViewsFrom(__DIR__ . '/Option/Resources/Views/', 'option');
 
         //Product module
-        $this->loadRoutesFrom(__DIR__.'/Product/Routes/admin.php');
-        $this->loadRoutesFrom(__DIR__.'/Product/Routes/public.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Product/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Product/Resources/lang/', 'product');
-        $this->loadViewsFrom(__DIR__.'/Product/Resources/Views/', 'product');
+        $this->loadRoutesFrom(__DIR__ . '/Product/Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/Product/Routes/public.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Product/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Product/Resources/lang/', 'product');
+        $this->loadViewsFrom(__DIR__ . '/Product/Resources/Views/', 'product');
 
         //Review module
-        $this->loadRoutesFrom(__DIR__.'/Review/Routes/admin.php');
-        $this->loadRoutesFrom(__DIR__.'/Review/Routes/public.php');
-        $this->loadMigrationsFrom(__DIR__ .'/Review/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/Review/Resources/lang/', 'review');
-        $this->loadViewsFrom(__DIR__.'/Review/Resources/Views/', 'review');
-
+        $this->loadRoutesFrom(__DIR__ . '/Review/Routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/Review/Routes/public.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Review/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Review/Resources/lang/', 'review');
+        $this->loadViewsFrom(__DIR__ . '/Review/Resources/Views/', 'review');
 
 
         //Order module
         $this->loadMigrationsFrom(__DIR__ . '/Order/Database/Migrations');
 
         //Support module
-        $this->loadRoutesFrom(__DIR__.'/Support/Routes/public.php');
+        $this->loadRoutesFrom(__DIR__ . '/Support/Routes/public.php');
 
 
         //Register Search Engine
@@ -80,6 +79,9 @@ class StoreServiceProvider extends ServiceProvider
 
         //Add dynamic Relation
         $this->addDynamicRelations();
+
+        //Add additional fields to admin crud
+        $this->setAdditionalFields();
 
 
     }
@@ -114,5 +116,27 @@ class StoreServiceProvider extends ServiceProvider
         });
     }
 
+    private function setAdditionalFields()
+    {
+        $crud = resolve('Crud');
+
+        $category = [
+//            'type'     => 'field',
+//            'group'    => 0,
+//            'tab'      => 0,
+//            'position' => 0,
+            'crudName' => 'menuItem',
+            'fields'   =>
+                [
+                    'name'     => 'category_id',
+                    'type'     => 'relation',
+                    'relation' => ['category', 'name'],
+                    'visible'  => 'ce'
+                ]
+        ];
+        $crud->addAdditionalFields($category);
+
+
+    }
 
 }

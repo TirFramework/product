@@ -107,8 +107,7 @@ class Option extends CrudModel
             ]
         ];
 
-        return json_decode(json_encode($fields));
-    }
+        return $fields;}
 
         public function values()
     {
