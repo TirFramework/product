@@ -134,6 +134,7 @@ class StoreServiceProvider extends ServiceProvider
             'fields'   =>
                 [
                     'name'     => 'category_id',
+                    'display'  => 'category',
                     'type'     => 'relation',
                     'relation' => ['category', 'name'],
                     'visible'  => 'ce'
