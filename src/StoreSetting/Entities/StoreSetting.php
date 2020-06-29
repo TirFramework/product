@@ -393,28 +393,24 @@ class StoreSetting extends CrudModel
 
                             [
                                 'name'      => 'reviews_enabled',
-                                'display'   => 'Reviews & Ratings',
                                 'type'      => 'select',
                                 'data'      => [ 'ture' =>'yes', 'false'=>'no'],
                                 'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'auto_approve_reviews',
-                                'display'   => 'Auto Approve Reviews',
                                 'type'      => 'select',
                                 'data'      => [ 'ture' =>'yes', 'false'=>'no'],
                                 'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'welcome_email',
-                                'display'   => 'Welcome Email',
                                 'type'      => 'select',
                                 'data'      => [ 'ture' =>'yes', 'false'=>'no'],
                                 'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'admin_order_email',
-                                'display'   => 'Admin Order Email',
                                 'type'      => 'select',
                                 'data'      => [ 'ture' =>'yes', 'false'=>'no'],
                                 'visible'   => 'ice',
@@ -736,6 +732,7 @@ class StoreSetting extends CrudModel
                             ],
                             [
                                 'name'      => 'translatable[free_shipping_label]',
+                                'display'   => 'free_shipping_label',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
@@ -759,6 +756,7 @@ class StoreSetting extends CrudModel
                             ],
                             [
                                 'name'      => 'translatable[local_pickup_label]',
+                                'display'   => 'local_pickup_label',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
@@ -782,6 +780,7 @@ class StoreSetting extends CrudModel
                             ],
                             [
                                 'name'      => 'translatable[flat_rate_label]',
+                                'display'   => 'flat_rate_label',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
@@ -812,11 +811,13 @@ class StoreSetting extends CrudModel
                             ],
                             [
                                 'name'      => 'translatable[cod_label]',
+                                'display'   => 'cod_label',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
                             [
                                 'name'      => 'translatable[cod_description]',
+                                'display'   => 'cod_description',
                                 'type'      => 'textarea',
                                 'visible'   => 'ce',
                             ],

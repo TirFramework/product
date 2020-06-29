@@ -14,14 +14,13 @@ return [
     'categories' => 'دسته‌بندی‌ها',
     'new_category' => 'دسته‌بندی جدید',
     'position' => 'جایگاه',
-    'action' => 'عملیات',
     'parent' => 'والد',
     'is_active' => 'فعال بودن',
     'is_searchable' => 'قابل جستجو بودن',
     'action' => 'عملیات',
 
     'yes'             => 'بله',
-    'na'             => 'خیر',
+    'no'             => 'خیر',
 
 
 ];

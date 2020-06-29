@@ -50,6 +50,8 @@ class Category extends CrudModel
     {
         return [
             'name' => 'required',
+            'is_searchable' => 'required',
+            'is_active'=> 'required'
         ];
     }
 

@@ -31,10 +31,6 @@ class StoreServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        //Setting module
-        $this->loadRoutesFrom(__DIR__ . '/StoreSetting/Routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/StoreSetting/Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/StoreSetting/Resources/lang/', 'storeSetting');
 
         //Category module
         $this->loadRoutesFrom(__DIR__ . '/Category/Routes/admin.php');
@@ -66,6 +62,11 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/Review/Database/Migrations');
         $this->loadTranslationsFrom(__DIR__ . '/Review/Resources/lang/', 'review');
         $this->loadViewsFrom(__DIR__ . '/Review/Resources/Views/', 'review');
+
+        //Setting module
+        $this->loadRoutesFrom(__DIR__ . '/StoreSetting/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/StoreSetting/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/StoreSetting/Resources/lang/', 'storeSetting');
 
 
         //Order module
@@ -102,6 +103,10 @@ class StoreServiceProvider extends ServiceProvider
         $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->route('attributeSet.index')->add();
 //        $menu->item('store.products.options')->title('option::panel.options')->add();
         $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
+        $menu->item('setting')->title('storeSetting::panel.setting')->link('#')->add();
+        $menu->item('setting.store_setting')->title('storeSetting::panel.store_setting')->link('./admin/storeSetting')->add();
+
+
 
     }
 
