@@ -18,6 +18,10 @@ class AdminProductController extends CrudController
         $product = $item;
         $this->deleteProductAttributes($product);
         $this->createProductAttributes($product);
+
+
+        $this->deleteProductadditionalImages($product);
+        $this->createProductadditionalImages($product);
     }
 
 
@@ -68,6 +72,40 @@ class AdminProductController extends CrudController
     {
         ProductAttributeValue::insert($productAttributeValues);
     }
+
+
+
+
+
+    /**
+     * Delete all product additionalImages associated with the given product.
+     *
+     * @param Product $product
+     * @return void
+     */
+    private function deleteProductadditionalImages($product)
+    {
+        $product->additionalImages()->delete();
+    }
+
+
+    
+    /**
+     * Create product additionalImages for the given product.
+     *
+     * @param Product $product
+     * @return void
+     */
+    private function createProductadditionalImages($product)
+    {
+
+        foreach (request('additionalImages') as $image) {
+            $productadditionalImages = $product->additionalImages()->create([
+                'url' => $image,
+            ]);
+        }
+    }
+
 
 
 }

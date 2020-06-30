@@ -187,18 +187,18 @@ class Product extends CrudModel
                             ],
                         ]
                     ],
-//                    [
-//                        'name'    => 'images',
-//                        'type'    => 'tab',
-//                        'visible' => 'ice',
-//                        'fields'  => [
-//                            [
-//                                'name' => 'images',
-//                                'type' => 'images',
-//                                'visible' => 'ce'
-//                            ]
-//                        ]
-//                    ],
+                   [
+                       'name'    => 'images',
+                       'type'    => 'tab',
+                       'visible' => 'ice',
+                       'fields'  => [
+                           [
+                               'name' => 'additionalImages',
+                               'type' => 'images',
+                               'visible' => 'ce'
+                           ]
+                       ]
+                   ],
                     [
                         'name'    => 'price',
                         'type'    => 'tab',

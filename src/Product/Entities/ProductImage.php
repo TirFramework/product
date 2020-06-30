@@ -12,8 +12,9 @@ class ProductImage extends CrudModel
      * @var array
      */
 
+    public $timestamps = false;
 
-    protected $fillable = ['product_id', 'image'];
+    protected $fillable = ['product_id', 'url'];
 
     public $table = 'product_images';
 
