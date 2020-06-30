@@ -47,15 +47,18 @@ class AdminProductController extends CrudController
         $productAttributeValues = [];
 
         foreach (request('attributes', []) as $attribute) {
-            $productAttribute = $product->attributes()->create([
-                'attribute_id' => $attribute['attribute_id'],
-            ]);
+            if(isset($attribute['values'])) {
 
-            foreach ($attribute['values'] as $valueId) {
-                $productAttributeValues[] = [
-                    'product_attribute_id' => $productAttribute->id,
-                    'attribute_value_id' => $valueId,
-                ];
+                $productAttribute = $product->attributes()->create([
+                    'attribute_id' => $attribute['attribute_id'],
+                ]);
+
+                foreach ($attribute['values'] as $valueId) {
+                    $productAttributeValues[] = [
+                        'product_attribute_id' => $productAttribute->id,
+                        'attribute_value_id'   => $valueId,
+                    ];
+                }
             }
         }
 
