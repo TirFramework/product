@@ -8,13 +8,15 @@
 
     $fieldName = $field->name.'[]';
     $images = (object)[''];
-
-    if( isset( $item->{$name} ) ){
+    
+    // dd($item->{$name});
+    
+    if(  count($item->{$name})  ){
 
         $images = $item->{$name} ;
-
+        
     }
-
+    
 @endphp
 
 {!! Form::label($field->name, trans("panel.$field->display"), ['class' => 'col-md-2 control-label']) !!}
@@ -33,6 +35,7 @@
 
     <div id="cloningimages" class="sortable">
 
+        {{-- @dd($images) --}}
     @foreach ($images as $image)
 
         <div class="item" style=" margin-bottom: 15px;">
