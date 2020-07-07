@@ -7,19 +7,20 @@
 
 
     $fieldName = $field->name.'[]';
-    $images = (object)[''];
-    
-    // dd($item->{$name});
-    
-    if(  count($item->{$name})  ){
+    $images[0] = (object)[
+        'url'=>''
+        ];
 
-        $images = $item->{$name} ;
-        
+    // dd($item->{$name});
+    if(isset($item->{$name})){
+        if(  count($item->{$name})  ){
+            $images = $item->{$name} ;
+        }
     }
     
 @endphp
 
-{!! Form::label($field->name, trans("panel.$field->display"), ['class' => 'col-md-2 control-label']) !!}
+{!! Form::label($field->name, trans($crud->name."::panel.$field->display"), ['class' => 'col-md-2 control-label']) !!}
 
 
 <div class="{{$field->col ?? 'col-12 col-md-10'}}" style=" margin-bottom: 40px; padding: 0 0 0 5px; ">
@@ -51,7 +52,7 @@
                                 max-height: 100px;
                             }">
                                 @isset($image)
-                                    <img src="{{ $image->url ?? null }}" alt="" style="max-width: 100px; max-height: 100px">
+                                    <img src="{{ $image->url}}" alt="" style="max-width: 100px; max-height: 100px">
                                 @endisset
                             </div>
 
@@ -66,7 +67,7 @@
                                  class="image-btn btn btn-primary">
                                 <i class="fas fa-image"></i> {{trans('crud::panel.choose')}}
                             </a>
-                            {!! Form::text($fieldName, $image->url ?? null ,['class' => 'form-control','id'=>$index.'_input-'.$loop->index, 'id-template'=>$index.'_input-xxx',   'name-template'=>$field->name.'[xxx]', 'placeholder'=> trans("$crud->name::panel.$field->name")])!!}
+                            {!! Form::text($fieldName, $image->url,['class' => 'form-control','id'=>$index.'_input-'.$loop->index, 'id-template'=>$index.'_input-xxx',   'name-template'=>$field->name.'[xxx]', 'placeholder'=> trans("$crud->name::panel.$field->name")])!!}
                         </span>
 
                     </div>

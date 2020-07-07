@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
 use Tir\Store\Attribute\Entities\ProductAttribute;
+use Tir\Store\Brand\Entities\Brand;
 use Tir\Store\Category\Entities\Category;
 use Tir\Store\Currency\Support\Money;
 use Tir\Store\Option\Entities\Option;
@@ -47,6 +48,7 @@ class Product extends CrudModel
         'is_active',
         'new_from',
         'new_to',
+        'brand_id',
     ];
 
     /**
@@ -165,6 +167,12 @@ class Product extends CrudModel
                                 'type'     => 'relationM',
                                 'relation' => ['categories', 'name'],
                                 'visible'  => 'ice',
+                            ],
+                            [
+                                'name'     => 'brand_id',
+                                'type'     => 'relation',
+                                'relation' => ['brand', 'name'],
+                                'visible'  => 'ce',
                             ],
                             [
                                 'name'    => 'is_active',
@@ -584,6 +592,11 @@ class Product extends CrudModel
     public function additionalImages()
     {
         return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
 
     public function categories()

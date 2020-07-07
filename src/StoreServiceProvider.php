@@ -37,6 +37,10 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/Category/Database/Migrations');
         $this->loadTranslationsFrom(__DIR__ . '/Category/Resources/lang/', 'category');
 
+        //Brand module
+        $this->loadRoutesFrom(__DIR__ . '/Brand/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Brand/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Brand/Resources/lang/', 'brand');
         //Attribute module
         $this->loadRoutesFrom(__DIR__ . '/Attribute/Routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ . '/Attribute/Database/Migrations');
@@ -101,6 +105,7 @@ class StoreServiceProvider extends ServiceProvider
         $menu->item('store.products.categories')->title('category::panel.categories')->route('category.index')->add();
         $menu->item('store.products.attributes')->title('attribute::panel.attributes')->route('attribute.index')->add();
         $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->route('attributeSet.index')->add();
+        $menu->item('store.products.brands')->title('brand::panel.brands')->route('brand.index')->add();
 //        $menu->item('store.products.options')->title('option::panel.options')->add();
         $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
         $menu->item('setting')->title('storeSetting::panel.setting')->link('#')->add();

@@ -35,8 +35,13 @@ class CreateProductsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set Null');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set Null');
+
+
         });
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');

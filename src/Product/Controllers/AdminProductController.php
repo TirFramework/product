@@ -103,9 +103,12 @@ class AdminProductController extends CrudController
     {
 
         foreach (request('additionalImages') as $image) {
-            $productadditionalImages = $product->additionalImages()->create([
-                'url' => $image,
-            ]);
+            if(isset($image)){
+                $productadditionalImages = $product->additionalImages()->create([
+                    'url' => $image,
+                ]);
+            }
+
         }
     }
 
