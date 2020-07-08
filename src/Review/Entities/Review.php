@@ -61,13 +61,8 @@ class Review extends CrudModel
                                 'visible' => 'ice',
                             ],
                             [
-                                'name'     => 'reviewer_id',
-                                'type'     => 'relation',
-                                'relation' => ['reviewer', 'name'],
-                                'visible'  => 'ice',
-                            ],
-                            [
                                 'name'     => 'product_id',
+                                'display'  => 'product_name',
                                 'type'     => 'relation',
                                 'relation' => ['product', 'name'],
                                 'visible'  => 'ice',
@@ -86,7 +81,7 @@ class Review extends CrudModel
                                 'name'    => 'is_approved',
                                 'type'    => 'select',
                                 'data'    => ['1' => trans('attribute::panel.yes'), '0' => trans('attribute::panel.no')],
-                                'visible' => 'ce',
+                                'visible' => 'ice',
                             ],
 
                         ]

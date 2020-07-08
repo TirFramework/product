@@ -33,6 +33,8 @@ return [
     'image'               => 'تصویر',
     'images'              => 'تصاویر اضافی',
     'additionalImages' => 'تصویر',
+    'preview' => 'پیش نمایش',
+
 
     'attribute-information'                           => 'اطلاعات ویژگی',
     'basic-information'                               => 'اطلاعات پایه',

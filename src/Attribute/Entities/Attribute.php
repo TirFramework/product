@@ -63,7 +63,7 @@ class Attribute extends CrudModel
                             [
                                 'name'       => 'id',
                                 'type'       => 'text',
-                                'visible'    => 'io',
+                                'visible'    => 'i',
                             ],
                             [
                                 'name'      => 'name',
@@ -78,16 +78,21 @@ class Attribute extends CrudModel
                                 'visible'   => 'icef',
                             ],
                             [
+                                'name' => 'position',
+                                'type' => 'position',
+                                'visible' => 'ice'
+                            ],
+                            [
                                 'name'      => 'is_filterable',
                                 'type'      => 'select',
                                 'data'       => ['1'=>trans('attribute::panel.yes'),'0'=>trans('attribute::panel.no')],
-                                'visible'   => 'ce',
+                                'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'categories',
                                 'type'      => 'relationM',
                                 'relation'  => ['categories', 'name'],
-                                'visible'   => 'cef',
+                                'visible'   => 'ce',
                             ]
 
                         ]

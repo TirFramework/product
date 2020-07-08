@@ -106,13 +106,13 @@ class Product extends CrudModel
     public function getValidation()
     {
         return [
-            'name'        => 'required',
-            'categories'  => 'required',
-            'slug'        => "required|unique:products,slug,$this->id",
-            'price'       => 'required',
-            'description' => 'required',
+            'name'         => 'required',
+            'categories'   => 'required',
+            'slug'         => "required|unique:products,slug,$this->id",
+            'price'        => 'required',
+            'description'  => 'required',
             'manage_stock' => 'required',
-            'in_stock' => 'required'
+            'in_stock'     => 'required'
 
         ];
     }
@@ -154,7 +154,12 @@ class Product extends CrudModel
                             [
                                 'name'    => 'slug',
                                 'type'    => 'text',
-                                'visible' => 'ice',
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'preview',
+                                'type'    => 'preview',
+                                'visible' => 'e',
                             ],
                             [
                                 'name'    => 'image',
@@ -195,18 +200,18 @@ class Product extends CrudModel
                             ],
                         ]
                     ],
-                   [
-                       'name'    => 'images',
-                       'type'    => 'tab',
-                       'visible' => 'ice',
-                       'fields'  => [
-                           [
-                               'name' => 'additionalImages',
-                               'type' => 'images',
-                               'visible' => 'ce'
-                           ]
-                       ]
-                   ],
+                    [
+                        'name'    => 'images',
+                        'type'    => 'tab',
+                        'visible' => 'ice',
+                        'fields'  => [
+                            [
+                                'name'    => 'additionalImages',
+                                'type'    => 'images',
+                                'visible' => 'ce'
+                            ]
+                        ]
+                    ],
                     [
                         'name'    => 'price',
                         'type'    => 'tab',
@@ -340,7 +345,7 @@ class Product extends CrudModel
     public static function findBySlug($slug)
     {
         return static::with([
-            'attributes.attribute.attribute_set','additionalImages',
+            'attributes.attribute.attribute_set', 'additionalImages',
         ])->where('slug', $slug)->firstOrFail();
     }
 
@@ -388,7 +393,7 @@ class Product extends CrudModel
 
     public function hasStockFor($qty)
     {
-        if (! $this->manage_stock) {
+        if (!$this->manage_stock) {
             return true;
         }
 
@@ -553,6 +558,7 @@ class Product extends CrudModel
     }
 
     //Search //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Get the indexable data array for the product.
      *

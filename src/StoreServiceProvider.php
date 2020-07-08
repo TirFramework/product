@@ -75,6 +75,8 @@ class StoreServiceProvider extends ServiceProvider
 
         //Order module
         $this->loadMigrationsFrom(__DIR__ . '/Order/Database/Migrations');
+        $this->loadRoutesFrom(__DIR__ . '/Order/Routes/admin.php');
+
 
         //Support module
         $this->loadRoutesFrom(__DIR__ . '/Support/Routes/public.php');

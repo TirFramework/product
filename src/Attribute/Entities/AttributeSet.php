@@ -28,7 +28,7 @@ class AttributeSet extends CrudModel
 
     public static $routeName = 'attributeSet';
 
-   protected $fillable = ['name'];
+   protected $fillable = ['name','position'];
 
    public $translatedAttributes = ['name'];
 
@@ -59,12 +59,17 @@ class AttributeSet extends CrudModel
                             [
                                 'name'       => 'id',
                                 'type'       => 'text',
-                                'visible'    => 'io',
+                                'visible'    => 'i',
                             ],
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
                                 'visible'   => 'icef',
+                            ],
+                            [
+                                'name'      => 'position',
+                                'type'      => 'position',
+                                'visible'   => 'ice',
                             ]
                         ]
                     ]

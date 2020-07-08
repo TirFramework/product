@@ -463,16 +463,25 @@ class StoreSetting extends CrudModel
                         'fields' => [
                             [
                                 'name'      => 'translatable[store_name]',
+                                'display' => 'store_name',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
                             [
                                 'name'      => 'translatable[store_tagline]',
+                                'display' => 'store_tagline',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
                             [
                                 'name'      => 'translatable[store_phone]',
+                                'display' => 'store_phone',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'translatable[store_mobile]',
+                                'display' => 'store_mobile',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],

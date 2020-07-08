@@ -19,6 +19,7 @@ class CreateAttributesTable extends Migration
             $table->integer('attribute_set_id')->unsigned()->index();
             $table->boolean('is_filterable');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('position')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set Null');

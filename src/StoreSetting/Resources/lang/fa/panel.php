@@ -25,6 +25,7 @@ return [
     'store_name'                           => 'نام فروشگاه',
     'store_tagline'                        => 'متن معرفی کوتاه فروشگاه',
     'store_phone'                          => 'تلفن فروشگاه',
+    'store_mobile'                          => 'موبایل فروشگاه',
     'store_email'                          => 'نشانی ایمیل فروشگاه',
     'store_address_1'                      => 'نشانی فروشگاه شماره ۱',
     'store_address_2'                      => 'نشانی فروشگاه شماره ۲',

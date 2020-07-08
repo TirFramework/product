@@ -1,31 +1,14 @@
 <?php
 
-Route::get('orders', [
-    'as' => 'admin.orders.index',
-    'uses' => 'OrderController@index',
-    'middleware' => 'can:admin.orders.index',
-]);
 
-Route::get('orders/{id}', [
-    'as' => 'admin.orders.show',
-    'uses' => 'OrderController@show',
-    'middleware' => 'can:admin.orders.show',
-]);
 
-Route::put('orders/{order}/status', [
-    'as' => 'admin.orders.status.update',
-    'uses' => 'OrderStatusController@update',
-    'middleware' => 'can:admin.orders.edit',
-]);
+// Add web middleware for use Laravel feature
+Route::group(['middleware' => 'web'], function () {
 
-Route::post('orders/{order}/email', [
-    'as' => 'admin.orders.email.store',
-    'uses' => 'OrderEmailController@store',
-    'middleware' => 'can:admin.orders.show',
-]);
+    //add admin prefix and middleware for admin area to product package
+    Route::group(['prefix' => 'admin', 'middleware' => 'IsAdmin'], function () {
+        Route::resource('/order', 'Tir\Store\Order\Http\Controllers\AdminOrderController');
 
-Route::get('orders/{order}/print', [
-    'as' => 'admin.orders.print.show',
-    'uses' => 'OrderPrintController@show',
-    'middleware' => 'can:admin.orders.show',
-]);
+    });
+
+});

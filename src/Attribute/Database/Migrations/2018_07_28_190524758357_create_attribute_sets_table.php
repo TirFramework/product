@@ -18,6 +18,7 @@ class CreateAttributeSetsTable extends Migration
         Schema::create('attribute_sets', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('position')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set Null');
