@@ -32,7 +32,7 @@ class Brand extends CrudModel
 
     public static $routeName = 'brand';
 
-    protected $fillable = ['name', 'parent_id', 'slug', 'position', 'is_active', 'description'];
+    protected $fillable = ['name', 'parent_id', 'slug','logo','image', 'position', 'is_active', 'description'];
 
     public $translatedAttributes = ['name', 'description'];
 

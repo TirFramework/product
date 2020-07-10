@@ -2,7 +2,8 @@
 
 namespace Tir\Store\Tax\Entities;
 
-use Tir\Store\Support\Eloquent\TranslationModel;
+
+use Tir\Crud\Support\Eloquent\TranslationModel;
 
 class TaxClassTranslation extends TranslationModel
 {
