@@ -39,6 +39,7 @@ class ProductController extends Controller
             $productIds = $model->keys();
         }
 
+
         $query = $model->filter($productFilter);
 
         if (request()->has('category')) {
@@ -46,6 +47,9 @@ class ProductController extends Controller
             //$productIds = (clone $query)->select('products.id')->resetOrders()->pluck('id');
 
             $productIds = (clone $query)->select('products.id')->resetOrders()->pluck('id');
+        }
+        if (request()->has('brands')) {
+             $query->whereIn('brand_id',request('brands'));
         }
 
         $products = $query->paginate(request('perPage', 15))

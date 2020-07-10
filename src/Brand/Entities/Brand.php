@@ -4,6 +4,7 @@ namespace Tir\Store\Brand\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Tir\Crud\Support\Facades\Crud;
@@ -85,12 +86,12 @@ class Brand extends CrudModel
                                 'type'    => 'text',
                                 'visible' => 'isce',
                             ],
-                            [
-                                'name'     => 'categories',
-                                'type'     => 'relationM',
-                                'relation' => ['categories', 'name'],
-                                'visible'  => 'ce',
-                            ],
+//                            [
+//                                'name'     => 'categories',
+//                                'type'     => 'relationM',
+//                                'relation' => ['categories', 'name'],
+//                                'visible'  => 'ce',
+//                            ],
                             [
                                 'name'    => 'image',
                                 'type'    => 'image',
@@ -130,12 +131,23 @@ class Brand extends CrudModel
 
     //relations ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function categories()
+/*    public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }*/
+
+    public function products()
+    {
+        return $this->HasMany(Product::class);
     }
+
 
     //functions ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public function is_filtering()
+    {
+        $requestQueries = Arr::flatten(request('brands', []));
 
+        return in_array($this->id, $requestQueries);
+    }
 }

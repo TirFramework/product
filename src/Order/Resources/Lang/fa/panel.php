@@ -1,0 +1,42 @@
+<?php
+
+return [
+    'id' => 'کد',
+    'order' => 'سفارش',
+    'orders' => 'سفارش‌ها',
+    'new_order' => 'سفارش جدید',
+    'basic_information' => 'اطلاعات پایه',
+    'order_account_information' => 'اطلاعات سفارش و مشتری',
+    'order_information' => 'مشخصات سفارش',
+    'created_at' => 'تاریخ',
+    'status' => 'وضعیت',
+    'shipping_method' => 'روش ارسال',
+    'payment_method' => 'روش پرداخت',
+    'account_information' => 'اطلاعات مشتری',
+    'customer_first_name' => 'نام',
+    'customer_last_name' => 'نام خانوادگی',
+    'customer_email' => 'ایمیل',
+    'customer_phone' => 'تلفن',
+    'customer_group' => 'گروه مشتریان',
+    'address_information' => 'اطلاعات نشانی',
+    'billing_address' => 'نشانی صورت حساب',
+    'billing_first_name' => 'نام',
+    'billing_last_name' => 'نام خانوادگی',
+    'billing_country' => 'کشور',
+    'billing_state' => 'استان',
+    'billing_city' => 'شهر',
+    'billing_address_1' => 'نشانی شماره ۱',
+    'billing_address_2' => 'نشانی شماره ۲',
+    'shipping_address' => 'نشانی صورت حساب',
+    'shipping_first_name' => 'نام',
+    'shipping_last_name' => 'نام خانوادگی',
+    'shipping_country' => 'کشور',
+    'shipping_state' => 'استان',
+    'shipping_city' => 'شهر',
+    'shipping_address_1' => 'نشانی شماره ۱',
+    'shipping_address_2' => 'نشانی شماره ۲',
+    'action' => 'عملیات',
+
+
+
+];
