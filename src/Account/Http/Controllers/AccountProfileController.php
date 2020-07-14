@@ -4,7 +4,7 @@ namespace Tir\Store\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Tir\Store\User\Http\Requests\UpdateProfileRequest;
+use Tir\User\Http\Requests\UpdateProfileRequest;
 
 class AccountProfileController extends Controller
 {

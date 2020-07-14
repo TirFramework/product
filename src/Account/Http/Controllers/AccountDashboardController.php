@@ -14,7 +14,6 @@ class AccountDashboardController extends Controller
     public function index()
     {
         $my = auth()->user();
-        dd($my);
         $recentOrders = auth()->user()->recentOrders(5);
 
         return view(config('crud.front-template').'::public.account.dashboard.index', compact('my', 'recentOrders'));

@@ -15,7 +15,7 @@ class AccountReviewController extends Controller
     {
         $reviews = auth()->user()
             ->reviews()
-            ->with('product.files')
+            ->with('product')
             ->whereHas('product')
             ->paginate(15);
 
