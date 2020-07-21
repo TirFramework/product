@@ -8,7 +8,9 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
 use Tir\Menu\Entities\MenuItem;
 use Tir\Store\Category\Entities\Category;
+use Tir\Store\Product\Entities\Product;
 use Tir\Store\Search\MySqlSearchEngine;
+use Tir\User\Entities\User;
 
 class StoreServiceProvider extends ServiceProvider
 {
@@ -84,6 +86,12 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/Order/Resources/Lang/', 'account');
 
 
+        //Wishlist module
+        $this->loadRoutesFrom(__DIR__ . '/Wishlist/Routes/public.php');
+        $this->loadMigrationsFrom(__DIR__ . '/Wishlist/Database/Migrations');
+
+
+
         //Support module
         $this->loadRoutesFrom(__DIR__ . '/Support/Routes/public.php');
 
@@ -137,6 +145,11 @@ class StoreServiceProvider extends ServiceProvider
         MenuItem::addDynamicRelation('category', function (MenuItem $menuItem) {
             return $menuItem->belongsTo(Category::class);
         });
+
+        User::addDynamicRelation('wishlist', function (User $user) {
+            return $user->belongsToMany(Product::class, 'wish_lists')->withTimestamps();
+        });
+
     }
 
     private function setAdditionalFields()

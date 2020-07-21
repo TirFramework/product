@@ -15,7 +15,6 @@ class AccountWishlistController extends Controller
     {
         $products = auth()->user()
             ->wishlist()
-            ->with('files')
             ->paginate(15);
 
         return view(config('crud.front-template').'::public.account.wishlist.index', compact('products'));
