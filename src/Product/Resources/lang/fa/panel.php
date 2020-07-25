@@ -34,6 +34,8 @@ return [
     'images'              => 'تصاویر اضافی',
     'additionalImages' => 'تصویر',
     'preview' => 'پیش نمایش',
+    'call_for_price' =>'برای اطلاع از قیمت تماس بگیرید',
+
 
 
     'attribute-information'                           => 'اطلاعات ویژگی',

@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->string('billing_state');
             $table->string('billing_zip');
             $table->string('billing_country');
+            $table->text('billing_comment');
             $table->string('shipping_first_name');
             $table->string('shipping_last_name');
             $table->string('shipping_address_1');
@@ -35,6 +36,7 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_state');
             $table->string('shipping_zip');
             $table->string('shipping_country');
+            $table->text('shipping_comment');
             $table->decimal('sub_total', 18, 4)->unsigned();
             $table->string('shipping_method');
             $table->decimal('shipping_cost', 18, 4)->unsigned();

@@ -12,6 +12,11 @@ class Price
 
     public static function render($product, $class = 'previous-price')
     {
+
+        if($product->call_for_price == 1){
+            return trans('product::front.call_for_price');
+        }
+
         if (! $product->hasSpecialPrice()) {
 
             return $product->price->convertToCurrentCurrency()->format();

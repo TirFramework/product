@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->integer('tax_class_id')->unsigned()->nullable();
             $table->string('slug')->unique();
             $table->decimal('price', 18, 4)->unsigned();
+            $table->boolean('call_for_price')->default(0)->nullable();
             $table->decimal('special_price', 18, 4)->unsigned()->nullable();
             $table->date('special_price_start')->nullable();
             $table->date('special_price_end')->nullable();

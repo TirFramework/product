@@ -49,6 +49,7 @@ class Product extends CrudModel
         'new_from',
         'new_to',
         'brand_id',
+        'call_for_price'
     ];
 
     /**
@@ -223,6 +224,12 @@ class Product extends CrudModel
                                 'visible' => 'ce',
                             ],
                             [
+                                'name'    => 'call_for_price',
+                                'type'    => 'select',
+                                'data'    => ['1' => trans('product::panel.yes'), '0' => trans('product::panel.no')],
+                                'visible' => 'ce',
+                            ],
+                            [
                                 'name'    => 'special_price',
                                 'type'    => 'price',
                                 'visible' => 'ce',
@@ -314,6 +321,7 @@ class Product extends CrudModel
                 'in_stock',
                 'new_from',
                 'new_to',
+                'call_for_price'
             ]);
     }
 
