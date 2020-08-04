@@ -12,10 +12,8 @@ use TypiCMS\NestableTrait;
 
 class Category extends CrudModel
 {
-    //Additional trait insert here
 
-    use Translatable, NestableTrait;
-    // use Sluggable;
+    use Translatable, NestableTrait, Sluggable;
 
 
     /**
