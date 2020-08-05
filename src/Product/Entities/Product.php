@@ -78,7 +78,7 @@ class Product extends CrudModel
         'deleted_at',
     ];
 
-    public $translatedAttributes = ['name', 'description', 'short_description'];
+    public $translatedAttributes = ['name', 'description', 'summary'];
 
 
     /**
@@ -187,9 +187,14 @@ class Product extends CrudModel
                                 'visible' => 'cef',
                             ],
                             [
+                                'name'       => 'summary',
+                                'type'       => 'textEditor',
+                                'col'        => 'col-md-12',
+                                'visible'    => 'ce',
+                            ],
+                            [
                                 'name'       => 'description',
                                 'type'       => 'textEditor',
-                                'validation' => 'required',
                                 'col'        => 'col-md-12',
                                 'visible'    => 'ce',
                             ],
