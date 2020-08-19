@@ -295,11 +295,39 @@ class Product extends CrudModel
                         ],
                     ],
                     [
-                        'name'    => 'options',
+                        'name'    => 'sell',
                         'type'    => 'tab',
-                        'visible' => '',
-                        'fields'  => [],
-                    ]
+                        'visible' => 'ce',
+                        'fields'  => [
+                            [
+                                'name'    => 'relatedProducts',
+                                'display' => 'related_product',
+                                'type'    => 'relationM',
+                                'relation'    => ['relatedProducts','name'],
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'upSellProducts',
+                                'display' => 'up_sell_products',
+                                'type'    => 'relationM',
+                                'relation'=> ['upSellProducts','name'],
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'crossSellProducts',
+                                'display' => 'cross_sell_products',
+                                'type'    => 'relationM',
+                                'relation'=> ['crossSellProducts','name'],
+                                'visible' => 'ce',
+                            ],
+                        ],
+                    ],
+//                    [
+//                        'name'    => 'options',
+//                        'type'    => 'tab',
+//                        'visible' => '',
+//                        'fields'  => [],
+//                    ]
 
                 ]
             ]
@@ -636,6 +664,21 @@ class Product extends CrudModel
     public function taxClass()
     {
         return $this->belongsTo(TaxClass::class)->withDefault();
+    }
+
+    public function relatedProducts()
+    {
+        return $this->belongsToMany(static::class, 'related_products', 'product_id', 'related_product_id');
+    }
+
+    public function upSellProducts()
+    {
+        return $this->belongsToMany(static::class, 'up_sell_products', 'product_id', 'up_sell_product_id');
+    }
+
+    public function crossSellProducts()
+    {
+        return $this->belongsToMany(static::class, 'cross_sell_products', 'product_id', 'cross_sell_product_id');
     }
 
 }

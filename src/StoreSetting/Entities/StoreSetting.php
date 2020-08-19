@@ -385,54 +385,54 @@ class StoreSetting extends CrudModel
                                 'type'      => 'text',
                                 'visible'   => 'ice',
                             ],
-                            [
-                                'name'      => 'customer_role',
-                                'type'      => 'text',
-                                'visible'   => 'ice',
-                            ],
+//                            [
+//                                'name'      => 'customer_role',
+//                                'type'      => 'text',
+//                                'visible'   => 'ice',
+//                            ],
 
                             [
                                 'name'      => 'reviews_enabled',
                                 'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
+                                'data'      => [ 1 =>'yes', 0 =>'no'],
                                 'visible'   => 'ice',
                             ],
                             [
                                 'name'      => 'auto_approve_reviews',
                                 'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
+                                'data'      => [ 1 =>'yes', 0 =>'no'],
                                 'visible'   => 'ice',
                             ],
-                            [
-                                'name'      => 'welcome_email',
-                                'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
-                                'visible'   => 'ice',
-                            ],
-                            [
-                                'name'      => 'admin_order_email',
-                                'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
-                                'visible'   => 'ice',
-                            ],
-                            [
-                                'name'      => 'order_status_email',
-                                'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
-                                'visible'   => 'ice',
-                            ],
-                            [
-                                'name'      => 'invoice_email',
-                                'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
-                                'visible'   => 'ice',
-                            ],
-                            [
-                                'name'      => 'cookie_bar_enabled',
-                                'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
-                                'visible'   => 'ice',
-                            ],
+//                            [
+//                                'name'      => 'welcome_email',
+//                                'type'      => 'select',
+//                                'data'      => [ 1 =>'yes', 0 =>'no'],
+//                                'visible'   => 'ice',
+//                            ],
+//                            [
+//                                'name'      => 'admin_order_email',
+//                                'type'      => 'select',
+//                                'data'      => [ 1 =>'yes', 0 =>'no'],
+//                                'visible'   => 'ice',
+//                            ],
+//                            [
+//                                'name'      => 'order_status_email',
+//                                'type'      => 'select',
+//                                'data'      => [ 1 =>'yes', 0 =>'no'],
+//                                'visible'   => 'ice',
+//                            ],
+//                            [
+//                                'name'      => 'invoice_email',
+//                                'type'      => 'select',
+//                                'data'      => [ 1 =>'yes', 0 =>'no'],
+//                                'visible'   => 'ice',
+//                            ],
+//                            [
+//                                'name'      => 'cookie_bar_enabled',
+//                                'type'      => 'select',
+//                                'data'      => [ 1 =>'yes', 0 =>'no'],
+//                                'visible'   => 'ice',
+//                            ],
                         ]
                     ],
                     [
@@ -444,7 +444,7 @@ class StoreSetting extends CrudModel
                             [
                                 'name'      => 'maintenance_mode',
                                 'type'      => 'select',
-                                'data'      => [ 'ture' =>'yes', 'false'=>'no'],
+                                'data'      => [ 1 =>'yes', 0 =>'no'],
                                 'visible'   => 'ce',
                             ],
                             [

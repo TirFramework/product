@@ -72,10 +72,8 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::findBySlug($slug);
-        //TODO: add related product
-        $relatedProducts = collect();
-        //TODO: add upSell product
-        $upSellProducts = collect();
+        $relatedProducts = $product->relatedProducts()->forCard()->get();
+        $upSellProducts = $product->upSellProducts()->forCard()->get();
         $reviews = $this->getReviews($product);
 
         if (Stg::get('reviews_enabled')) {

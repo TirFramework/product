@@ -35,6 +35,10 @@ return [
     'additionalImages' => 'تصویر',
     'preview' => 'پیش نمایش',
     'call_for_price' =>'برای اطلاع از قیمت تماس بگیرید',
+    'sell' =>'فروش',
+    'related_product' =>'محصولات مرتبط',
+    'up_sell_products' =>'پیشنهاد برای خرید در نمایش محصول',
+    'cross_sell_products' =>'پیشنهاد برای خرید در سبد خرید',
 
 
 
