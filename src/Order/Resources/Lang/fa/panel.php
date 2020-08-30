@@ -8,6 +8,7 @@ return [
     'basic_information' => 'اطلاعات پایه',
     'order_account_information' => 'اطلاعات سفارش و مشتری',
     'order_information' => 'مشخصات سفارش',
+    'order_details' => 'جزییات سفارش',
     'created_at' => 'تاریخ',
     'status' => 'وضعیت',
     'shipping_method' => 'روش ارسال',

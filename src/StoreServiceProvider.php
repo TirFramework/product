@@ -122,9 +122,9 @@ class StoreServiceProvider extends ServiceProvider
         $menu->item('store.products.attributes')->title('attribute::panel.attributes')->route('attribute.index')->add();
         $menu->item('store.products.attributesSets')->title('attribute::panel.attributeSets')->route('attributeSet.index')->add();
         $menu->item('store.products.brands')->title('brand::panel.brands')->route('brand.index')->add();
-        $menu->item('store.products.orders')->title('order::panel.orders')->route('order.index')->add();
 //        $menu->item('store.products.options')->title('option::panel.options')->add();
         $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
+        $menu->item('store.orders')->title('order::panel.orders')->route('order.index')->add();
         $menu->item('setting')->title('storeSetting::panel.setting')->link('#')->add();
         $menu->item('setting.store_setting')->title('storeSetting::panel.store_setting')->link('./admin/storeSetting')->add();
 

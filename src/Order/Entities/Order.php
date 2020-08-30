@@ -131,6 +131,17 @@ class Order extends CrudModel
                                 'col' => 'col-sm-6',
                                 'visible' => 'es',
                             ],
+                            [
+                                'name' => 'order_information',
+                                'type' => 'blank',
+                                'value' => '<h5>'.trans('order::panel.order_details'). '</h5><hr >',
+                                'visible' => 'e'
+                            ],
+                            [
+                                'name' => 'product',
+                                'type' => 'product',
+                                'visible' => 'e'
+                            ]
 
 
                         ]
@@ -235,20 +246,6 @@ class Order extends CrudModel
                                 'type'    => 'text',
                                 'col' => 'col-sm-6',
                                 'visible' => 'es',
-                            ]
-
-
-                        ]
-                    ],
-                    [
-                        'name'    => 'order_information',
-                        'type'    => 'tab',
-                        'visible' => 'ce',
-                        'fields'  => [
-                            [
-                                'name' => 'product',
-                                'type' => 'product',
-                                'visible' => 'e'
                             ]
 
 

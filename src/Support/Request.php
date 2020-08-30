@@ -61,12 +61,12 @@ abstract class Request extends FormRequest
     public function messages()
     {
         return array_merge([
-            '*.required_if' => trans('core::validation.required'),
-            '*.required_unless' => trans('core::validation.required'),
-            '*.required_with' => trans('core::validation.required'),
-            '*.required_with_all' => trans('core::validation.required'),
-            '*.required_without' => trans('core::validation.required'),
-            '*.required_without_all' => trans('core::validation.required'),
+            '*.required_if' => trans(config('crud.front-template').'::validation.required'),
+            '*.required_unless' => trans(config('crud.front-template').'::validation.required'),
+            '*.required_with' => trans(config('crud.front-template').'::validation.required'),
+            '*.required_with_all' => trans(config('crud.front-template').'::validation.required'),
+            '*.required_without' => trans(config('crud.front-template').'::validation.required'),
+            '*.required_without_all' => trans(config('crud.front-template').'::validation.required'),
         ], $this->getDefaultMessages());
     }
 
@@ -84,7 +84,7 @@ abstract class Request extends FormRequest
         foreach ($attributesAndRules as $attributeAndRule) {
             $rule = last(explode('.', $attributeAndRule));
 
-            $messages[$attributeAndRule] = trans("core::validation.{$rule}");
+            $messages[$attributeAndRule] = trans(config('crud.front-template')."::validation.{$rule}");
         }
 
         return $messages;
