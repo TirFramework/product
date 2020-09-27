@@ -59,6 +59,7 @@ class CheckoutController extends Controller
 
         $gateway = Gateway::get($request->payment_method);
 
+        dd($gateway->purchase());
         try {
             $response = $gateway->purchase($order, $request);
         } catch (Exception $e) {

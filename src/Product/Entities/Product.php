@@ -6,6 +6,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tir\Crud\Support\Eloquent\CrudModel;
 use Astrotomic\Translatable\Translatable;
+use Tir\Metadata\Eloquent\HasMetaData;
+use Tir\Metadata\Entities\Metadata;
 use Tir\Store\Attribute\Entities\ProductAttribute;
 use Tir\Store\Brand\Entities\Brand;
 use Tir\Store\Category\Entities\Category;
@@ -21,7 +23,7 @@ class Product extends CrudModel
 {
     //Additional trait insert here
 
-    use Translatable, Sluggable, softDeletes, Searchable;
+    use Translatable, Sluggable, softDeletes, Searchable, HasMetaData;
 
 
     public static $routeName = 'product';
@@ -176,6 +178,7 @@ class Product extends CrudModel
                             ],
                             [
                                 'name'     => 'brand_id',
+                                'display'     => 'brand',
                                 'type'     => 'relation',
                                 'relation' => ['brand', 'name'],
                                 'visible'  => 'ce',
@@ -183,8 +186,8 @@ class Product extends CrudModel
                             [
                                 'name'    => 'is_active',
                                 'type'    => 'select',
-                                'data'    => ['1' => trans("product::panel.yes"), '0' => trans("product::panel.no")],
-                                'visible' => 'cef',
+                                'data'    => [true => trans("product::panel.yes"), false => trans("product::panel.no")],
+                                'visible' => 'icef',
                             ],
                             [
                                 'name'       => 'summary',
@@ -328,7 +331,38 @@ class Product extends CrudModel
 //                        'visible' => '',
 //                        'fields'  => [],
 //                    ]
-
+                    [
+                        'name'    => 'meta',
+                        'type'    => 'tab',
+                        'visible' => 'ce',
+                        'fields'  => [
+                            [
+                                'name'    => 'meta[meta_title]',
+                                'display' => 'meta_title',
+                                'type'    => 'text',
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'meta[meta_keywords]',
+                                'display' => 'meta_keywords',
+                                'type'    => 'metaKeywords',
+                                'multiple' => true,
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'meta[meta_description]',
+                                'display' => 'meta_description',
+                                'type'    => 'textarea',
+                                'visible' => 'ce',
+                            ],
+                            [
+                                'name'    => 'meta[meta_custom]',
+                                'display' => 'meta_custom',
+                                'type'    => 'textarea',
+                                'visible' => 'ce',
+                            ],
+                        ]
+                    ]
                 ]
             ]
 

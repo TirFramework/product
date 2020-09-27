@@ -5,6 +5,7 @@ namespace Tir\Store\Payment;
 use Tir\Setting\Facades\Stg;
 use Tir\Store\Payment\Gateways\COD;
 use Tir\Store\Payment\Facades\Gateway;
+use Tir\Store\Payment\Gateways\IRBank;
 use Tir\Store\Payment\Gateways\Stripe;
 use Illuminate\Support\ServiceProvider;
 use Tir\Store\Payment\Gateways\Instamojo;
@@ -31,6 +32,7 @@ class GatewayServiceProvider extends ServiceProvider
         $this->registerCashOnDelivery();
         $this->registerBankTransfer();
         $this->registerCheckPayment();
+        $this->registerIRBank();
     }
 
     private function enabled($paymentMethod)
@@ -84,5 +86,12 @@ class GatewayServiceProvider extends ServiceProvider
         if ($this->enabled('check_payment')) {
             Gateway::register('check_payment', new CheckPayment);
         }
+    }
+
+    private function registerIRBank()
+    {
+        //if ($this->enabled('irbank_payment')) {
+            Gateway::register('irbank_payment', new IRBank);
+       // }
     }
 }
