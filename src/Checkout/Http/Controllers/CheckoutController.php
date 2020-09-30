@@ -59,7 +59,6 @@ class CheckoutController extends Controller
 
         $gateway = Gateway::get($request->payment_method);
 
-        dd($gateway->purchase());
         try {
             $response = $gateway->purchase($order, $request);
         } catch (Exception $e) {
@@ -70,7 +69,13 @@ class CheckoutController extends Controller
 
         if ($response->isRedirect()) {
             return redirect($response->getRedirectUrl());
-        } elseif ($response->isSuccessful()) {
+        }
+
+        if($response->isView()){
+            return $response->getView();
+        }
+
+        if ($response->isSuccessful()) {
             $order->storeTransaction($response);
 
             event(new OrderPlaced($order));

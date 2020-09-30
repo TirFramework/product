@@ -5,13 +5,13 @@ namespace Tir\Store\Payment;
 use Tir\Setting\Facades\Stg;
 use Tir\Store\Payment\Gateways\COD;
 use Tir\Store\Payment\Facades\Gateway;
-use Tir\Store\Payment\Gateways\IRBank;
 use Tir\Store\Payment\Gateways\Stripe;
 use Illuminate\Support\ServiceProvider;
 use Tir\Store\Payment\Gateways\Instamojo;
 use Tir\Store\Payment\Gateways\BankTransfer;
 use Tir\Store\Payment\Gateways\CheckPayment;
 use Tir\Store\Payment\Gateways\PayPalExpress;
+use Tir\Store\Payment\Gateways\PasargadGeteway;
 
 class GatewayServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class GatewayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! config('app.installed')) {
+        if (!config('app.installed')) {
             return;
         }
 
@@ -33,6 +33,9 @@ class GatewayServiceProvider extends ServiceProvider
         $this->registerBankTransfer();
         $this->registerCheckPayment();
         $this->registerIRBank();
+
+        $this->loadViewsFrom(__DIR__ . '/Resources/Views/', 'gateway');
+
     }
 
     private function enabled($paymentMethod)
@@ -91,7 +94,7 @@ class GatewayServiceProvider extends ServiceProvider
     private function registerIRBank()
     {
         //if ($this->enabled('irbank_payment')) {
-            Gateway::register('irbank_payment', new IRBank);
-       // }
+        Gateway::register('pasargad_gateway', new PasargadGeteway);
+        // }
     }
 }
