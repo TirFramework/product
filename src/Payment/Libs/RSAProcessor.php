@@ -16,7 +16,7 @@ class RSAProcessor
           elseif($type=='xml')          {
            $xmlObj = simplexml_load_file($xmlRsakey);
           }
-          else          {
+          else {
            $xmlObj = simplexml_load_string($xmlRsakey);
           }
         $this->modulus = RSA::binary_to_number(base64_decode($xmlObj->Modulus));

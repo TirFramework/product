@@ -1,201 +1,129 @@
 <?php
 namespace Tir\Store\Payment\Libs;
 
-class RSA
-{
-    /*
-     * Minimum key size bits
-     */
-    const MINIMUM_KEY_SIZE = 128;
+define("BCCOMP_LARGER", 1);
 
-    /*
-     * Default key size bits
-     */
-    const DEFAULT_KEY_SIZE = 2048;
-
-    protected $publicKeyFile;
-    protected $privateKeyFile;
-    protected $password;
-
-    public function __construct($publicKeyFile, $privateKeyFile = null, $password = null)
-    {
-        $this->publicKeyFile =  $this->fixKeyArgument($publicKeyFile);
-        $this->privateKeyFile = $this->fixKeyArgument($privateKeyFile);
-        $this->password = $password;
+class RSA {
+    public static function rsa_encrypt($message, $public_key, $modulus, $keylength) {
+        $padded = RSA::add_PKCS1_padding($message, true, $keylength / 8);
+        $number = RSA::binary_to_number($padded);
+        $encrypted = RSA::pow_mod($number, $public_key, $modulus);
+        $result = RSA::number_to_binary($encrypted, $keylength / 8);
+        return $result;
     }
-
-    public function fixKeyArgument($keyFile)
-    {
-        if (strpos($keyFile, '/') === 0) {
-            // This looks like a path, let us prepend the file scheme
-            return 'file://' . $keyFile;
-        }
-
-        return $keyFile;
+    public static function rsa_decrypt($message, $private_key, $modulus, $keylength) {
+        $number = RSA::binary_to_number($message);
+        $decrypted = RSA::pow_mod($number, $private_key, $modulus);
+        $result = RSA::number_to_binary($decrypted, $keylength / 8);
+        return RSA::remove_PKCS1_padding($result, $keylength / 8);
     }
-
-
-    /**
-     * Creates a new RSA key pair with the given key size
-     *
-     * @param null $keySize   RSA Key Size in bits
-     * @param bool $overwrite Overwrite existing key files
-     * @return bool Result of creation
-     *
-     * @throws Pikirasa\Exception
-     */
-    public function create($keySize = null, $overwrite = false)
-    {
-        $keySize = intval($keySize);
-        if ($keySize < self::MINIMUM_KEY_SIZE) {
-            $keySize = self::DEFAULT_KEY_SIZE;
+    public static function rsa_sign($message, $private_key, $modulus, $keylength) {
+        $padded = RSA::add_PKCS1_padding($message, false, $keylength / 8);
+        $number = RSA::binary_to_number($padded);
+        $signed = RSA::pow_mod($number, $private_key, $modulus);
+        $result = RSA::number_to_binary($signed, $keylength / 8);
+        return $result;
+    }
+    public static function rsa_verify($message, $public_key, $modulus, $keylength) {
+        return RSA::rsa_decrypt($message, $public_key, $modulus, $keylength);
+    }
+    public static function rsa_kyp_verify($message, $public_key, $modulus, $keylength) {
+        $number = RSA::binary_to_number($message);
+        $decrypted = RSA::pow_mod($number, $public_key, $modulus);
+        $result = RSA::number_to_binary($decrypted, $keylength / 8);
+        return RSA::remove_KYP_padding($result, $keylength / 8);
+    }
+    public static function pow_mod($p, $q, $r) {
+        $factors = array();
+        $div = $q;
+        $power_of_two = 0;
+        while(bccomp($div, "0") == BCCOMP_LARGER)  {
+            $rem = bcmod($div, 2);
+            $div = bcdiv($div, 2);
+            if($rem) array_push($factors, $power_of_two);
+            $power_of_two++;
         }
-
-        if (!$overwrite) {
-            if (
-                (strpos($this->publicKeyFile, 'file://') === 0  && file_exists($this->publicKeyFile)) ||
-                (strpos($this->privateKeyFile, 'file://') === 0 && file_exists($this->privateKeyFile))
-            ) {
-                throw new Exception('OpenSSL: Existing keys found. Remove keys or pass $overwrite == true.');
+        $partial_results = array();
+        $part_res = $p;
+        $idx = 0;
+        foreach($factors as $factor)  {
+            while($idx < $factor)
+            {
+                $part_res = bcpow($part_res, "2");
+                $part_res = bcmod($part_res, $r);
+                $idx++;
+            }
+            array_push($partial_results, $part_res);
+        }
+        $result = "1";
+        foreach($partial_results as $part_res)
+        {
+            $result = bcmul($result, $part_res);
+            $result = bcmod($result, $r);
+        }
+        return $result;
+    }
+    public static function add_PKCS1_padding($data, $isPublicKey, $blocksize)
+    {
+        $pad_length = $blocksize - 3 - strlen($data);
+        if($isPublicKey)
+        {
+            $block_type = "\x02";
+            $padding = "";
+            for($i = 0; $i < $pad_length; $i++)
+            {
+                $rnd = mt_rand(1, 255);
+                $padding .= chr($rnd);
             }
         }
-
-        $resource = openssl_pkey_new(array(
-            'private_key_bits' => $keySize,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-        ));
-
-        $publicKey = openssl_pkey_get_details($resource)['key'];
-        if (strpos($this->publicKeyFile, 'file://') === 0) {
-            $bytes = file_put_contents($this->publicKeyFile, $publicKey);
-        } else {
-            $this->publicKeyFile = $publicKey;
-            $bytes = strlen($publicKey);
+        else
+        {
+            $block_type = "\x01";
+            $padding = str_repeat("\xFF", $pad_length);
         }
-        if (strlen($publicKey) < 1 || $bytes != strlen($publicKey)) {
-            throw new Exception("OpenSSL: Error writing PUBLIC key.");
-        }
-
-        $privateKey = '';
-        openssl_pkey_export($resource, $privateKey, $this->password);
-        if (strpos($this->privateKeyFile, 'file://') === 0) {
-            $bytes = file_put_contents($this->privateKeyFile, $privateKey);
-        } else {
-            $this->privateKeyFile = $privateKey;
-            $bytes = strlen($privateKey);
-        }
-        if (strlen($privateKey) < 1 || $bytes != strlen($privateKey)) {
-            throw new Exception("OpenSSL: Error writing PRIVATE key.");
-        }
-
-        openssl_pkey_free($resource);
-
-        return true;
+        return "\x00" . $block_type . $padding . "\x00" . $data;
     }
-
-    /**
-     * Get public key to be used during encryption and decryption
-     *
-     * @return string Certificate public key string or stream path
-     */
-    public function getPublicKeyFile()
+    public static function remove_PKCS1_padding($data, $blocksize)
     {
-        return $this->publicKeyFile;
+        assert(strlen($data) == $blocksize);
+        $data = substr($data, 1);
+        if($data{0} == '\0')
+            die("Block type 0 not implemented.");
+        assert(($data{0} == "\x01") || ($data{0} == "\x02"));
+        $offset = strpos($data, "\0", 1);
+        return substr($data, $offset + 1);
     }
-
-    /**
-     * Get private key to be used during encryption and decryption
-     *
-     * @return string Certificate private key string or stream path
-     */
-    public function getPrivateKeyFile()
+    public static function remove_KYP_padding($data, $blocksize)
     {
-        return $this->privateKeyFile;
+        assert(strlen($data) == $blocksize);
+        $offset = strpos($data, "\0");
+        return substr($data, 0, $offset);
     }
-
-    /**
-     * Set password to be used during encryption and decryption
-     *
-     * @param string $password Certificate password
-     */
-    public function setPassword($password)
+    public static function binary_to_number($data)
     {
-        $this->password = $password;
-    }
-
-    /**
-     * Encrypt data with provided public certificate
-     *
-     * @param string $data Data to encrypt
-     * @return string Encrypted data
-     *
-     * @throws Pikirasa\Exception
-     */
-    public function encrypt($data)
-    {
-        // Load public key
-        $publicKey = openssl_pkey_get_public($this->publicKeyFile);
-
-        if (!$publicKey) {
-            throw new Exception("OpenSSL: Unable to get public key for encryption. Is the location correct? Does this key require a password?");
+        $base = "256";
+        $radix = "1";
+        $result = "0";
+        for($i = strlen($data) - 1; $i >= 0; $i--)
+        {
+            $digit = ord($data{$i});
+            $part_res = bcmul($digit, $radix);
+            $result = bcadd($result, $part_res);
+            $radix = bcmul($radix, $base);
         }
-
-        $success = openssl_public_encrypt($data, $encryptedData, $publicKey);
-        openssl_free_key($publicKey);
-        if (!$success) {
-            throw new Exception("Encryption failed. Ensure you are using a PUBLIC key.");
-        }
-
-        return $encryptedData;
+        return $result;
     }
-
-    /**
-     * Encrypt data and then base64_encode it
-     *
-     * @param string $data Data to encrypt
-     * @return string Base64-encrypted data
-     */
-    public function base64Encrypt($data)
+    public static function number_to_binary($number, $blocksize)
     {
-        return base64_encode($this->encrypt($data));
-    }
-
-    /**
-     * Decrypt data with provided private certificate
-     *
-     * @param string $data Data to encrypt
-     * @return string Decrypted data
-     *
-     * @throws Pikirasa\Exception
-     */
-    public function decrypt($data)
-    {
-        if ($this->privateKeyFile === null) {
-            throw new Exception("Unable to decrypt: No private key provided.");
+        $base = "256";
+        $result = "";
+        $div = $number;
+        while($div > 0)
+        {
+            $mod = bcmod($div, $base);
+            $div = bcdiv($div, $base);
+            $result = chr($mod) . $result;
         }
-
-        $privateKey = openssl_pkey_get_private($this->privateKeyFile, $this->password);
-        if (!$privateKey) {
-            throw new Exception('OpenSSL: Unable to get private key for decryption. Is the location correct? If this key requires a password, have you supplied the correct one?');
-        }
-
-        $success = openssl_private_decrypt($data, $decryptedData, $privateKey);
-        openssl_free_key($privateKey);
-        if (!$success) {
-            throw new Exception("Decryption failed. Ensure you are using (1) a PRIVATE key, and (2) the correct one.");
-        }
-
-        return $decryptedData;
-    }
-
-    /**
-     * base64_decode data and then decrypt it
-     *
-     * @param string $data Base64-encoded data to decrypt
-     * @return string Decrypted data
-     */
-    public function base64Decrypt($data)
-    {
-        return $this->decrypt(base64_decode($data));
+        return str_pad($result, $blocksize, "\x00", STR_PAD_LEFT);
     }
 }
