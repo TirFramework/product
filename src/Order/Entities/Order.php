@@ -40,6 +40,9 @@ class Order extends CrudModel
      */
     protected $dates = ['start_date', 'end_date', 'deleted_at'];
 
+    protected $appends = ['order_time'];
+
+
     public static $routeName = 'order';
 
     public function getFields()
@@ -67,9 +70,11 @@ class Order extends CrudModel
                                 'visible' => 'e'
                             ],
                             [
-                                'name' => 'created_at',
-                                'type' => 'date',
+                                'name' => 'order_time',
+                                'type' => 'text',
+                                'option' => 'readonly',
                                 'col' => 'col-sm-6',
+                                'searchable' => false,
                                 'visible' => 'ie'
                             ],
                             [
@@ -77,8 +82,12 @@ class Order extends CrudModel
                                 'type'    => 'select',
                                 'col' => 'col-sm-6',
                                 'data'    => [
-                                    'pending'         => trans('pending'),
-                                    'pending_payment' => trans('pending_payment')
+                                    'pending'         => trans('order::panel.pending'),
+                                    'pending_payment' => trans('order::panel.pending_payment'),
+                                    'canceled' => trans('order::panel.canceled'),
+                                    'completed' => trans('order::panel.completed'),
+                                    'processing' => trans('order::panel.processing'),
+                                    'refunded' => trans('order::panel.refunded'),
                                 ],
                                 'visible' => 'ief'
                             ],
@@ -250,7 +259,45 @@ class Order extends CrudModel
 
 
                         ]
-                    ]
+                    ],
+                    [
+                        'name'    => 'payment_information',
+                        'type'    => 'tab',
+                        'visible' => 'ce',
+                        'fields'  => [
+                            [
+                                'name' => "transaction[transaction_id]",
+                                'display' => 'id',
+                                'type' => 'text',
+                                'option' => 'readonly',
+                                'visible' => 'e'
+                            ],
+                            [
+                                'name' => 'transaction[status]',
+                                'display' => 'status',
+                                'type' => 'text',
+                                'option'  => 'readonly',
+                                'visible' => 'e'
+                            ],
+
+                            [
+                                'name'=>'transaction[created_at]',
+                                'display' => 'created_at',
+                                'type' => 'text',
+                                'option'  => 'readonly',
+                                'visible' => 'e',
+                            ],
+                            [
+                                'name' => 'transaction[paid_at]',
+                                'display' => 'paid_at',
+                                'type' => 'text',
+                                'option'  => 'readonly',
+                                'visible' => 'e'
+                            ],
+
+                        ]
+                    ],
+
                 ]
             ]
         ];
@@ -260,14 +307,16 @@ class Order extends CrudModel
 
 
 
-
-
-
     public static function totalSales()
     {
         $total = static::whereNotIn('status', ['canceled', 'refunded'])->sum('total');
 
         return Money::inDefaultCurrency($total);
+    }
+
+    public function getOrderTimeAttribute()
+    {
+        return jdate($this->created_at)->format('Y/m/d H:m');
     }
 
     public function status()

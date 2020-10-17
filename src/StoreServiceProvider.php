@@ -81,6 +81,13 @@ class StoreServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/Order/Resources/Views/', 'order');
         $this->loadTranslationsFrom(__DIR__ . '/Order/Resources/Lang/', 'order');
 
+
+        //Transaction module
+        $this->loadMigrationsFrom(__DIR__ . '/Transaction/Database/Migrations');
+        $this->loadRoutesFrom(__DIR__ . '/Transaction/Routes/admin.php');
+        $this->loadViewsFrom(__DIR__ . '/Transaction/Resources/Views/', 'transaction');
+        $this->loadTranslationsFrom(__DIR__ . '/Transaction/Resources/lang/', 'transaction');
+
         //Account module
         $this->loadRoutesFrom(__DIR__ . '/Account/Routes/public.php');
         $this->loadTranslationsFrom(__DIR__ . '/Order/Resources/Lang/', 'account');
@@ -89,7 +96,6 @@ class StoreServiceProvider extends ServiceProvider
         //Wishlist module
         $this->loadRoutesFrom(__DIR__ . '/Wishlist/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ . '/Wishlist/Database/Migrations');
-
 
 
         //Support module
@@ -125,6 +131,7 @@ class StoreServiceProvider extends ServiceProvider
 //        $menu->item('store.products.options')->title('option::panel.options')->add();
         $menu->item('store.products.reviews')->title('review::panel.reviews')->route('review.index')->add();
         $menu->item('store.orders')->title('order::panel.orders')->route('order.index')->add();
+        $menu->item('store.transactions')->title('transaction::panel.transactions')->route('transaction.index')->add();
         $menu->item('setting')->title('storeSetting::panel.setting')->link('#')->add();
         $menu->item('setting.store_setting')->title('storeSetting::panel.store_setting')->link('./admin/storeSetting')->add();
 

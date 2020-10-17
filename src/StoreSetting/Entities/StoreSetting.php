@@ -831,6 +831,47 @@ class StoreSetting extends CrudModel
                                 'visible'   => 'ce',
                             ],
                         ]
+                    ],
+                    [
+                        'name'  => 'pasargad_gateway',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'      => 'pasargad_gateway_enabled',
+                                'type'      => 'select',
+                                'data'      => [ 'true' =>'yes', 'false'=>'no'],
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'translatable[pasargad_gateway_label]',
+                                'display'   => 'pasargad_gateway_label',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'translatable[pasargad_gateway_description]',
+                                'display'   => 'pasargad_gateway_description',
+                                'type'      => 'textarea',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'pasargad_gateway_merchant_code',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'pasargad_gateway_terminal_key',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'pasargad_gateway_private_key',
+                                'display'   => 'pasargad_gateway_private_key',
+                                'type'      => 'textarea',
+                                'visible'   => 'ce',
+                            ],
+                        ]
                     ]
                 ],
             ],

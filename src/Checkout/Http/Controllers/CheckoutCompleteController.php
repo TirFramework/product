@@ -22,7 +22,6 @@ class CheckoutCompleteController extends Controller
     public function store($orderId, $paymentMethod, OrderService $orderService)
     {
         $order = Order::findOrFail($orderId);
-
         $gateway = Gateway::get($paymentMethod);
 
         try {

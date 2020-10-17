@@ -22,17 +22,20 @@ class GatewayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+
+
         if (!config('app.installed')) {
             return;
         }
-
         $this->registerPayPalExpress();
         $this->registerStripe();
         $this->registerInstamojo();
         $this->registerCashOnDelivery();
         $this->registerBankTransfer();
         $this->registerCheckPayment();
-        $this->registerIRBank();
+        $this->registerPasargadGateWay();
 
         $this->loadViewsFrom(__DIR__ . '/Resources/Views/', 'gateway');
 
@@ -91,7 +94,7 @@ class GatewayServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerIRBank()
+    private function registerPasargadGateWay()
     {
         //if ($this->enabled('irbank_payment')) {
         Gateway::register('pasargad_gateway', new PasargadGeteway);

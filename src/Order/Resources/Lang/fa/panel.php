@@ -28,7 +28,7 @@ return [
     'billing_city' => 'شهر',
     'billing_address_1' => 'نشانی شماره ۱',
     'billing_address_2' => 'نشانی شماره ۲',
-    'shipping_address' => 'نشانی صورت حساب',
+    'shipping_address' => 'نشانی ارسال',
     'shipping_first_name' => 'نام',
     'shipping_last_name' => 'نام خانوادگی',
     'shipping_country' => 'کشور',
@@ -37,7 +37,14 @@ return [
     'shipping_address_1' => 'نشانی شماره ۱',
     'shipping_address_2' => 'نشانی شماره ۲',
     'action' => 'عملیات',
-
-
+    'payment_information' => 'اطلاعات پرداخت',
+    'paid_at' => 'زمان پرداخت',
+    'order_time' => 'زمان سفارش',
+    'pending'  => 'در انتظار',
+    'pending_payment' => 'در انتظار پرداخت',
+    'canceled' => 'لغو شده',
+    'completed' =>  'تکمیل شده',
+    'processing' => 'در حال انجام',
+    'refunded' => 'مرجوع'
 
 ];

@@ -18,11 +18,10 @@ class PaymentCanceledController extends Controller
      */
     public function store($orderId)
     {
-        Order::where('id', $orderId)->delete();
+        Order::where('id', $orderId)->get();
 
         Cart::restoreStock();
 
-        return redirect()->route('checkout.create')
-            ->withError(trans('order::messages.payment_canceled'));
+        return view(config('crud.front-template').'::public.checkout.cancel.show', compact('order'));
     }
 }
