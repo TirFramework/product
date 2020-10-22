@@ -39,6 +39,8 @@ class CompareServiceProvider extends ServiceProvider
         //Compare module
         $this->loadRoutesFrom(__DIR__ . '/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Resources/lang/', 'compare');
+
 
     }
 }
