@@ -288,12 +288,12 @@ class Product extends CrudModel
                     [
                         'name'    => 'attributes',
                         'type'    => 'tab',
-                        'visible' => 'ce',
+                        'visible' => 'e',
                         'fields'  => [
                             [
                                 'name'    => 'attributes',
                                 'type'    => 'attributes',
-                                'visible' => 'ce',
+                                'visible' => 'e',
                             ],
                         ],
                     ],

@@ -8,7 +8,6 @@
         $attributeSets = AttributeSet::with('attributes')->get()->sortBy('name');
         $old = old('attributes');
 
-
         if( isset($item->attributes) || isset($old)){
             if(isset($item->attributes)){
                 if(count($item->attributes) > 0){
@@ -96,7 +95,7 @@
 
 
                     <div class="col-md-6 col-12 form-group">
-                        <select @if(!isset($edit)) disabled @endif id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
+                        <select @if(!isset($edit) ) disabled @endif id="attributes-{{$loop->index}}-values" id-template="attributes-xxx-values" required
                                 name-template="attributes[xxx][values][]" name="attributes[{{$loop->index}}][values][]"
                                 class="form-control values taggable select2 @error(" attributes[{{$loop->index}}][values]")
                                         is-invalid @enderror" multiple>
@@ -228,35 +227,39 @@
                         cancelButtonText: '@lang("$crud->name::panel.cancel")',
                         confirmButtonText: '@lang("$crud->name::panel.yes_do_it")'
                     }).then((result) => {
-                        if (result.value) {
-                            $.ajax({
-                                url: "/admin/attributeValue",
-                                type: 'post',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
 
-                                data: {
-                                    requestType: 'ajax',
-                                    'value': data.text,
-                                    'attribute_id': attributeId,
-                                    'position': 0
-                                },
+                        if(result.isConfirmed){
 
-                                success: function (data) {
-                                    console.log(newValue);
-                                    $thisSelect.find('[value="'+ newValue +'"]').val(data.item.id);
+                                $.ajax({
+                                    url: "/admin/attributeValue",
+                                    type: 'post',
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
 
-                                    Swal.fire({
-                                        title: '@lang("$crud->name::panel.operation_was_successful")',
-                                        text: '@lang("$crud->name::panel.new_value_add_successfully")',
-                                        confirmButtonText: '@lang("$crud->name::panel.ok")',
-                                        confirmButtonColor: '#1ca700',
+                                    data: {
+                                        requestType: 'ajax',
+                                        'value': data.text,
+                                        'attribute_id': attributeId,
+                                        'position': 0
+                                    },
 
-                                    });
-                                }
-                            });
+                                    success: function (data) {
+                                        console.log(newValue);
+                                        $thisSelect.find('[value="' + newValue + '"]').val(data.item.id);
 
+                                        Swal.fire({
+                                            title: '@lang("$crud->name::panel.operation_was_successful")',
+                                            text: '@lang("$crud->name::panel.new_value_add_successfully")',
+                                            confirmButtonText: '@lang("$crud->name::panel.ok")',
+                                            confirmButtonColor: '#1ca700',
+
+                                        });
+                                    }
+                                });
+
+                        } else {
+                            $thisSelect.find('[value="'+newValue+'"]').remove();
                         }
                     });
 

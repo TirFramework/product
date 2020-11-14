@@ -47,8 +47,7 @@ class AdminProductController extends CrudController
         $productAttributeValues = [];
 
         foreach (request('attributes', []) as $attribute) {
-            if(isset($attribute['values'])) {
-
+            if (isset($attribute['values'])) {
                 $productAttribute = $product->attributes()->create([
                     'attribute_id' => $attribute['attribute_id'],
                 ]);
@@ -59,6 +58,7 @@ class AdminProductController extends CrudController
                         'attribute_value_id'   => $valueId,
                     ];
                 }
+
             }
         }
 
@@ -77,9 +77,6 @@ class AdminProductController extends CrudController
     }
 
 
-
-
-
     /**
      * Delete all product additionalImages associated with the given product.
      *
@@ -92,7 +89,6 @@ class AdminProductController extends CrudController
     }
 
 
-    
     /**
      * Create product additionalImages for the given product.
      *
@@ -103,7 +99,7 @@ class AdminProductController extends CrudController
     {
 
         foreach (request('additionalImages') as $image) {
-            if(isset($image)){
+            if (isset($image)) {
                 $productadditionalImages = $product->additionalImages()->create([
                     'url' => $image,
                 ]);
@@ -111,7 +107,6 @@ class AdminProductController extends CrudController
 
         }
     }
-
 
 
 }
