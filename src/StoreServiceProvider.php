@@ -90,12 +90,14 @@ class StoreServiceProvider extends ServiceProvider
 
         //Account module
         $this->loadRoutesFrom(__DIR__ . '/Account/Routes/public.php');
-        $this->loadTranslationsFrom(__DIR__ . '/Order/Resources/Lang/', 'account');
+        $this->loadTranslationsFrom(__DIR__ . '/Account/Resources/Lang/', 'account');
 
 
         //Wishlist module
         $this->loadRoutesFrom(__DIR__ . '/Wishlist/Routes/public.php');
         $this->loadMigrationsFrom(__DIR__ . '/Wishlist/Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/Wishlist/Resources/lang/', 'wishlist');
+
 
 
         //Support module

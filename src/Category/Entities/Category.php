@@ -49,7 +49,8 @@ class Category extends CrudModel
         return [
             'name' => 'required',
             'is_searchable' => 'required',
-            'is_active'=> 'required'
+            'is_active'=> 'required',
+//            'parent_id' => 'different:id'
         ];
     }
 
@@ -70,13 +71,14 @@ class Category extends CrudModel
                         'fields' => [
                             [
                                 'name'       => 'id',
-                                'type'       => 'text',
-                                'visible'    => 'io',
+                                'type'       => 'hidden',
+                                'visible'    => 'ieo',
+
                             ],
                             [
                                 'name'      => 'name',
                                 'type'      => 'text',
-                                'visible'   => 'icef',
+                                'visible'   => 'ice',
                             ],
                             [
                                 'name'       => 'slug',
@@ -84,16 +86,11 @@ class Category extends CrudModel
                                 'visible'    => 'isce',
                             ],
                             [
-                                'name'       => 'image',
-                                'type'       => 'image',
-                                'visible'    => 'sce',
-                            ],
-                            [
                                 'name'      => 'parent_id',
                                 'display'   => 'parent',
                                 'type'      => 'relation',
                                 'relation'  => ['parent','name'],
-                                'visible'   => 'sce',
+                                'visible'   => 'isce',
                             ],
                             [
                                 'name'       => 'position',
@@ -129,7 +126,7 @@ class Category extends CrudModel
 
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(Category::class, 'parent_id')->withDefault();
     }
 
     public function categories()

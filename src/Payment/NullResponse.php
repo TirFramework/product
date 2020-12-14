@@ -18,4 +18,9 @@ class NullResponse
     {
         //
     }
+
+    public function isView()
+    {
+        return false;
+    }
 }

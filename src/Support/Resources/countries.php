@@ -108,7 +108,7 @@ return [
     'IS' => 'Iceland',
     'IN' => 'India',
     'ID' => 'Indonesia',
-    'IR' => 'Iran',
+    'IR' => 'ایران',
     'IQ' => 'Iraq',
     'IE' => 'Ireland',
     'IM' => 'Isle of Man',
