@@ -2,15 +2,15 @@
 
 namespace Tir\Store\Cart\Services;
 
-use Tir\Store\Cart\CartCondition;
-use Tir\Store\Cart\CartShippingMethod;
-use Tir\Store\Cart\NullCartCoupon;
-use Tir\Store\Cart\NullCartShippingMethod;
+use Tir\Store\Cart\Services\CartCondition;
+use Tir\Store\Cart\Services\CartShippingMethod;
+use Tir\Store\Cart\Services\NullCartCoupon;
+use Tir\Store\Cart\Services\NullCartShippingMethod;
 use Tir\Store\Coupon\Entities\Coupon;
 use Tir\Store\Currency\Support\Money;
 use Darryldecode\Cart\Cart as DarryldecodeCart;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Tir\Store\Cart\CartItem;
+use Tir\Store\Cart\Services\CartItem;
 use Tir\Store\Product\Entities\Product;
 use Tir\Store\Shipping\Facades\ShippingMethod;
 

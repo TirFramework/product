@@ -1,6 +1,6 @@
 <?php
 
-namespace Tir\Store\Cart;
+namespace Tir\Store\Cart\Services;
 
 use Tir\Store\Support\Money;
 

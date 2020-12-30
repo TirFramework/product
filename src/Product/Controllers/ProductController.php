@@ -6,6 +6,7 @@ namespace Tir\Store\Product\Controllers;
 
 use Illuminate\Routing\Controller;
 use Tir\Setting\Facades\Stg;
+use Tir\Store\Category\Entities\Category;
 use Tir\Store\Product\Entities\Product;
 use Tir\Store\Product\Filters\ProductFilter;
 use Tir\Store\Product\Middleware\SetProductSortOption;
@@ -33,6 +34,7 @@ class ProductController extends Controller
     public function index(Product $model, ProductFilter $productFilter)
     {
         $productIds = [];
+        $this->checkCategoryExist(request()->input('category'));
 
         if (request()->has('query')) {
             $model = $model->search(request('query'));
@@ -53,7 +55,7 @@ class ProductController extends Controller
         }
 
         $products = $query->paginate(request('perPage', 15))
-            ->appends(request()->query());
+            ->appends(request()->except('filtered'));
 
         if (request()->wantsJson()) {
             return response()->json($products);
@@ -98,6 +100,11 @@ class ProductController extends Controller
         }
 
         return $product->reviews()->paginate(15, ['*'], 'reviews');
+    }
+
+    private function checkCategoryExist($slug)
+    {
+        Category::where('slug',$slug)->firstOrFail();
     }
 
 }
